@@ -91,7 +91,7 @@
 <a class="flex items-center gap-3 group transition-opacity hover:opacity-90" href="#" aria-label="Oceanid home">
 <span class="brand-mark h-12 w-12 shrink-0 transition-shadow group-hover:shadow-[0_18px_44px_-10px_rgba(92,107,192,0.45)]">
 <span class="brand-mark__inner h-full w-full">
-<img alt="" class="brand-mark__img" src="assets/oceanid-logo.png" width="48" height="48"/>
+<img alt="" class="brand-mark__img" src="https://storage.googleapis.com/oceanid-public/logo.png" width="48" height="48"/>
 </span>
 </span>
 <span class="font-extrabold text-lg md:text-xl tracking-tight text-on-surface font-headline">Ocean<span class="text-primary">id</span></span>
@@ -99,7 +99,7 @@
 <div class="hidden md:flex items-center gap-8 text-sm font-bold uppercase tracking-widest text-on-surface-variant">
 <a class="hover:text-primary transition-colors" href="#operators">Operators</a>
 <a class="hover:text-primary transition-colors" href="#travelers">Travelers</a>
-<a class="hover:text-primary transition-colors" href="#platform">The Spine</a>
+<a class="hover:text-primary transition-colors" href="#platform">Platform</a>
 </div>
 </div>
 </nav>
@@ -109,20 +109,6 @@
 <div class="absolute inset-0 nautical-grid -z-10"></div>
 <div class="grid lg:grid-cols-12 gap-16 items-center">
 <div class="lg:col-span-7 space-y-8">
-<div class="flex flex-col gap-5">
-<div class="flex items-center gap-5">
-<span class="brand-mark h-[4.5rem] w-[4.5rem] md:h-[5.25rem] md:w-[5.25rem] shrink-0 shadow-xl shadow-primary/25">
-<span class="brand-mark__inner h-full w-full">
-<img alt="" class="brand-mark__img" src="assets/oceanid-logo.png" width="84" height="84"/>
-</span>
-</span>
-<div class="min-w-0 flex-1 space-y-3">
-<p class="text-[11px] font-bold uppercase tracking-[0.35em] text-primary">Oceanid</p>
-<div class="h-px max-w-[8rem] bg-gradient-to-r from-primary/35 via-primary/15 to-transparent"></div>
-<p class="text-sm text-on-surface-variant font-medium leading-snug max-w-sm">Maritime intelligence, unified—passage to platform.</p>
-</div>
-</div>
-</div>
 <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 text-primary rounded-full text-xs font-bold tracking-widest uppercase">
 <span class="material-symbols-outlined text-sm" data-icon="anchor">anchor</span>
                         Maritime Operating System
@@ -231,7 +217,7 @@
 </div>
 </div>
 </section>
-<!-- Core Platform: The Spine -->
+<!-- Core platform -->
 <section class="py-32 px-8 overflow-hidden" id="platform">
 <div class="max-w-7xl mx-auto">
 <div class="bg-on-surface text-white rounded-[3rem] p-12 md:p-24 relative overflow-hidden">
@@ -243,9 +229,9 @@
 <div class="inline-block px-4 py-1.5 bg-primary/20 text-primary border border-primary/30 rounded-full text-xs font-bold tracking-widest uppercase mb-8">
                                 Architecture
                             </div>
-<h3 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-8">Trips as the <span class="text-primary">Spine.</span></h3>
+<h3 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-8">Built around every <span class="text-primary">passage.</span></h3>
 <p class="text-xl text-white/70 leading-relaxed mb-10">
-                                In Oceanid, everything revolves around the journey. Stops, bookings, people, and logistics aren't disconnected lists—they are data points orbiting a specific passage. This "Spine" architecture ensures absolute clarity for every stakeholder.
+                                In Oceanid, each voyage is the anchor: stops, bookings, people, and logistics all link to that one trip. Everyone sees the same live picture—no scattered spreadsheets or conflicting versions.
                             </p>
 <div class="space-y-6">
 <div class="flex items-center gap-4">
@@ -316,31 +302,17 @@
 </div>
 </section>
 </main>
-<!-- Footer -->
 <footer class="w-full border-t border-surface-container bg-white">
-<div class="flex flex-col md:flex-row justify-between items-center w-full px-12 py-16 max-w-7xl mx-auto">
-<div class="space-y-4 text-center md:text-left mb-8 md:mb-0">
-<div class="flex items-center justify-center md:justify-start gap-3">
-<span class="brand-mark h-11 w-11 shrink-0">
-<span class="brand-mark__inner h-full w-full">
-<img alt="" class="brand-mark__img" src="assets/oceanid-logo.png" width="44" height="44"/>
-</span>
-</span>
-<span class="font-extrabold text-lg tracking-tight text-on-surface font-headline">Ocean<span class="text-primary">id</span></span>
-</div>
-<p class="text-on-surface-variant text-sm max-w-xs font-medium">
-                    Advancing maritime logistics through elegant design and unified data processing.
-                </p>
-</div>
-<div class="flex flex-wrap justify-center gap-8 mb-8 md:mb-0">
-<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors" href="#">Privacy</a>
-<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors" href="#">Terms</a>
-<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors" href="#">Legal</a>
-<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors" href="#">Documentation</a>
-</div>
-<div class="text-on-surface-variant/60 text-[10px] font-bold tracking-widest uppercase">
-                © 2024 Oceanid Systems. All rights reserved.
-            </div>
+<div class="max-w-7xl mx-auto px-8 py-10 text-center">
+<p class="text-on-surface-variant text-sm font-medium">
+© <span id="footer-year">2026</span> <a class="text-primary hover:text-primary-dim transition-colors font-semibold no-underline">oceanid.io</a>. All rights reserved.
+            </p>
 </div>
 </footer>
+<script>
+(function () {
+  var y = document.getElementById("footer-year");
+  if (y) y.textContent = String(new Date().getFullYear());
+})();
+</script>
 </body></html>
