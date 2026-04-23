@@ -6,6 +6,8 @@
 <title>Oceanid | Find Marinas. Join Voyages. Explore the Sea.</title>
 <meta name="description" content="Oceanid is the app for maritime travel: find marinas, book slips, and join voyages worldwide. 500,000 downloads. 5.0 stars."/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css" rel="stylesheet"/>
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
@@ -197,11 +199,11 @@
 
 
   <!-- Video Showcase Section -->
-  <section class="pt-20 pb-16 px-8 scroll-mt-20" id="video">
+  <section class="pt-2 pb-16 px-8 scroll-mt-20" id="video">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-8">
         <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-on-surface">
-          The sea, <span class="text-primary">simplified.</span>
+          Every voyage, <span class="text-primary">simplified.</span>
         </h2>
       </div>
       <div class="video-wrapper rounded-3xl overflow-hidden shadow-2xl border border-surface-container">
@@ -397,6 +399,7 @@
         <!-- Right: visual card -->
         <div class="bg-surface-container-low rounded-3xl p-10 border border-surface-container">
           <div class="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-6">Open passage</div>
+          <div id="passage-map" class="w-full h-48 rounded-2xl overflow-hidden mb-4"></div>
           <div class="bg-white rounded-2xl border border-surface-container p-6 shadow-sm mb-4">
             <div class="flex items-center justify-between mb-4">
               <div>
@@ -431,9 +434,9 @@
               </div>
             </div>
           </div>
-          <button class="w-full bg-primary text-white py-3.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-colors">
+          <div class="w-full bg-primary text-white py-3.5 rounded-xl font-bold text-sm text-center select-none pointer-events-none" aria-hidden="true">
             Request to Join
-          </button>
+          </div>
         </div>
 
       </div>
@@ -588,7 +591,7 @@
           <span class="font-extrabold text-base tracking-tight">Ocean<span class="text-primary">id</span></span>
         </a>
         <p class="text-white/40 text-sm leading-relaxed">
-          Maritime travel, simplified.
+          Every voyage starts here.
         </p>
       </div>
 
@@ -636,6 +639,132 @@
 
   </div>
 </footer>
+
+<script>
+(function () {
+  mapboxgl.accessToken = 'pk.eyJ1IjoiaWthZzE3IiwiYSI6ImNtb2JubHVleDA0Z2QyeHFxeWNqNDl5aDkifQ.UFAyGlWSisPemBBoLcWJSw';
+
+  var waypoints = [
+    { name: 'Marina Zadar',   coord: [15.2314, 44.1194], type: 'start' },
+    { name: 'Rhodes Marina',  coord: [28.2278, 36.4499], type: 'stop'  },
+    { name: 'Larnaca Marina', coord: [33.6375, 34.9177], type: 'stop'  }
+  ];
+
+  var routeCoords = [
+    [15.2314, 44.1194],
+    [16.4, 43.0],
+    [17.8, 41.2],
+    [19.5, 39.8],
+    [21.0, 38.5],
+    [23.0, 37.2],
+    [25.5, 36.6],
+    [28.2278, 36.4499],
+    [29.5, 36.0],
+    [31.0, 35.3],
+    [32.2, 35.0],
+    [33.6375, 34.9177]
+  ];
+
+  var bounds = new mapboxgl.LngLatBounds();
+  waypoints.forEach(function (wp) { bounds.extend(wp.coord); });
+
+  var map = new mapboxgl.Map({
+    container: 'passage-map',
+    style: 'mapbox://styles/mapbox/standard',
+    bounds: bounds,
+    fitBoundsOptions: { padding: 32 },
+    attributionControl: false
+  });
+
+  map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+
+  map.on('load', function () {
+    map.addSource('route', {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        properties: {},
+        geometry: { type: 'LineString', coordinates: routeCoords }
+      }
+    });
+
+    map.addLayer({
+      id: 'route-glow',
+      type: 'line',
+      source: 'route',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': 'rgba(92,107,192,0.28)',
+        'line-width': 10,
+        'line-blur': 1.2
+      }
+    });
+
+    map.addLayer({
+      id: 'route-casing',
+      type: 'line',
+      source: 'route',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': '#4A58A8',
+        'line-width': 6.4,
+        'line-opacity': 0.78
+      }
+    });
+
+    map.addLayer({
+      id: 'route-core',
+      type: 'line',
+      source: 'route',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': '#5C6BC0',
+        'line-width': 4,
+        'line-opacity': 0.97
+      }
+    });
+
+    var markerFeatures = waypoints.map(function (wp) {
+      return {
+        type: 'Feature',
+        properties: { type: wp.type, name: wp.name },
+        geometry: { type: 'Point', coordinates: wp.coord }
+      };
+    });
+
+    map.addSource('markers', {
+      type: 'geojson',
+      data: { type: 'FeatureCollection', features: markerFeatures }
+    });
+
+    map.addLayer({
+      id: 'marker-start',
+      type: 'circle',
+      source: 'markers',
+      filter: ['==', ['get', 'type'], 'start'],
+      paint: {
+        'circle-radius': 7,
+        'circle-color': '#FFFFFF',
+        'circle-stroke-width': 2.5,
+        'circle-stroke-color': '#5C6BC0'
+      }
+    });
+
+    map.addLayer({
+      id: 'marker-stop',
+      type: 'circle',
+      source: 'markers',
+      filter: ['==', ['get', 'type'], 'stop'],
+      paint: {
+        'circle-radius': 7,
+        'circle-color': '#5C6BC0',
+        'circle-stroke-width': 2.5,
+        'circle-stroke-color': '#FFFFFF'
+      }
+    });
+  });
+})();
+</script>
 
 <script>
 (function () {
