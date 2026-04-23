@@ -1,318 +1,643 @@
 <!DOCTYPE html>
-
-<html class="scroll-smooth" lang="en"><head>
+<html class="scroll-smooth" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Oceanid | The Operating System for Every Passage</title>
+<title>Oceanid | Find Marinas. Join Voyages. Explore the Sea.</title>
+<meta name="description" content="Oceanid is the app for maritime travel — find marinas, book slips, join voyages across the Mediterranean and beyond. 500,000 downloads. 5.0 stars."/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary": "#5C6BC0",
-              "primary-dim": "#4A58A8",
-              "primary-container": "#E8EAF6",
-              "on-primary": "#FFFFFF",
-              "secondary": "#3949AB",
-              "tertiary": "#00838F",
-              "background": "#FDFDFD",
-              "surface": "#FFFFFF",
-              "on-surface": "#1A1C1E",
-              "on-surface-variant": "#44474E",
-              "outline": "#74777F",
-              "surface-container-low": "#F7F9FF",
-              "surface-container": "#F0F2FA",
-              "surface-container-high": "#E8EAF6",
-              "surface-container-highest": "#E1E2EC"
-            },
-            fontFamily: {
-              "headline": ["Manrope", "sans-serif"],
-              "body": ["Manrope", "sans-serif"],
-              "label": ["Manrope", "sans-serif"]
-            },
-            borderRadius: {
-              "DEFAULT": "0.5rem",
-              "lg": "0.75rem",
-              "xl": "1rem",
-              "2xl": "1.5rem",
-              "3xl": "2.5rem",
-              "full": "9999px"
-            },
-          },
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#5C6BC0",
+          "primary-dim": "#4A58A8",
+          "primary-container": "#E8EAF6",
+          "on-primary": "#FFFFFF",
+          "secondary": "#3949AB",
+          "tertiary": "#00838F",
+          "background": "#FDFDFD",
+          "surface": "#FFFFFF",
+          "on-surface": "#1A1C1E",
+          "on-surface-variant": "#44474E",
+          "outline": "#74777F",
+          "surface-container-low": "#F7F9FF",
+          "surface-container": "#F0F2FA",
+          "surface-container-high": "#E8EAF6",
+          "surface-container-highest": "#E1E2EC"
         },
-      }
-    </script>
+        fontFamily: {
+          "headline": ["Manrope", "sans-serif"],
+          "body": ["Manrope", "sans-serif"],
+          "label": ["Manrope", "sans-serif"]
+        },
+        borderRadius: {
+          "DEFAULT": "0.5rem",
+          "lg": "0.75rem",
+          "xl": "1rem",
+          "2xl": "1.5rem",
+          "3xl": "2.5rem",
+          "full": "9999px"
+        },
+      },
+    },
+  }
+</script>
 <style>
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      }
-      body {
-        font-family: 'Manrope', sans-serif;
-        background-color: #FDFDFD;
-        color: #1A1C1E;
-      }
-      .nautical-grid {
-        background-image: radial-gradient(#5C6BC0 0.5px, transparent 0.5px);
-        background-size: 24px 24px;
-        opacity: 0.05;
-      }
-      .brand-mark {
-        position: relative;
-        border-radius: 9999px;
-        background: linear-gradient(145deg, rgba(92, 107, 192, 0.22), rgba(0, 131, 143, 0.18));
-        padding: 2px;
-        box-shadow:
-          0 0 0 1px rgba(92, 107, 192, 0.12),
-          0 14px 36px -10px rgba(92, 107, 192, 0.35);
-      }
-      .brand-mark__inner {
-        border-radius: 9999px;
-        overflow: hidden;
-        background: linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .brand-mark__img {
-        object-fit: contain;
-        width: 78%;
-        height: 78%;
-      }
-    </style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  body {
+    font-family: 'Manrope', sans-serif;
+    background-color: #FDFDFD;
+    color: #1A1C1E;
+  }
+  .nautical-grid {
+    background-image: radial-gradient(#5C6BC0 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    opacity: 0.05;
+  }
+  .brand-mark {
+    position: relative;
+    border-radius: 9999px;
+    background: linear-gradient(145deg, rgba(92, 107, 192, 0.22), rgba(0, 131, 143, 0.18));
+    padding: 2px;
+    box-shadow:
+      0 0 0 1px rgba(92, 107, 192, 0.12),
+      0 14px 36px -10px rgba(92, 107, 192, 0.35);
+  }
+  .brand-mark__inner {
+    border-radius: 9999px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .brand-mark__img {
+    object-fit: contain;
+    width: 78%;
+    height: 78%;
+  }
+  .video-wrapper video::-webkit-media-controls-panel {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .video-wrapper:hover video::-webkit-media-controls-panel {
+    opacity: 1;
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fade-up 0.7s ease both; }
+  .fade-up-delay-1 { animation-delay: 0.1s; }
+  .fade-up-delay-2 { animation-delay: 0.22s; }
+  .fade-up-delay-3 { animation-delay: 0.36s; }
+</style>
 </head>
 <body class="bg-background text-on-surface">
-<!-- TopNavBar -->
+
+<!-- Navigation -->
 <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-surface-container">
-<div class="flex justify-between items-center w-full px-8 py-5 max-w-7xl mx-auto">
-<a class="flex items-center gap-3 group transition-opacity hover:opacity-90" href="#" aria-label="Oceanid home">
-<span class="brand-mark h-12 w-12 shrink-0 transition-shadow group-hover:shadow-[0_18px_44px_-10px_rgba(92,107,192,0.45)]">
-<span class="brand-mark__inner h-full w-full">
-<img alt="" class="brand-mark__img" src="https://storage.googleapis.com/oceanid-public/logo.png" width="48" height="48"/>
-</span>
-</span>
-<span class="font-extrabold text-lg md:text-xl tracking-tight text-on-surface font-headline">Ocean<span class="text-primary">id</span></span>
-</a>
-<div class="hidden md:flex items-center gap-8 text-sm font-bold uppercase tracking-widest text-on-surface-variant">
-<a class="hover:text-primary transition-colors" href="#operators">Operators</a>
-<a class="hover:text-primary transition-colors" href="#travelers">Travelers</a>
-<a class="hover:text-primary transition-colors" href="#platform">Platform</a>
-</div>
-</div>
+  <div class="flex justify-between items-center w-full px-8 py-5 max-w-7xl mx-auto">
+    <a class="flex items-center gap-3 group transition-opacity hover:opacity-90" href="#" aria-label="Oceanid home">
+      <span class="brand-mark h-12 w-12 shrink-0 transition-shadow group-hover:shadow-[0_18px_44px_-10px_rgba(92,107,192,0.45)]">
+        <span class="brand-mark__inner h-full w-full">
+          <img alt="" class="brand-mark__img" src="https://storage.googleapis.com/oceanid-public/logo.png" width="48" height="48"/>
+        </span>
+      </span>
+      <span class="font-extrabold text-lg md:text-xl tracking-tight text-on-surface font-headline">Ocean<span class="text-primary">id</span></span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-bold uppercase tracking-widest text-on-surface-variant">
+      <a class="hover:text-primary transition-colors" href="#operators">Operators</a>
+      <a class="hover:text-primary transition-colors" href="#travelers">Travelers</a>
+      <a class="hover:text-primary transition-colors" href="#platform">Platform</a>
+      <a class="bg-primary text-on-primary px-5 py-2.5 rounded-xl hover:bg-primary-dim transition-colors" href="#contact">Contact</a>
+    </div>
+  </div>
 </nav>
+
 <main class="pt-20">
-<!-- Hero Section -->
-<section class="relative px-8 py-24 max-w-7xl mx-auto overflow-hidden">
-<div class="absolute inset-0 nautical-grid -z-10"></div>
-<div class="grid lg:grid-cols-12 gap-16 items-center">
-<div class="lg:col-span-7 space-y-8">
-<div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 text-primary rounded-full text-xs font-bold tracking-widest uppercase">
-<span class="material-symbols-outlined text-sm" data-icon="anchor">anchor</span>
-                        Maritime Operating System
-                    </div>
-<h1 class="text-6xl md:text-8xl font-extrabold text-on-surface leading-[1.05] tracking-tight">
-                        The Operating System for <span class="text-primary">Every Passage.</span>
-</h1>
-<p class="text-xl md:text-2xl text-on-surface-variant leading-relaxed max-w-2xl">
-                        Oceanid connects vessel operations, precision trip planning, and marina commerce into one elegant interface. Managing the sea has never been this seamless.
-                    </p>
-<div class="flex flex-wrap gap-4 pt-6">
-<a class="bg-primary text-on-primary px-10 py-5 rounded-xl font-bold text-lg inline-flex items-center gap-3 hover:bg-primary-dim transition-all shadow-xl shadow-primary/20 no-underline" href="mailto:contact@oceanid.io?subject=Request%20Access%20%E2%80%94%20Oceanid&amp;body=Hi%20Oceanid%20team%2C%0A%0AI%27m%20reaching%20out%20to%20request%20access%20to%20Oceanid%20(the%20maritime%20operating%20system%20for%20passages%2C%20fleet%20operations%2C%20and%20guest%20journeys).%0A%0APlease%20share%20a%20bit%20of%20context%3A%0A-%20Role%20(operator%20%2F%20owner%20%2F%20traveler%20%2F%20other)%3A%20%0A-%20Use%20case%20(e.g.%20fleet%20size%2C%20trip%20planning%2C%20marina%20services)%3A%20%0A-%20Timeline%20or%20region%20(optional)%3A%20%0A%0AThank%20you%2C%0A">
-                            Request Access
-                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
-</a>
-</div>
-</div>
-<div class="lg:col-span-5">
-<div class="relative">
-<div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
-<img alt="Modern Yacht" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiY2-zavUnJ_cqQkNYVaKXCgUIlcU8KSTgQDSQrslOMoUKLq8Ak76R6Hb8yCoolc243ywdQuhVwuYCDym1o5tmAZNs9cMoPo9HICGapckpfpA85H7pmgutk8pTrGojPVukbhA7j7g72-qQrMeoBbB8ryDG2mgc7OlvkDcuPSzOt3HVgd1R6T4EOq7wJ68Pb-iWjeijFmguBLv-4nTLow-1hBb__Mz7Nl2YEwOxeZD27XFqahqh1hVSVnzLSgEbnmprjdLLsfOtIbdh"/>
-</div>
-<div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-2xl border border-surface-container max-w-[280px]">
-<div class="flex items-center gap-4 mb-4">
-<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
-<span class="material-symbols-outlined" data-icon="route">route</span>
-</div>
-<div>
-<div class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Live Itinerary</div>
-<div class="font-bold text-sm">Mediterranean Loop</div>
-</div>
-</div>
-<div class="space-y-3">
-<div class="flex items-center gap-3 text-xs">
-<div class="w-2 h-2 rounded-full bg-primary"></div>
-<span class="font-medium text-on-surface-variant">Monaco (Confirmed)</span>
-</div>
-<div class="flex items-center gap-3 text-xs">
-<div class="w-2 h-2 rounded-full bg-slate-200"></div>
-<span class="font-medium text-on-surface-variant">Saint-Tropez (Fueling)</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Section for Operators/Owners -->
-<section class="bg-surface-container-low py-32 px-8" id="operators">
-<div class="max-w-7xl mx-auto">
-<div class="grid lg:grid-cols-2 gap-16 items-end mb-20">
-<div>
-<h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Operators &amp; Owners</h2>
-<h3 class="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">Total Command of Your Maritime Assets.</h3>
-</div>
-<p class="text-lg text-on-surface-variant leading-relaxed">
-                        Oceanid is the backbone of your professional operations. From single yachts to commercial fleets, manage everything from one encrypted vault.
-                    </p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<!-- Feature 1 -->
-<div class="bg-white p-12 rounded-3xl border border-surface-container hover:shadow-lg transition-all group">
-<div class="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-3xl" data-icon="edit_calendar">edit_calendar</span>
-</div>
-<h4 class="text-2xl font-bold mb-4">Plan voyages with precision</h4>
-<p class="text-on-surface-variant leading-relaxed mb-6">
-                            Construct complex multi-stop itineraries with exact dates and geographical coordinates. Oceanid calculates time-on-station and transit windows automatically.
-                        </p>
-</div>
-<!-- Feature 2 -->
-<div class="bg-white p-12 rounded-3xl border border-surface-container hover:shadow-lg transition-all group">
-<div class="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-3xl" data-icon="local_gas_station">local_gas_station</span>
-</div>
-<h4 class="text-2xl font-bold mb-4">Sync services with your schedule</h4>
-<p class="text-on-surface-variant leading-relaxed mb-6">
-                            Attach marina services like docking, high-flow fuel logistics, and provisioning directly to your stops. One click to request, one click to confirm.
-                        </p>
-</div>
-<!-- Feature 3 -->
-<div class="bg-white p-12 rounded-3xl border border-surface-container hover:shadow-lg transition-all group">
-<div class="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-3xl" data-icon="groups">groups</span>
-</div>
-<h4 class="text-2xl font-bold mb-4">Manage your fleet and crew</h4>
-<p class="text-on-surface-variant leading-relaxed mb-6">
-                            Keep vessel documents, crew certifications, permissions, and organizational details in one centralized, encrypted digital vault.
-                        </p>
-</div>
-<!-- Feature 4 -->
-<div class="bg-primary text-on-primary p-12 rounded-3xl shadow-xl shadow-primary/20 relative overflow-hidden group">
-<div class="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-125 transition-transform">
-<span class="material-symbols-outlined text-[120px]" data-icon="payments">payments</span>
-</div>
-<div class="relative z-10">
-<div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
-<span class="material-symbols-outlined text-3xl" data-icon="account_balance">account_balance</span>
-</div>
-<h4 class="text-2xl font-bold mb-4">Commercial Control</h4>
-<p class="text-white/80 leading-relaxed mb-6">
-                                Run bookings from initial request to final payment. Manage guest seats on public trips with integrated seat maps and manifest tracking.
-                            </p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Core platform -->
-<section class="py-32 px-8 overflow-hidden" id="platform">
-<div class="max-w-7xl mx-auto">
-<div class="bg-on-surface text-white rounded-[3rem] p-12 md:p-24 relative overflow-hidden">
-<div class="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none">
-<img alt="Nautical Chart" class="w-full h-full object-cover mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZGOcZxcnC0HRDe7hG7woPkjkFhcM9Qh3OwLu8Q4BQyeljRvWm0jok8Pb2_jYzSIz6rcdrPs8EJh9KLG3WTQSuGYDFThkbBnncQvGr73zC3WF_FZF7z878JKASBIhb2dKFeG2VEtFsRFub4Kp8QCvbGfBfo0-k03822Nn39TnS8ojao3UQdm-NUiHBzLKzHwAuajQEBkcNDlM4rqiqdzPGZhPNBvBsCXJYsoIKT7nN_shL2nDD-qYhlOIInLvxI_SdJYaoWfWAT4kZ"/>
-</div>
-<div class="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
-<div>
-<div class="inline-block px-4 py-1.5 bg-primary/20 text-primary border border-primary/30 rounded-full text-xs font-bold tracking-widest uppercase mb-8">
-                                Architecture
-                            </div>
-<h3 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-8">Built around every <span class="text-primary">passage.</span></h3>
-<p class="text-xl text-white/70 leading-relaxed mb-10">
-                                In Oceanid, each voyage is the anchor: stops, bookings, people, and logistics all link to that one trip. Everyone sees the same live picture—no scattered spreadsheets or conflicting versions.
-                            </p>
-<div class="space-y-6">
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined" data-icon="hub">hub</span>
-</div>
-<span class="font-bold text-lg">Unified Data Model</span>
-</div>
-<div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined" data-icon="sync">sync</span>
-</div>
-<span class="font-bold text-lg">Real-time Synchronization</span>
-</div>
-</div>
-</div>
-<div class="hidden lg:block">
-<div class="aspect-square bg-white/5 rounded-3xl border border-white/10 p-8 flex flex-col justify-center gap-8">
-<div class="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
-<div class="bg-white/10 p-6 rounded-2xl border border-white/10 text-center">
-<div class="text-primary font-black text-4xl mb-2">PASSAGE</div>
-<div class="text-xs uppercase tracking-[0.4em] text-white/40">Central Operating Core</div>
-</div>
-<div class="grid grid-cols-3 gap-4">
-<div class="p-4 bg-white/5 border border-white/10 rounded-xl text-center text-[10px] font-bold">STOPS</div>
-<div class="p-4 bg-white/5 border border-white/10 rounded-xl text-center text-[10px] font-bold">PEOPLE</div>
-<div class="p-4 bg-white/5 border border-white/10 rounded-xl text-center text-[10px] font-bold">LOGISTICS</div>
-</div>
-<div class="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Section for Travelers/Guests -->
-<section class="py-32 px-8" id="travelers">
-<div class="max-w-7xl mx-auto">
-<div class="text-center max-w-3xl mx-auto mb-20">
-<h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Travelers &amp; Guests</h2>
-<h3 class="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">Experience the passage, not the paperwork.</h3>
-</div>
-<div class="grid md:grid-cols-3 gap-12">
-<div class="space-y-6">
-<div class="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg">
-<img alt="Discovery" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8ADBXn4XnhGmBe7hzNt7XJ43_AAjhGRsg-cMEIrtMZDJ8nAQhagQuAYdGW2DaXuWMK73h_f9B8guKKAbvqey9D7RwNFwgzHZzzos_nAcBqS4nYdacvmHq7VhgxxrHz5LxsyqS5T_8i0r_SusHi6Foo6q3mRWewlRfSrm3NXDTj4MVNCzGv8-w2KCUv0tRzUJln9odZ7kJk17vEqrSSBvxuKoT35xL7XJTz-ogsnB_ySYEgoK0HRL-9fV1s109SGAn1cdhHtnMxNR-"/>
-</div>
-<h4 class="text-2xl font-bold">Find your next voyage</h4>
-<p class="text-on-surface-variant leading-relaxed">
-                            Explore available trips with crystalline routes, scheduled stops, and precise timing. Know exactly where you're going and when you'll arrive.
-                        </p>
-</div>
-<div class="space-y-6">
-<div class="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg bg-surface-container-high flex items-center justify-center"><img alt="Secure your seat" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNDCdZkp3rPPYSPw4jiYz7E08PGnCR5dQZpJMHqdujMHDuXjbBoxWwuXL_UTttTwMNn_WQzMMX7-XqXXTKY23UC9IZgM8Hp3JlegnYqBbbveh6EiEJ51wPgdWv0Y5WF9MeTm0OPPFUs9eisx5UcM8tJATNzElRWkxe3VYCN_327nopM9S4amVZPtTIajLgFxSVwkaFzY_6y2SGaoGyOtQtmWgaZfC-IL-tIO9wlpb_F1LLoXSncH7LVugxPEk-A9aoKJKffOitbH5J"/></div>
-<h4 class="text-2xl font-bold">Secure your seat</h4>
-<p class="text-on-surface-variant leading-relaxed">
-                            Request to join private or commercial trips instantly. Track your approval status and receive all boarding documentation directly in the app.
-                        </p>
-</div>
-<div class="space-y-6">
-<div class="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg bg-surface-container-high flex items-center justify-center"><img alt="Discover on the go" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXC3oZUhBuXs8AmDiY1tuDIqWyri2dxNRcHVmP9XWc6geUDzYGs3iLiVLzUx3h-WAU4EQR3rsQAbNezmz9WRCdpf-enlt_8P4poQvdXJTBt_EY0HLUodCNaAsh2VTiBbBsb5DXdgnvBfRhecXFHiRjSiaQFYo8cKPMlQfFHj_h36305vRwjfMmgjX0AQqtwhJUgG6O8brsX-voNGk9fvqdPiWNxZSBKZU-YpboKSObcLj57L-pjfba5SDFXVL88K6bVpdofBsaSzsY"/></div>
-<h4 class="text-2xl font-bold">Discover on the go</h4>
-<p class="text-on-surface-variant leading-relaxed">
-                            Find and book high-end services at your next destination while en route. From shore excursions to priority dining, Oceanid handles the logistics.
-                        </p>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="w-full border-t border-surface-container bg-white">
-<div class="max-w-7xl mx-auto px-8 py-10 text-center">
-<p class="text-on-surface-variant text-sm font-medium">
-© <span id="footer-year">2026</span> <a class="text-primary hover:text-primary-dim transition-colors font-semibold no-underline">oceanid.io</a>. All rights reserved.
+
+  <!-- Hero Section -->
+  <section class="relative px-8 py-24 max-w-7xl mx-auto overflow-hidden">
+    <div class="absolute inset-0 nautical-grid -z-10"></div>
+    <div class="grid lg:grid-cols-12 gap-16 items-center">
+      <div class="lg:col-span-7 space-y-8">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 text-primary rounded-full text-xs font-bold tracking-widest uppercase fade-up">
+          <span class="material-symbols-outlined text-sm" data-icon="phone_iphone">phone_iphone</span>
+          Available on iOS &amp; Android
+        </div>
+        <h1 class="text-6xl md:text-8xl font-extrabold text-on-surface leading-[1.05] tracking-tight fade-up fade-up-delay-1">
+          Find Marinas.<br/>
+          Join <span class="text-primary">Voyages.</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-on-surface-variant leading-relaxed max-w-2xl fade-up fade-up-delay-2">
+          Oceanid is the app for maritime travel. Browse open passages across the Mediterranean, book your slip, and step aboard — everything handled from your pocket.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-4 fade-up fade-up-delay-3">
+          <a class="bg-primary text-on-primary px-10 py-5 rounded-xl font-bold text-lg inline-flex items-center gap-3 hover:bg-primary-dim transition-all shadow-xl shadow-primary/20 no-underline" href="mailto:contact@oceanid.io?subject=Request%20Access%20%E2%80%94%20Oceanid&body=Hi%20Oceanid%20team%2C%0A%0AI%27m%20reaching%20out%20to%20request%20access%20to%20Oceanid.%0A%0APlease%20share%20a%20bit%20of%20context%3A%0A-%20Role%20(operator%20%2F%20skipper%20%2F%20traveler%20%2F%20other)%3A%20%0A-%20Use%20case%20(e.g.%20fleet%20management%2C%20join%20a%20voyage%2C%20marina%20services)%3A%20%0A-%20Region%20or%20timeline%20(optional)%3A%20%0A%0AThank%20you%2C%0A">
+            Request Access
+            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+          </a>
+          <a class="border border-outline/40 text-on-surface px-8 py-5 rounded-xl font-bold text-lg inline-flex items-center gap-3 hover:bg-surface-container transition-all no-underline" href="#video">
+            Watch the film
+            <span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+          </a>
+        </div>
+      </div>
+      <div class="lg:col-span-5">
+        <div class="relative">
+          <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
+            <img alt="Catamaran sailing near a Mediterranean marina at golden hour" class="w-full h-full object-cover" src="https://storage.googleapis.com/oceanid-public/oceanid-poster.jpg"/>
+          </div>
+          <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-2xl border border-surface-container max-w-[280px]">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined" data-icon="route">route</span>
+              </div>
+              <div>
+                <div class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Live Passage</div>
+                <div class="font-bold text-sm">Zadar → Larnaca</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <div class="w-2 h-2 rounded-full bg-primary"></div>
+                  <span class="font-medium text-on-surface-variant">Marina Zadar</span>
+                </div>
+                <span class="text-on-surface-variant/60">Departed</span>
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <div class="w-2 h-2 rounded-full bg-slate-200"></div>
+                  <span class="font-medium text-on-surface-variant">Rhodes Marina</span>
+                </div>
+                <span class="text-primary font-bold">$547/pp</span>
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <div class="w-2 h-2 rounded-full bg-slate-200"></div>
+                  <span class="font-medium text-on-surface-variant">Larnaca Marina</span>
+                </div>
+                <span class="text-primary font-bold">$750/pp</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Bar -->
+  <section class="border-y border-surface-container bg-surface-container-low py-8 px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <div class="text-3xl font-extrabold text-on-surface">500K+</div>
+          <div class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mt-1">Downloads</div>
+        </div>
+        <div>
+          <div class="text-3xl font-extrabold text-on-surface flex items-center justify-center gap-2">
+            5.0
+            <span class="text-amber-400 text-2xl">★</span>
+          </div>
+          <div class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mt-1">App Store Rating</div>
+        </div>
+        <div>
+          <div class="text-3xl font-extrabold text-on-surface">Med &amp; Beyond</div>
+          <div class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mt-1">Live Routes</div>
+        </div>
+        <div>
+          <div class="text-3xl font-extrabold text-on-surface">Real-time</div>
+          <div class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mt-1">Voyage Tracking</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Showcase Section -->
+  <section class="py-24 px-8 bg-gradient-to-b from-background to-surface-container-low" id="video">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-12 space-y-4">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 text-primary rounded-full text-xs font-bold tracking-widest uppercase">
+          <span class="material-symbols-outlined text-sm" data-icon="movie">movie</span>
+          The Film
+        </div>
+        <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface">
+          The sea, <span class="text-primary">simplified.</span>
+        </h2>
+        <p class="text-lg text-on-surface-variant max-w-xl mx-auto">
+          From marina to open water — see how Oceanid connects skippers, passengers, and marinas in one seamless passage.
+        </p>
+      </div>
+      <div class="video-wrapper rounded-3xl overflow-hidden shadow-2xl border border-surface-container ring-1 ring-black/5">
+        <video
+          class="w-full block"
+          controls
+          muted
+          autoplay
+          loop
+          playsinline
+          poster="https://storage.googleapis.com/oceanid-public/oceanid-poster.jpg"
+          preload="metadata">
+          <source src="https://storage.googleapis.com/oceanid-public/oceanid.mp4" type="video/mp4"/>
+          <source src="https://storage.googleapis.com/oceanid-public/oceanid.MOV" type="video/quicktime"/>
+          Your browser does not support HTML5 video.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section for Operators / Skippers -->
+  <section class="bg-surface-container-low py-32 px-8" id="operators">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-end mb-20">
+        <div>
+          <h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Operators &amp; Skippers</h2>
+          <h3 class="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">Your vessel. Your route. Your terms.</h3>
+        </div>
+        <p class="text-lg text-on-surface-variant leading-relaxed">
+          Oceanid gives professional skippers and fleet operators the tools to publish passages, fill seats, and coordinate every stop — without the spreadsheets.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Feature 1 -->
+        <div class="bg-white p-12 rounded-3xl border border-surface-container hover:shadow-lg transition-all group">
+          <div class="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-3xl" data-icon="edit_calendar">edit_calendar</span>
+          </div>
+          <h4 class="text-2xl font-bold mb-4">Publish your voyage</h4>
+          <p class="text-on-surface-variant leading-relaxed">
+            Create a passage with stops, dates, and per-leg pricing. Set it live in minutes — Oceanid handles discovery, bookings, and passenger communications.
+          </p>
+        </div>
+        <!-- Feature 2 -->
+        <div class="bg-white p-12 rounded-3xl border border-surface-container hover:shadow-lg transition-all group">
+          <div class="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-3xl" data-icon="groups">groups</span>
+          </div>
+          <h4 class="text-2xl font-bold mb-4">Manage your manifest</h4>
+          <p class="text-on-surface-variant leading-relaxed">
+            Review join requests, approve passengers, and keep your manifest up to date. All crew documents and certifications in one encrypted vault.
+          </p>
+        </div>
+        <!-- Feature 3 -->
+        <div class="bg-white p-12 rounded-3xl border border-surface-container hover:shadow-lg transition-all group">
+          <div class="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-3xl" data-icon="local_gas_station">local_gas_station</span>
+          </div>
+          <h4 class="text-2xl font-bold mb-4">Coordinate marina services</h4>
+          <p class="text-on-surface-variant leading-relaxed">
+            Attach docking, high-flow fueling, and provisioning directly to each stop. Request services in one tap — confirmed before you arrive.
+          </p>
+        </div>
+        <!-- Feature 4 -->
+        <div class="bg-primary text-on-primary p-12 rounded-3xl shadow-xl shadow-primary/20 relative overflow-hidden group">
+          <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-125 transition-transform">
+            <span class="material-symbols-outlined text-[120px]" data-icon="payments">payments</span>
+          </div>
+          <div class="relative z-10">
+            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-8">
+              <span class="material-symbols-outlined text-3xl" data-icon="account_balance">account_balance</span>
+            </div>
+            <h4 class="text-2xl font-bold mb-4">Track commercial performance</h4>
+            <p class="text-white/80 leading-relaxed">
+              Monitor revenue per passage, seat occupancy, and booking trends. From a single yacht to a commercial fleet — full financial visibility in one dashboard.
             </p>
-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platform / Architecture -->
+  <section class="py-32 px-8 overflow-hidden" id="platform">
+    <div class="max-w-7xl mx-auto">
+      <div class="bg-on-surface text-white rounded-[3rem] p-12 md:p-24 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none select-none">
+          <div class="absolute inset-0 flex items-center justify-center text-white/5 text-[18rem] font-black tracking-tighter select-none pointer-events-none">MED</div>
+        </div>
+        <div class="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <div class="inline-block px-4 py-1.5 bg-primary/20 text-primary border border-primary/30 rounded-full text-xs font-bold tracking-widest uppercase mb-8">
+              Architecture
+            </div>
+            <h3 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-8">Built around every <span class="text-primary">passage.</span></h3>
+            <p class="text-xl text-white/70 leading-relaxed mb-10">
+              Every voyage is the anchor. Stops, passengers, bookings, and marina logistics all link to a single passage — so skippers and guests always see the same live picture.
+            </p>
+            <div class="space-y-6">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-primary shrink-0">
+                  <span class="material-symbols-outlined" data-icon="hub">hub</span>
+                </div>
+                <span class="font-bold text-lg">Unified voyage data model</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-primary shrink-0">
+                  <span class="material-symbols-outlined" data-icon="sync">sync</span>
+                </div>
+                <span class="font-bold text-lg">Real-time synchronization</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-primary shrink-0">
+                  <span class="material-symbols-outlined" data-icon="lock">lock</span>
+                </div>
+                <span class="font-bold text-lg">End-to-end encrypted vault</span>
+              </div>
+            </div>
+          </div>
+          <div class="hidden lg:block">
+            <div class="aspect-square bg-white/5 rounded-3xl border border-white/10 p-8 flex flex-col justify-center gap-6">
+              <div class="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 text-center">Example passage</div>
+              <div class="bg-white/10 p-6 rounded-2xl border border-white/10 text-center">
+                <div class="text-primary font-black text-3xl mb-1">ZADAR → LARNACA</div>
+                <div class="text-xs uppercase tracking-[0.3em] text-white/40">Mediterranean Loop</div>
+              </div>
+              <div class="grid grid-cols-3 gap-3">
+                <div class="p-4 bg-white/5 border border-white/10 rounded-xl text-center">
+                  <div class="text-[9px] font-bold uppercase tracking-widest text-white/40 mb-1">Stop 1</div>
+                  <div class="text-xs font-bold text-white">Rhodes</div>
+                  <div class="text-[10px] text-primary mt-1">$547/pp</div>
+                </div>
+                <div class="p-4 bg-white/5 border border-white/10 rounded-xl text-center">
+                  <div class="text-[9px] font-bold uppercase tracking-widest text-white/40 mb-1">Stop 2</div>
+                  <div class="text-xs font-bold text-white">Larnaca</div>
+                  <div class="text-[10px] text-primary mt-1">$750/pp</div>
+                </div>
+                <div class="p-4 bg-white/5 border border-white/10 rounded-xl text-center">
+                  <div class="text-[9px] font-bold uppercase tracking-widest text-white/40 mb-1">Aboard</div>
+                  <div class="text-xs font-bold text-white">Manifest</div>
+                  <div class="text-[10px] text-primary mt-1">Live</div>
+                </div>
+              </div>
+              <div class="h-px w-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-40"></div>
+              <div class="flex justify-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
+                <span>PEOPLE</span>
+                <span>LOGISTICS</span>
+                <span>PAYMENTS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section for Travelers / Guests -->
+  <section class="py-32 px-8" id="travelers">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-3xl mx-auto mb-20">
+        <h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Travelers &amp; Guests</h2>
+        <h3 class="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">Experience the passage, not the paperwork.</h3>
+        <p class="text-lg text-on-surface-variant mt-6">Find an open voyage, pick your stop, request to join. Your skipper approves — your boarding documents arrive in the app.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-12">
+        <div class="space-y-6">
+          <div class="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg bg-surface-container-high flex items-center justify-center">
+            <div class="text-center p-8">
+              <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mx-auto mb-4">
+                <span class="material-symbols-outlined text-3xl" data-icon="travel_explore">travel_explore</span>
+              </div>
+              <div class="text-sm font-bold text-on-surface-variant">Browse open voyages</div>
+            </div>
+          </div>
+          <h4 class="text-2xl font-bold">Browse open voyages</h4>
+          <p class="text-on-surface-variant leading-relaxed">
+            Explore live passages with exact routes, departure times, and port-by-port itineraries. Filter by region, date, or vessel type to find your perfect trip.
+          </p>
+        </div>
+        <div class="space-y-6">
+          <div class="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg bg-surface-container-high flex items-center justify-center">
+            <div class="text-center p-8">
+              <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mx-auto mb-4">
+                <span class="material-symbols-outlined text-3xl" data-icon="chair_alt">chair_alt</span>
+              </div>
+              <div class="text-sm font-bold text-on-surface-variant">Pick your leg &amp; price</div>
+            </div>
+          </div>
+          <h4 class="text-2xl font-bold">Pick your leg &amp; price</h4>
+          <p class="text-on-surface-variant leading-relaxed">
+            Choose which stop to join at, see the per-person price, and submit your request. No hidden fees — what you see is what you pay.
+          </p>
+        </div>
+        <div class="space-y-6">
+          <div class="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg bg-surface-container-high flex items-center justify-center">
+            <div class="text-center p-8">
+              <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mx-auto mb-4">
+                <span class="material-symbols-outlined text-3xl" data-icon="directions_boat">directions_boat</span>
+              </div>
+              <div class="text-sm font-bold text-on-surface-variant">Step aboard</div>
+            </div>
+          </div>
+          <h4 class="text-2xl font-bold">Step aboard</h4>
+          <p class="text-on-surface-variant leading-relaxed">
+            Once your skipper approves, all boarding documents arrive in Oceanid. Track your vessel live, discover services at each port, and enjoy the passage.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="py-32 px-8 bg-surface-container-low" id="contact">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+        <!-- Left: Info -->
+        <div class="space-y-10">
+          <div>
+            <h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">Get in Touch</h2>
+            <h3 class="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">We'd love to hear from you.</h3>
+            <p class="text-lg text-on-surface-variant mt-6 leading-relaxed">
+              Whether you're a skipper looking to list your passages, a marina wanting to connect services, or a traveler with questions — reach out and we'll get back to you promptly.
+            </p>
+          </div>
+          <div class="space-y-6">
+            <div class="flex items-start gap-5">
+              <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
+                <span class="material-symbols-outlined" data-icon="mail">mail</span>
+              </div>
+              <div>
+                <div class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Email</div>
+                <a class="font-semibold text-on-surface hover:text-primary transition-colors" href="mailto:contact@oceanid.io">contact@oceanid.io</a>
+              </div>
+            </div>
+            <div class="flex items-start gap-5">
+              <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
+                <span class="material-symbols-outlined" data-icon="phone">phone</span>
+              </div>
+              <div>
+                <div class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Phone</div>
+                <a class="font-semibold text-on-surface hover:text-primary transition-colors" href="tel:+35795086066">+357 950 86066</a>
+              </div>
+            </div>
+            <div class="flex items-start gap-5">
+              <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
+                <span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+              </div>
+              <div>
+                <div class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Address</div>
+                <p class="font-semibold text-on-surface leading-relaxed">Agias Zonis 12, Office 101<br/>Limassol 3027, Cyprus</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-5">
+              <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
+                <span class="material-symbols-outlined" data-icon="badge">badge</span>
+              </div>
+              <div>
+                <div class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Registration</div>
+                <p class="font-semibold text-on-surface">HE489599</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Enquiry Form -->
+        <div class="bg-white rounded-3xl border border-surface-container p-10 shadow-sm">
+          <h4 class="text-2xl font-bold mb-8">Send us a message</h4>
+          <form
+            action="https://formsubmit.co/contact@oceanid.io"
+            method="POST"
+            class="space-y-6">
+            <input type="hidden" name="_subject" value="Oceanid Website Enquiry"/>
+            <input type="hidden" name="_captcha" value="false"/>
+            <input type="hidden" name="_next" value="https://explore.oceanid.io/#contact"/>
+            <div class="grid sm:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-bold text-on-surface mb-2" for="name">Full Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  placeholder="Your name"
+                  class="w-full px-4 py-3 rounded-xl border border-surface-container-highest bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition text-on-surface placeholder:text-on-surface-variant/50 font-medium"/>
+              </div>
+              <div>
+                <label class="block text-sm font-bold text-on-surface mb-2" for="email">Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  placeholder="you@example.com"
+                  class="w-full px-4 py-3 rounded-xl border border-surface-container-highest bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition text-on-surface placeholder:text-on-surface-variant/50 font-medium"/>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-on-surface mb-2" for="role">I am a…</label>
+              <select
+                id="role"
+                name="role"
+                class="w-full px-4 py-3 rounded-xl border border-surface-container-highest bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition text-on-surface font-medium">
+                <option value="">Select your role</option>
+                <option value="Skipper / Operator">Skipper / Operator</option>
+                <option value="Fleet Manager">Fleet Manager</option>
+                <option value="Marina / Service Provider">Marina / Service Provider</option>
+                <option value="Traveler / Guest">Traveler / Guest</option>
+                <option value="Press / Partner">Press / Partner</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-on-surface mb-2" for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                rows="5"
+                placeholder="Tell us about your use case, questions, or how we can help…"
+                class="w-full px-4 py-3 rounded-xl border border-surface-container-highest bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition text-on-surface placeholder:text-on-surface-variant/50 font-medium resize-none"></textarea>
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-primary text-on-primary py-4 rounded-xl font-bold text-base hover:bg-primary-dim transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-3">
+              Send Message
+              <span class="material-symbols-outlined" data-icon="send">send</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-surface-container bg-white">
+  <div class="max-w-7xl mx-auto px-8 py-16">
+    <div class="grid md:grid-cols-3 gap-12 mb-12">
+
+      <!-- Brand -->
+      <div class="space-y-4">
+        <a class="flex items-center gap-3 group w-fit" href="https://oceanid.io" aria-label="Oceanid home">
+          <span class="brand-mark h-10 w-10 shrink-0">
+            <span class="brand-mark__inner h-full w-full">
+              <img alt="" class="brand-mark__img" src="https://storage.googleapis.com/oceanid-public/logo.png" width="40" height="40"/>
+            </span>
+          </span>
+          <span class="font-extrabold text-lg tracking-tight text-on-surface">Ocean<span class="text-primary">id</span></span>
+        </a>
+        <p class="text-sm text-on-surface-variant leading-relaxed max-w-xs">
+          Find marinas, book slips, and join voyages across the Mediterranean — all from your pocket.
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <div>
+        <div class="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-5">Navigation</div>
+        <ul class="space-y-3 text-sm font-semibold">
+          <li><a class="text-on-surface hover:text-primary transition-colors" href="#operators">For Operators</a></li>
+          <li><a class="text-on-surface hover:text-primary transition-colors" href="#travelers">For Travelers</a></li>
+          <li><a class="text-on-surface hover:text-primary transition-colors" href="#platform">Platform</a></li>
+          <li><a class="text-on-surface hover:text-primary transition-colors" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal / Company Info -->
+      <div>
+        <div class="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-5">Company</div>
+        <ul class="space-y-2 text-sm text-on-surface-variant">
+          <li class="font-semibold text-on-surface">Oceanid</li>
+          <li>Reg. No. HE489599</li>
+          <li>Agias Zonis 12, Office 101</li>
+          <li>Limassol 3027, Cyprus</li>
+          <li class="pt-2">
+            <a class="hover:text-primary transition-colors" href="mailto:contact@oceanid.io">contact@oceanid.io</a>
+          </li>
+          <li>
+            <a class="hover:text-primary transition-colors" href="tel:+35795086066">+357 950 86066</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="border-t border-surface-container pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-on-surface-variant text-sm font-medium">
+        © <span id="footer-year">2026</span> <a class="text-primary hover:text-primary-dim transition-colors font-semibold no-underline" href="https://oceanid.io">oceanid.io</a>. All rights reserved.
+      </p>
+      <p class="text-on-surface-variant/60 text-xs">
+        Maritime software services · Cyprus · Registration No. HE489599
+      </p>
+    </div>
+  </div>
 </footer>
+
 <script>
 (function () {
   var y = document.getElementById("footer-year");
   if (y) y.textContent = String(new Date().getFullYear());
 })();
 </script>
-</body></html>
+</body>
+</html>
