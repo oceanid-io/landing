@@ -811,36 +811,20 @@
       return;
     }
 
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base" data-icon="progress_activity">progress_activity</span> Sending…';
+    var role = form.querySelector("#role").value || "Not specified";
 
-    var payload = {
-      name:    name,
-      email:   email,
-      role:    form.querySelector("#role").value || "Not specified",
-      message: message
-    };
+    var subject = encodeURIComponent("Oceanid Enquiry — " + name);
+    var body = encodeURIComponent(
+      "Name: " + name + "\n" +
+      "Email: " + email + "\n" +
+      "I am a: " + role + "\n\n" +
+      message
+    );
 
-    fetch("https://formsubmit.co/ajax/contact@oceanid.io", {
-      method:  "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body:    JSON.stringify(payload)
-    })
-    .then(function (res) { return res.json(); })
-    .then(function (data) {
-      if (data.success === "true" || data.success === true) {
-        form.classList.add("hidden");
-        document.getElementById("form-success").classList.remove("hidden");
-      } else {
-        throw new Error("Submission failed");
-      }
-    })
-    .catch(function () {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = 'Send Message <span class="material-symbols-outlined" data-icon="send">send</span>';
-      errorEl.textContent = "Something went wrong. Please email us directly at contact@oceanid.io.";
-      errorEl.classList.remove("hidden");
-    });
+    window.location.href = "mailto:contact@oceanid.io?subject=" + subject + "&body=" + body;
+
+    form.classList.add("hidden");
+    document.getElementById("form-success").classList.remove("hidden");
   });
 })();
 </script>
