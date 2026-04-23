@@ -152,11 +152,11 @@
         </div>
       </div>
       <div class="lg:col-span-5">
-        <div class="relative">
+        <div class="relative pb-8 pr-4">
           <div class="aspect-video rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
             <img alt="Catamaran sailing near a Mediterranean marina at golden hour" class="w-full h-full object-cover object-center" src="https://storage.googleapis.com/oceanid-public/poster.jpeg"/>
           </div>
-          <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-2xl border border-surface-container max-w-[280px]">
+          <div class="absolute -bottom-2 -right-2 bg-white p-5 rounded-2xl shadow-2xl border border-surface-container max-w-[260px]">
             <div class="flex items-center gap-4 mb-4">
               <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
                 <span class="material-symbols-outlined" data-icon="route">route</span>
@@ -197,21 +197,14 @@
 
 
   <!-- Video Showcase Section -->
-  <section class="py-24 px-8 bg-gradient-to-b from-background to-surface-container-low" id="video">
-    <div class="max-w-5xl mx-auto">
-      <div class="text-center mb-12 space-y-4">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 text-primary rounded-full text-xs font-bold tracking-widest uppercase">
-          <span class="material-symbols-outlined text-sm" data-icon="movie">movie</span>
-          The Film
-        </div>
-        <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface">
+  <section class="py-16 px-8" id="video">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-on-surface">
           The sea, <span class="text-primary">simplified.</span>
         </h2>
-        <p class="text-lg text-on-surface-variant max-w-xl mx-auto">
-          From marina to open water. See how Oceanid connects skippers, passengers, and marinas in one seamless passage.
-        </p>
       </div>
-      <div class="video-wrapper rounded-3xl overflow-hidden shadow-2xl border border-surface-container ring-1 ring-black/5">
+      <div class="video-wrapper rounded-3xl overflow-hidden shadow-2xl border border-surface-container">
         <video
           class="w-full block"
           controls
@@ -230,7 +223,7 @@
   </section>
 
   <!-- Section for Operators / Skippers -->
-  <section class="bg-surface-container-low py-32 px-8" id="operators">
+  <section class="bg-surface-container-low py-20 px-8" id="operators">
     <div class="max-w-7xl mx-auto">
       <div class="grid lg:grid-cols-2 gap-16 items-end mb-20">
         <div>
@@ -292,7 +285,7 @@
   </section>
 
   <!-- Platform / Architecture -->
-  <section class="py-32 px-8 overflow-hidden" id="platform">
+  <section class="py-20 px-8" id="platform">
     <div class="max-w-7xl mx-auto">
       <div class="bg-on-surface text-white rounded-[3rem] p-12 md:p-24 relative overflow-hidden">
         <div class="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none select-none">
@@ -366,62 +359,89 @@
   </section>
 
   <!-- Section for Travelers / Guests -->
-  <section class="py-32 px-8" id="travelers">
+  <section class="py-20 px-8" id="travelers">
     <div class="max-w-7xl mx-auto">
-      <div class="text-center max-w-3xl mx-auto mb-20">
-        <h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Travelers &amp; Guests</h2>
-        <h3 class="text-4xl md:text-5xl font-bold tracking-tight text-on-surface">Experience the passage, not the paperwork.</h3>
-        <p class="text-lg text-on-surface-variant mt-6">Find an open voyage, pick your stop, request to join. Your skipper approves. Your boarding documents arrive in the app.</p>
-      </div>
-      <div class="grid md:grid-cols-3 gap-12">
-        <div class="space-y-6">
-          <div class="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg bg-surface-container-high flex items-center justify-center">
-            <div class="text-center p-8">
-              <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mx-auto mb-4">
-                <span class="material-symbols-outlined text-3xl" data-icon="travel_explore">travel_explore</span>
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Left: heading + steps -->
+        <div>
+          <h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Travelers &amp; Guests</h2>
+          <h3 class="text-4xl md:text-5xl font-bold tracking-tight text-on-surface mb-6">Experience the passage, not the paperwork.</h3>
+          <p class="text-lg text-on-surface-variant leading-relaxed mb-12">Find an open voyage, pick your stop, request to join. Your skipper approves. Your boarding documents arrive in the app.</p>
+
+          <div class="space-y-8">
+            <div class="flex gap-6 items-start">
+              <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-extrabold text-sm shrink-0">1</div>
+              <div>
+                <h4 class="font-bold text-lg mb-1">Browse open voyages</h4>
+                <p class="text-on-surface-variant leading-relaxed">Explore live passages with exact routes, departure times, and port-by-port itineraries.</p>
               </div>
-              <div class="text-sm font-bold text-on-surface-variant">Browse open voyages</div>
+            </div>
+            <div class="flex gap-6 items-start">
+              <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-extrabold text-sm shrink-0">2</div>
+              <div>
+                <h4 class="font-bold text-lg mb-1">Pick your leg and price</h4>
+                <p class="text-on-surface-variant leading-relaxed">Choose which stop to join, see the per-person price, and submit your request. No hidden fees.</p>
+              </div>
+            </div>
+            <div class="flex gap-6 items-start">
+              <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-extrabold text-sm shrink-0">3</div>
+              <div>
+                <h4 class="font-bold text-lg mb-1">Step aboard</h4>
+                <p class="text-on-surface-variant leading-relaxed">Once approved, boarding documents arrive in the app. Track your vessel live and discover services at every port.</p>
+              </div>
             </div>
           </div>
-          <h4 class="text-2xl font-bold">Browse open voyages</h4>
-          <p class="text-on-surface-variant leading-relaxed">
-            Explore live passages with exact routes, departure times, and port-by-port itineraries. Filter by region, date, or vessel type to find your perfect trip.
-          </p>
         </div>
-        <div class="space-y-6">
-          <div class="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg bg-surface-container-high flex items-center justify-center">
-            <div class="text-center p-8">
-              <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mx-auto mb-4">
-                <span class="material-symbols-outlined text-3xl" data-icon="chair_alt">chair_alt</span>
+
+        <!-- Right: visual card -->
+        <div class="bg-surface-container-low rounded-3xl p-10 border border-surface-container">
+          <div class="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-6">Open passage</div>
+          <div class="bg-white rounded-2xl border border-surface-container p-6 shadow-sm mb-4">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <div class="font-extrabold text-lg">Zadar → Larnaca</div>
+                <div class="text-xs text-on-surface-variant mt-0.5">Departs Apr 5 · Catamaran</div>
               </div>
-              <div class="text-sm font-bold text-on-surface-variant">Pick your leg &amp; price</div>
+              <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined" data-icon="sailing">sailing</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between py-2 border-t border-surface-container text-sm">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-primary"></div>
+                  <span class="font-medium">Marina Zadar</span>
+                </div>
+                <span class="text-on-surface-variant text-xs">Source</span>
+              </div>
+              <div class="flex items-center justify-between py-2 border-t border-surface-container text-sm">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-slate-300"></div>
+                  <span class="font-medium">Rhodes Marina</span>
+                </div>
+                <span class="text-primary font-bold">$547 / person</span>
+              </div>
+              <div class="flex items-center justify-between py-2 border-t border-surface-container text-sm">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 rounded-full bg-slate-300"></div>
+                  <span class="font-medium">Larnaca Marina</span>
+                </div>
+                <span class="text-primary font-bold">$750 / person</span>
+              </div>
             </div>
           </div>
-          <h4 class="text-2xl font-bold">Pick your leg &amp; price</h4>
-          <p class="text-on-surface-variant leading-relaxed">
-            Choose which stop to join at, see the per-person price, and submit your request. No hidden fees. What you see is what you pay.
-          </p>
+          <button class="w-full bg-primary text-white py-3.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-colors">
+            Request to Join
+          </button>
         </div>
-        <div class="space-y-6">
-          <div class="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg bg-surface-container-high flex items-center justify-center">
-            <div class="text-center p-8">
-              <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mx-auto mb-4">
-                <span class="material-symbols-outlined text-3xl" data-icon="directions_boat">directions_boat</span>
-              </div>
-              <div class="text-sm font-bold text-on-surface-variant">Step aboard</div>
-            </div>
-          </div>
-          <h4 class="text-2xl font-bold">Step aboard</h4>
-          <p class="text-on-surface-variant leading-relaxed">
-            Once your skipper approves, all boarding documents arrive in Oceanid. Track your vessel live, discover services at each port, and enjoy the passage.
-          </p>
-        </div>
+
       </div>
     </div>
   </section>
 
   <!-- Contact Section -->
-  <section class="py-32 px-8 bg-surface-container-low" id="contact">
+  <section class="py-20 px-8 bg-surface-container-low" id="contact">
     <div class="max-w-7xl mx-auto">
       <div class="grid lg:grid-cols-2 gap-16 items-start">
 
