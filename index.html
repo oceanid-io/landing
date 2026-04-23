@@ -477,13 +477,7 @@
         <!-- Right: Enquiry Form -->
         <div class="bg-white rounded-3xl border border-surface-container p-10 shadow-sm">
           <h4 class="text-2xl font-bold mb-8">Send us a message</h4>
-          <form
-            action="https://formsubmit.co/contact@oceanid.io"
-            method="POST"
-            class="space-y-6">
-            <input type="hidden" name="_subject" value="Oceanid Website Enquiry"/>
-            <input type="hidden" name="_captcha" value="false"/>
-            <input type="hidden" name="_next" value="https://explore.oceanid.io/#contact"/>
+          <form id="contact-form" class="space-y-6" novalidate>
             <div class="grid sm:grid-cols-2 gap-6">
               <div>
                 <label class="block text-sm font-bold text-on-surface mb-2" for="name">Full Name</label>
@@ -531,13 +525,23 @@
                 placeholder="Tell us about your use case, questions, or how we can help…"
                 class="w-full px-4 py-3 rounded-xl border border-surface-container-highest bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition text-on-surface placeholder:text-on-surface-variant/50 font-medium resize-none"></textarea>
             </div>
+            <div id="form-error" class="hidden text-sm text-red-500 font-medium"></div>
             <button
+              id="form-submit"
               type="submit"
-              class="w-full bg-primary text-on-primary py-4 rounded-xl font-bold text-base hover:bg-primary-dim transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-3">
+              class="w-full bg-primary text-on-primary py-4 rounded-xl font-bold text-base hover:bg-primary-dim transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed">
               Send Message
               <span class="material-symbols-outlined" data-icon="send">send</span>
             </button>
           </form>
+          <!-- Success state (hidden by default) -->
+          <div id="form-success" class="hidden text-center py-10 space-y-4">
+            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto">
+              <span class="material-symbols-outlined text-3xl" data-icon="check_circle">check_circle</span>
+            </div>
+            <h5 class="text-xl font-bold text-on-surface">Message sent!</h5>
+            <p class="text-on-surface-variant text-sm">We'll get back to you at the email you provided.</p>
+          </div>
         </div>
 
       </div>
@@ -615,8 +619,63 @@
 
 <script>
 (function () {
+  // Footer year
   var y = document.getElementById("footer-year");
   if (y) y.textContent = String(new Date().getFullYear());
+
+  // Contact form — AJAX submission, no redirect
+  var form = document.getElementById("contact-form");
+  if (!form) return;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var name    = form.querySelector("#name").value.trim();
+    var email   = form.querySelector("#email").value.trim();
+    var message = form.querySelector("#message").value.trim();
+    var errorEl = document.getElementById("form-error");
+    var submitBtn = document.getElementById("form-submit");
+
+    errorEl.classList.add("hidden");
+    errorEl.textContent = "";
+
+    if (!name || !email || !message) {
+      errorEl.textContent = "Please fill in your name, email, and message.";
+      errorEl.classList.remove("hidden");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base" data-icon="progress_activity">progress_activity</span> Sending…';
+
+    var payload = {
+      name:    name,
+      email:   email,
+      role:    form.querySelector("#role").value || "Not specified",
+      message: message
+    };
+
+    fetch("https://formsubmit.co/ajax/contact@oceanid.io", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body:    JSON.stringify(payload)
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      if (data.success === "true" || data.success === true) {
+        form.classList.add("hidden");
+        document.getElementById("form-success").classList.remove("hidden");
+      } else {
+        throw new Error("Submission failed");
+      }
+    })
+    .catch(function () {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Send Message <span class="material-symbols-outlined" data-icon="send">send</span>';
+      errorEl.textContent = "Something went wrong. Please email us directly at contact@oceanid.io.";
+      errorEl.classList.remove("hidden");
+    });
+  });
 })();
 </script>
 </body>
