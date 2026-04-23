@@ -145,10 +145,10 @@
             Request Access
             <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
           </a>
-          <a class="border border-outline/40 text-on-surface px-6 py-4 rounded-xl font-bold text-base inline-flex items-center gap-3 hover:bg-surface-container transition-all no-underline" href="#video">
+          <button id="watch-film-btn" type="button" class="border border-outline/40 text-on-surface px-6 py-4 rounded-xl font-bold text-base inline-flex items-center gap-3 hover:bg-surface-container transition-all cursor-pointer bg-transparent">
             Watch the film
             <span class="material-symbols-outlined text-base" data-icon="play_circle">play_circle</span>
-          </a>
+          </button>
         </div>
       </div>
       <div class="lg:col-span-5">
@@ -642,6 +642,23 @@
   // Footer year
   var y = document.getElementById("footer-year");
   if (y) y.textContent = String(new Date().getFullYear());
+
+  // "Watch the film" — scroll to video + play
+  var watchBtn = document.getElementById("watch-film-btn");
+  if (watchBtn) {
+    watchBtn.addEventListener("click", function () {
+      var videoSection = document.getElementById("video");
+      var nav = document.querySelector("nav");
+      var navH = nav ? nav.offsetHeight : 80;
+      var top = videoSection.getBoundingClientRect().top + window.scrollY - navH - 16;
+      window.scrollTo({ top: top, behavior: "smooth" });
+      var vid = videoSection.querySelector("video");
+      if (vid) {
+        vid.muted = true;
+        vid.play();
+      }
+    });
+  }
 
   // Contact form — AJAX submission, no redirect
   var form = document.getElementById("contact-form");
