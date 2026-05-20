@@ -69,6 +69,10 @@ src="https://www.facebook.com/tr?id=1626105762023771&ev=PageView&noscript=1"
 <style>
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    visibility: hidden;
+  }
+  .fonts-loaded .material-symbols-outlined {
+    visibility: visible;
   }
   html {
     overflow-x: hidden;
@@ -644,7 +648,7 @@ src="https://www.facebook.com/tr?id=1626105762023771&ev=PageView&noscript=1"
         <!-- Right: visual card -->
         <div class="bg-surface-container-low rounded-3xl p-6 sm:p-10 border border-surface-container">
           <div class="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-5 sm:mb-6">Open passage</div>
-          <div id="passage-map" class="w-full h-44 sm:h-48 rounded-2xl overflow-hidden mb-4"></div>
+          <div id="passage-map" class="w-full h-44 sm:h-48 rounded-2xl overflow-hidden mb-4 relative z-0"></div>
           <div class="bg-white rounded-2xl border border-surface-container p-5 sm:p-6 shadow-sm mb-4">
             <div class="flex items-center justify-between mb-4">
               <div>
@@ -828,12 +832,12 @@ src="https://www.facebook.com/tr?id=1626105762023771&ev=PageView&noscript=1"
           <p class="text-on-surface-variant text-sm leading-relaxed">Instant invite to our private <a href="https://discord.gg/5kWh3X4DE" target="_blank" rel="noopener" class="text-primary font-semibold hover:underline">Discord "Sea People."</a></p>
         </div>
       </div>
-      <div class="text-center">
-        <a class="btn-shimmer inline-flex items-center justify-center gap-3 bg-primary text-on-primary px-10 py-5 rounded-xl font-bold text-base sm:text-lg hover:bg-primary-dim transition-all shadow-xl shadow-primary/20" href="https://www.indiegogo.com/projects/oceanid/oceanid-one-app-for-life-at-sea" target="_blank" rel="noopener">
+      <div class="bg-white rounded-3xl border border-surface-container px-8 sm:px-16 py-10 sm:py-14 text-center card-lift">
+        <a class="btn-shimmer inline-flex items-center justify-center gap-3 bg-primary text-on-primary px-8 sm:px-12 py-4 sm:py-5 rounded-xl font-bold text-base sm:text-lg hover:bg-primary-dim transition-all shadow-xl shadow-primary/20 no-underline" href="https://www.indiegogo.com/projects/oceanid/oceanid-one-app-for-life-at-sea" target="_blank" rel="noopener">
           Back us on Indiegogo
           <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
         </a>
-        <p class="text-on-surface-variant text-sm mt-4">No risk. If we don't hit €25,000, every backer gets an automatic refund.</p>
+        <p class="text-on-surface-variant text-sm mt-5">No risk. If we don't hit €25,000, every backer gets an automatic refund.</p>
       </div>
     </div>
   </section>
@@ -1059,7 +1063,7 @@ src="https://www.facebook.com/tr?id=1626105762023771&ev=PageView&noscript=1"
   <!-- Subtle background glow -->
   <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-8 pt-16 sm:pt-20 pb-10">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-8 pt-10 sm:pt-12 pb-10">
 
     <!-- Main row -->
     <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-12 pb-12">
@@ -1074,13 +1078,9 @@ src="https://www.facebook.com/tr?id=1626105762023771&ev=PageView&noscript=1"
           </span>
           <span class="font-extrabold text-lg tracking-tight">Ocean<span class="text-primary">id</span></span>
         </a>
-        <p class="text-white/45 text-sm leading-relaxed mb-8">
+        <p class="text-white/45 text-sm leading-relaxed">
           Routes, cabins, marina services.<br/>All from your phone.
         </p>
-        <a class="inline-flex items-center gap-2 bg-primary/15 border border-primary/30 text-primary hover:bg-primary hover:text-white hover:border-primary px-5 py-2.5 rounded-xl text-sm font-bold transition-all" href="https://www.indiegogo.com/projects/oceanid/oceanid-one-app-for-life-at-sea" target="_blank" rel="noopener">
-          Back us on Indiegogo
-          <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span>
-        </a>
       </div>
 
       <!-- Right: contact + social -->
@@ -1331,6 +1331,9 @@ function closeMobileMenu() {
     });
   });
 })();
+document.fonts.ready.then(function() {
+  document.body.classList.add('fonts-loaded');
+});
 </script>
 </body>
 </html>
