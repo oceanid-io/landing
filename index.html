@@ -70,10 +70,14 @@ src="https://www.facebook.com/tr?id=1626105762023771&ev=PageView&noscript=1"
   .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
+  html {
+    overflow-x: hidden;
+  }
   body {
     font-family: 'Manrope', sans-serif;
     background-color: #FDFDFD;
     color: #1A1C1E;
+    overflow-x: hidden;
   }
   .nautical-grid {
     background-image: radial-gradient(#5C6BC0 0.5px, transparent 0.5px);
@@ -281,7 +285,7 @@ src="https://www.facebook.com/tr?id=1626105762023771&ev=PageView&noscript=1"
 <main class="pt-20">
 
   <!-- Hero Section -->
-  <section class="relative px-4 sm:px-8 pt-12 pb-6 md:pt-20 md:pb-8 max-w-7xl mx-auto overflow-x-hidden">
+  <section class="relative px-4 sm:px-8 pt-12 pb-6 md:pt-20 md:pb-8 max-w-7xl mx-auto overflow-hidden">
     <div class="absolute inset-0 nautical-grid -z-10"></div>
     <div class="hero-orb -z-10" style="width:560px;height:560px;background:rgba(92,107,192,0.14);top:-120px;right:-80px;"></div>
     <div class="hero-orb -z-10" style="width:400px;height:400px;background:rgba(0,131,143,0.09);bottom:-80px;left:-80px;"></div>
@@ -1168,6 +1172,7 @@ function toggleFaq(btn) {
     doubleClickZoom: false,
     touchZoom: false,
     dragging: false,
+    tap: false,
     keyboard: false,
     attributionControl: false
   });
@@ -1201,6 +1206,7 @@ function toggleFaq(btn) {
   L.circleMarker([44.1194, 15.2314], { radius: 7, fillColor: '#fff', color: '#5C6BC0', weight: 2.5, fillOpacity: 1 }).addTo(map);
   L.circleMarker([36.4499, 28.2278], { radius: 7, fillColor: '#5C6BC0', color: '#fff', weight: 2.5, fillOpacity: 1 }).addTo(map);
   L.circleMarker([34.9177, 33.6375], { radius: 7, fillColor: '#5C6BC0', color: '#fff', weight: 2.5, fillOpacity: 1 }).addTo(map);
+  map.getContainer().style.pointerEvents = 'none';
 })();
 
 // Mobile nav
