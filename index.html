@@ -5,7 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>Oceanid | One app for life at sea.</title>
-<meta name="description" content="Oceanid is the app for captains, travelers, and marinas. Plan your route, fill your cabins, book marina services — all from your phone."/>
+<meta name="description" content="Oceanid is the app for captains, travelers, and marinas. Plan your route, fill your cabins, and book marina services, all from your phone."/>
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -134,18 +134,33 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     display: block;
   }
 
-  /* Scroll-reveal */
+  /* Scroll-reveal — upgraded to dramatic */
   .reveal {
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    transform: translateY(64px) scale(0.97);
+    transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
   }
   .reveal.is-visible { opacity: 1; transform: none; }
-  .rd1 { transition-delay: 0.1s; }
-  .rd2 { transition-delay: 0.2s; }
-  .rd3 { transition-delay: 0.3s; }
-  .rd4 { transition-delay: 0.4s; }
-  .rd5 { transition-delay: 0.5s; }
+
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-60px) scale(0.97);
+    transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal-left.is-visible { opacity: 1; transform: none; }
+
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(60px) scale(0.97);
+    transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal-right.is-visible { opacity: 1; transform: none; }
+
+  .rd1 { transition-delay: 0.08s; }
+  .rd2 { transition-delay: 0.18s; }
+  .rd3 { transition-delay: 0.28s; }
+  .rd4 { transition-delay: 0.38s; }
+  .rd5 { transition-delay: 0.48s; }
 
   /* Button shimmer */
   .btn-shimmer { position: relative; overflow: hidden; }
@@ -238,11 +253,221 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   /* Audience cards */
   .audience-card { transition: box-shadow 0.3s ease, transform 0.22s ease; }
   .audience-card:hover { box-shadow: 0 28px 64px -14px rgba(92,107,192,0.28); transform: translateY(-3px); }
+
+  /* ── NEW: Final touches ────────────────────────────────── */
+
+  /* Scroll progress bar */
+  #scroll-progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+    background: linear-gradient(90deg, #5C6BC0 0%, #00838F 60%, #5C6BC0 100%);
+    background-size: 200% 100%;
+    z-index: 300; pointer-events: none;
+    animation: progressShimmer 2.5s linear infinite;
+  }
+  @keyframes progressShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Cursor glow */
+  #cursor-glow {
+    position: fixed; pointer-events: none; z-index: 0;
+    width: 520px; height: 520px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(92,107,192,0.07) 0%, transparent 68%);
+    transform: translate(-50%, -50%);
+    opacity: 0; transition: opacity 0.6s ease;
+  }
+
+  /* Floating phone */
+  @keyframes phoneFloat {
+    0%,100% { transform: perspective(1200px) rotateY(-5deg) rotateX(1.5deg) translateY(0px); }
+    50%      { transform: perspective(1200px) rotateY(-5deg) rotateX(1.5deg) translateY(-14px); }
+  }
+  .phone-float { animation: phoneFloat 6s ease-in-out infinite; }
+
+  /* Hero orbs drift */
+  @keyframes orbDrift1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33%     { transform: translate(28px,-18px) scale(1.06); }
+    66%     { transform: translate(-14px,14px) scale(0.95); }
+  }
+  @keyframes orbDrift2 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    40%     { transform: translate(-22px,18px) scale(1.08); }
+    75%     { transform: translate(18px,-8px) scale(0.93); }
+  }
+  .orb-1 { animation: orbDrift1 14s ease-in-out infinite; }
+  .orb-2 { animation: orbDrift2 19s ease-in-out infinite 3s; }
+  .orb-3 { animation: orbDrift1 22s ease-in-out infinite 8s reverse; }
+
+  /* CTA pulse ring */
+  @keyframes ctaPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(92,107,192,0.55), 0 8px 20px -4px rgba(92,107,192,0.35); }
+    70%  { box-shadow: 0 0 0 18px rgba(92,107,192,0), 0 8px 20px -4px rgba(92,107,192,0.35); }
+    100% { box-shadow: 0 0 0 0 rgba(92,107,192,0), 0 8px 20px -4px rgba(92,107,192,0.35); }
+  }
+  .cta-pulse { animation: ctaPulse 2.4s ease-out infinite; }
+
+  /* How-It-Works line draw */
+  .hiw-line {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1.3s cubic-bezier(0.16,1,0.3,1) 0.4s;
+  }
+  .hiw-line.is-drawn { transform: scaleX(1); }
+
+  /* Parallax hero bg */
+  .hero-parallax-bg { will-change: transform; }
+
+  /* Social proof strip */
+  .proof-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 6px 14px; border-radius: 100px;
+    background: rgba(92,107,192,0.08);
+    border: 1px solid rgba(92,107,192,0.16);
+    font-size: 0.78rem; font-weight: 600; color: rgba(228,231,240,0.5);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .proof-pill:hover { background: rgba(92,107,192,0.14); border-color: rgba(92,107,192,0.28); }
+
+  /* Feature card stagger in sections */
+  .feature-card-reveal {
+    opacity: 0; transform: translateY(40px) scale(0.97);
+    transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1);
+  }
+  .feature-card-reveal.is-visible { opacity: 1; transform: none; }
+
+  /* ── Phone screen animations ──────────────────────────── */
+  @keyframes screenIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes screenInLeft {
+    from { opacity: 0; transform: translateX(-10px); }
+    to   { opacity: 1; transform: none; }
+  }
+  /* Push notification drop-in */
+  @keyframes notifDrop {
+    0%   { transform: translateY(-130%); opacity: 0; }
+    8%   { transform: translateY(0);     opacity: 1; }
+    58%  { transform: translateY(0);     opacity: 1; }
+    68%  { transform: translateY(-130%); opacity: 0; }
+    100% { transform: translateY(-130%); opacity: 0; }
+  }
+  /* Badge heartbeat */
+  @keyframes badgeHeart {
+    0%, 100% { transform: scale(1); }
+    6%        { transform: scale(1.3); box-shadow: 0 0 0 5px rgba(108,93,211,0.3); }
+    12%       { transform: scale(1); }
+  }
+  /* Card highlight ping when notification hits */
+  @keyframes cardPing {
+    0%, 42%, 100% { box-shadow: none; border-color: rgba(255,255,255,0.07); }
+    50%            { box-shadow: 0 4px 20px -4px rgba(92,107,192,0.3); border-color: rgba(92,107,192,0.4); }
+    58%            { box-shadow: none; border-color: rgba(255,255,255,0.07); }
+  }
+  /* Screen status bar text blink (clock) */
+  @keyframes clockBlink {
+    0%, 49%, 100% { opacity: 1; }
+    50%            { opacity: 0.6; }
+  }
+  .phone-notif {
+    position: absolute; top: 44px; left: 7px; right: 7px; z-index: 30;
+    animation: notifDrop 9s cubic-bezier(0.34,1.56,0.64,1) 2.2s infinite;
+    transform: translateY(-130%); opacity: 0;
+  }
+  .screen-hdr  { animation: screenInLeft 0.55s cubic-bezier(0.16,1,0.3,1) 0.35s both; }
+  .screen-tabs { animation: screenIn    0.50s cubic-bezier(0.16,1,0.3,1) 0.55s both; }
+  .screen-c1   { animation: screenIn    0.60s cubic-bezier(0.16,1,0.3,1) 0.72s both, cardPing 9s ease-in-out 4.5s infinite; }
+  .screen-c2   { animation: screenIn    0.60s cubic-bezier(0.16,1,0.3,1) 0.90s both; }
+  .screen-nav  { animation: screenIn    0.50s cubic-bezier(0.16,1,0.3,1) 1.05s both; }
+  .badge-hb    { animation: badgeHeart  7s ease-in-out 1.8s infinite; }
+
+  /* ══════════════════════════════════════════════════
+     LUXURY TOUCHES
+  ══════════════════════════════════════════════════ */
+
+  /* Film grain overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 9998;
+    pointer-events: none; opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+  }
+
+  /* Hero headline gradient shimmer */
+  @keyframes textShimmer {
+    0%   { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+  .text-sea {
+    background: linear-gradient(135deg, #8a9ee8 0%, #00c0d0 45%, #7b8dd4 80%, #8a9ee8 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textShimmer 6s linear infinite;
+  }
+
+  /* Elegant subtle border on forms */
+  .form-luxury {
+    border: 1px solid rgba(92,107,192,0.22) !important;
+    box-shadow: 0 0 0 1px rgba(92,107,192,0.08), 0 24px 48px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+  }
+
+  /* Section eyebrow line */
+  .eyebrow-lux {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow-lux::before {
+    content: '';
+    display: block;
+    width: 22px; height: 1px;
+    background: currentColor;
+    opacity: 0.45;
+    flex-shrink: 0;
+  }
+
+  /* How It Works step icon glow ring */
+  .step-icon-lux {
+    box-shadow:
+      0 0 0 6px rgba(92,107,192,0.10),
+      0 0 0 12px rgba(92,107,192,0.05),
+      0 14px 32px -8px rgba(92,107,192,0.30) !important;
+    border-color: rgba(92,107,192,0.40) !important;
+  }
+
+  /* Richer card-lift hover */
+  .card-lift:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 28px 56px -12px rgba(92,107,192,0.38), 0 0 0 1px rgba(92,107,192,0.20) !important;
+    border-color: rgba(92,107,192,0.30) !important;
+  }
+
+  /* Video section glow */
+  .video-lux {
+    box-shadow:
+      0 0 0 1px rgba(92,107,192,0.18),
+      0 40px 80px -20px rgba(0,0,0,0.7),
+      0 0 80px -20px rgba(92,107,192,0.14) !important;
+    border-color: rgba(92,107,192,0.18) !important;
+  }
+
+  /* Compass rose slow spin */
+  @keyframes compassSpin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  .compass-spin { animation: compassSpin 120s linear infinite; }
 </style>
 </head>
 <body class="bg-background text-on-surface">
 
 <!-- Navigation -->
+<div id="scroll-progress"></div>
+<div id="cursor-glow"></div>
 <nav class="fixed top-0 w-full z-50 bg-[#080C18]/80 backdrop-blur-md border-b border-surface-container">
   <div class="flex justify-between items-center w-full px-4 sm:px-8 py-4 sm:py-5 max-w-7xl mx-auto">
     <a class="flex items-center group transition-opacity hover:opacity-85" href="#" aria-label="Oceanid home">
@@ -290,10 +515,18 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   <!-- Hero Section -->
   <section class="relative overflow-hidden -mt-20">
     <!-- Cinematic background -->
-    <div class="absolute inset-0 z-0">
-      <img alt="" class="w-full h-full object-cover object-center" src="https://storage.googleapis.com/oceanid-public/background.jpg" loading="eager"/>
+    <div class="absolute inset-0 z-0 overflow-hidden">
+      <!-- Parallax background layer (JS drives translateY) -->
+      <div class="hero-parallax-bg" style="position:absolute;left:0;right:0;top:-25%;height:150%;background-image:url('https://storage.googleapis.com/oceanid-public/background.jpg');background-size:cover;background-position:center;"></div>
+      <!-- Nautical dot grid -->
+      <div class="absolute inset-0 nautical-grid" style="opacity:0.06;"></div>
+      <!-- Colour gradients -->
       <div class="absolute inset-0 bg-gradient-to-r from-[#080C18] via-[#080C18]/85 to-[#080C18]/15"></div>
       <div class="absolute inset-0 bg-gradient-to-b from-[#080C18]/50 via-transparent to-[#080C18]"></div>
+      <!-- Ambient orbs -->
+      <div class="hero-orb orb-1" style="width:700px;height:700px;background:radial-gradient(circle,rgba(92,107,192,0.16) 0%,transparent 70%);top:-220px;right:-140px;filter:blur(70px);"></div>
+      <div class="hero-orb orb-2" style="width:480px;height:480px;background:radial-gradient(circle,rgba(0,131,143,0.12) 0%,transparent 70%);bottom:-60px;right:28%;filter:blur(60px);"></div>
+      <div class="hero-orb orb-3" style="width:320px;height:320px;background:radial-gradient(circle,rgba(92,107,192,0.10) 0%,transparent 70%);bottom:80px;left:4%;filter:blur(55px);"></div>
     </div>
 
     <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pt-28 pb-12 sm:pt-32 sm:pb-16">
@@ -304,13 +537,13 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 
           <!-- Headline -->
           <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight fade-up fade-up-delay-1">
-            All your life at sea in one app
+            All your life <span class="text-sea">at sea</span> in one app
           </h1>
 
           <!-- Subtext -->
-          <p class="text-lg sm:text-xl text-white/65 leading-relaxed max-w-lg fade-up fade-up-delay-2">
-            Book yachts and marinas, find crew and services, plan your journeys, and enjoy the ocean without limits.
-          </p>
+            <p class="text-lg sm:text-xl text-white/65 leading-relaxed max-w-lg fade-up fade-up-delay-2">
+              Plan trips, open your cabins to verified travelers, connect with service providers, and book marina services before you arrive.
+            </p>
 
           <!-- Store badges (coming soon) -->
           <div class="flex flex-wrap gap-3 fade-up fade-up-delay-3">
@@ -342,7 +575,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
 
           <!-- Early Access Form (hero) -->
-          <div class="bg-[#080c18]/80 backdrop-blur-xl rounded-2xl p-5 sm:p-6 border border-white/10 shadow-2xl fade-up fade-up-delay-3">
+          <div class="form-luxury bg-[#080c18]/80 backdrop-blur-xl rounded-2xl p-5 sm:p-6 shadow-2xl fade-up fade-up-delay-3">
             <h3 class="text-lg sm:text-xl font-bold text-white mb-0.5">Become an Early Explorer</h3>
             <p class="text-white/50 text-sm mb-4 leading-relaxed">Get early access to the app and exclusive member benefits.</p>
             <form id="early-form-hero" class="space-y-2.5" novalidate>
@@ -394,7 +627,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 
         <!-- Right: Phone mockup (actual Oceanid app — Trips screen) -->
         <div class="hidden lg:flex items-center justify-center py-4">
-          <div style="filter:drop-shadow(0 40px 70px rgba(0,0,0,0.7)) drop-shadow(0 0 40px rgba(92,107,192,0.22));transform:perspective(1200px) rotateY(-5deg) rotateX(1.5deg)">
+          <div style="filter:drop-shadow(0 40px 80px rgba(0,0,0,0.75)) drop-shadow(0 0 50px rgba(92,107,192,0.28));transform:perspective(1200px) rotateY(-5deg) rotateX(1.5deg)">
             <div class="relative w-[270px] bg-[#111114] rounded-[44px]" style="padding:3px;box-shadow:0 0 0 1px #1c1c20 inset">
               <!-- Dynamic island -->
               <div class="absolute top-[10px] left-1/2 -translate-x-1/2 w-[108px] h-[30px] bg-[#111114] rounded-full z-20"></div>
@@ -413,8 +646,27 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
                     <svg class="w-6 h-3" viewBox="0 0 24 12"><rect x="0" y="1" width="20" height="10" rx="2" stroke="rgba(255,255,255,0.4)" stroke-width="1" fill="none"/><rect x="1" y="2" width="14" height="8" rx="1" fill="rgba(255,255,255,0.75)"/><line x1="21.5" y1="4" x2="21.5" y2="8" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
                   </div>
                 </div>
-                <!-- Profile header — matches real Oceanid app layout exactly -->
-                <div class="flex items-center justify-between px-4 pt-3 pb-2.5">
+                <!-- Push notification (animated) -->
+                <div class="phone-notif rounded-[18px] px-3.5 py-3" style="background:rgba(20,24,42,0.97);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border:1px solid rgba(92,107,192,0.22);box-shadow:0 12px 36px -6px rgba(0,0,0,0.65),0 0 0 0.5px rgba(255,255,255,0.06);">
+                  <!-- Top row: icon + app name + time -->
+                  <div class="flex items-center gap-2 mb-2">
+                    <div class="w-6 h-6 rounded-[7px] flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#3d4fa8 0%,#1e2d6e 100%);">
+                      <span class="material-symbols-outlined" style="font-size:13px;color:#a0b0ff;font-variation-settings:'FILL' 1">sailing</span>
+                    </div>
+                    <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.55);letter-spacing:0.03em;flex:1">OCEANID</span>
+                    <span style="font-size:10px;color:rgba(255,255,255,0.28);">now</span>
+                  </div>
+                  <!-- Content -->
+                  <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;line-height:1.3">New booking request</div>
+                  <div style="font-size:10.5px;color:rgba(255,255,255,0.55);line-height:1.45;">Barcelona → Palma · 2 cabins · Jun 14</div>
+                  <!-- Action buttons -->
+                  <div class="flex gap-2 mt-2.5">
+                    <div class="flex-1 text-center py-1.5 rounded-xl" style="background:rgba(92,107,192,0.18);border:1px solid rgba(92,107,192,0.22);font-size:10px;font-weight:600;color:rgba(255,255,255,0.45);">Decline</div>
+                    <div class="flex-1 text-center py-1.5 rounded-xl" style="background:rgba(92,107,192,0.75);font-size:10px;font-weight:700;color:#fff;">Accept</div>
+                  </div>
+                </div>
+                <!-- Profile header -->
+                <div class="screen-hdr flex items-center justify-between px-4 pt-3 pb-2.5">
                   <div class="flex items-center gap-3">
                     <!-- Avatar circle with sailing silhouette -->
                     <div class="w-11 h-11 rounded-full shrink-0 overflow-hidden" style="background:linear-gradient(135deg,#1a4060 0%,#0d2540 100%);border:2px solid rgba(92,107,192,0.4)">
@@ -437,13 +689,13 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
                     <div class="w-9 h-9 rounded-full flex items-center justify-center" style="background:rgba(92,107,192,0.25);border:1px solid rgba(92,107,192,0.35)">
                       <span class="material-symbols-outlined text-[#8899cc]" style="font-size:17px">notifications</span>
                     </div>
-                    <div class="absolute -top-0.5 -right-0.5 w-[14px] h-[14px] rounded-full flex items-center justify-center" style="background:#6c5dd3">
+                    <div class="badge-hb absolute -top-0.5 -right-0.5 w-[14px] h-[14px] rounded-full flex items-center justify-center" style="background:#6c5dd3">
                       <span class="text-white font-bold" style="font-size:6px">9+</span>
                     </div>
                   </div>
                 </div>
                 <!-- Filter tabs -->
-                <div class="px-3 pb-2.5 flex items-center gap-2">
+                <div class="screen-tabs px-3 pb-2.5 flex items-center gap-2">
                   <div class="flex items-center justify-center shrink-0 whitespace-nowrap" style="background:#5C6BC0;border-radius:10px;padding:5px 12px">
                     <span class="text-white font-bold" style="font-size:9px;letter-spacing:0.04em">+ PLAN</span>
                   </div>
@@ -456,7 +708,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
                   </div>
                 </div>
                 <!-- Trip card 1 -->
-                <div class="mx-3 mb-2 rounded-2xl p-3" style="background:#101828;border:1px solid rgba(255,255,255,0.07)">
+                <div class="screen-c1 mx-3 mb-2 rounded-2xl p-3" style="background:#101828;border:1px solid rgba(255,255,255,0.07)">
                   <div class="flex justify-between items-start mb-2">
                     <div class="flex-1 pr-2">
                       <div class="text-[7px] font-bold uppercase tracking-widest mb-1" style="color:#8890a6">Source</div>
@@ -500,7 +752,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
                   </div>
                 </div>
                 <!-- Trip card 2 -->
-                <div class="mx-3 rounded-2xl p-3" style="background:#101828;border:1px solid rgba(255,255,255,0.07)">
+                <div class="screen-c2 mx-3 rounded-2xl p-3" style="background:#101828;border:1px solid rgba(255,255,255,0.07)">
                   <div class="flex justify-between items-start mb-2">
                     <div class="flex-1 pr-2">
                       <div class="text-[7px] font-bold uppercase tracking-widest mb-1" style="color:#8890a6">Source</div>
@@ -543,7 +795,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
                   </div>
                 </div>
                 <!-- Bottom nav: Explore / Trips(active) / Services / Profile -->
-                <div class="absolute bottom-0 left-0 right-0 flex items-center justify-around px-3 pt-2.5 pb-5" style="background:#090d1b;border-top:1px solid rgba(255,255,255,0.07)">
+                <div class="screen-nav absolute bottom-0 left-0 right-0 flex items-center justify-around px-3 pt-2.5 pb-5" style="background:#090d1b;border-top:1px solid rgba(255,255,255,0.07)">
                   <div class="flex flex-col items-center gap-0.5">
                     <span class="material-symbols-outlined" style="font-size:21px;color:#8890a6">explore</span>
                     <span class="text-[8px]" style="color:#8890a6">Explore</span>
@@ -570,6 +822,32 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     </div>
   </section>
 
+  <!-- Social proof strip -->
+  <div class="border-y border-white/[0.05] py-5 px-4 sm:px-8" style="background:rgba(8,12,24,0.85);backdrop-filter:blur(8px);">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+      <span class="proof-pill">
+        <span class="w-2 h-2 rounded-full live-dot flex-shrink-0" style="background:#22c55e;"></span>
+        Campaign live on Indiegogo
+      </span>
+      <span class="proof-pill">
+        <span class="material-symbols-outlined text-primary" style="font-size:14px;font-variation-settings:'FILL' 1">verified</span>
+        Platform already built
+      </span>
+      <span class="proof-pill">
+        <span class="material-symbols-outlined text-primary" style="font-size:14px;font-variation-settings:'FILL' 1">sailing</span>
+        Built by sailors
+      </span>
+      <span class="proof-pill">
+        <span class="material-symbols-outlined text-primary" style="font-size:14px;font-variation-settings:'FILL' 1">shield</span>
+        Full refund if goal not reached
+      </span>
+      <span class="proof-pill">
+        <span class="material-symbols-outlined text-primary" style="font-size:14px;font-variation-settings:'FILL' 1">public</span>
+        Mediterranean &amp; beyond
+      </span>
+    </div>
+  </div>
+
   <!-- Audience Section -->
   <section class="py-16 sm:py-20 px-4 sm:px-8" id="audience">
     <div class="max-w-7xl mx-auto">
@@ -581,7 +859,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
 
         <!-- Yacht Owners -->
-        <a href="#captains" class="audience-card group relative rounded-3xl overflow-hidden flex flex-col min-h-[380px] sm:min-h-[420px]" style="border:1px solid rgba(255,255,255,0.07)">
+        <a href="#captains" class="audience-card reveal rd1 group relative rounded-3xl overflow-hidden flex flex-col min-h-[380px] sm:min-h-[420px]" style="border:1px solid rgba(255,255,255,0.07)">
           <div class="absolute inset-0">
             <img alt="Captain at the helm" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" src="https://storage.googleapis.com/oceanid-public/captain.jpg" loading="lazy"/>
             <div class="absolute inset-0 bg-gradient-to-t from-[#040810]/95 via-[#040810]/25 to-transparent"></div>
@@ -596,7 +874,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
         </a>
 
         <!-- Travelers -->
-        <a href="#travelers" class="audience-card group relative rounded-3xl overflow-hidden flex flex-col min-h-[380px] sm:min-h-[420px]" style="border:1px solid rgba(255,255,255,0.07)">
+        <a href="#travelers" class="audience-card reveal rd2 group relative rounded-3xl overflow-hidden flex flex-col min-h-[380px] sm:min-h-[420px]" style="border:1px solid rgba(255,255,255,0.07)">
           <div class="absolute inset-0">
             <img alt="Travelers on a yacht" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" src="https://storage.googleapis.com/oceanid-public/travelers.jpg" loading="lazy"/>
             <div class="absolute inset-0 bg-gradient-to-t from-[#040810]/95 via-[#040810]/25 to-transparent"></div>
@@ -611,7 +889,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
         </a>
 
         <!-- Marinas & Service Providers -->
-        <a href="#marinas" class="audience-card group relative rounded-3xl overflow-hidden flex flex-col min-h-[380px] sm:min-h-[420px]" style="border:1px solid rgba(255,255,255,0.07)">
+        <a href="#marinas" class="audience-card reveal rd3 group relative rounded-3xl overflow-hidden flex flex-col min-h-[380px] sm:min-h-[420px]" style="border:1px solid rgba(255,255,255,0.07)">
           <div class="absolute inset-0">
             <img alt="Marina with boats at dock" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" src="https://storage.googleapis.com/oceanid-public/marina.jpg" loading="lazy"/>
             <div class="absolute inset-0 bg-gradient-to-t from-[#040810]/95 via-[#040810]/25 to-transparent"></div>
@@ -633,16 +911,18 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   <section class="py-16 sm:py-24 px-4 sm:px-8 bg-surface-container-low">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-14 sm:mb-16 reveal">
-        <h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">How It Works</h2>
+        <h2 class="eyebrow-lux text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">How It Works</h2>
         <p class="text-3xl sm:text-4xl font-extrabold tracking-tight text-on-surface">Four steps to your next adventure</p>
       </div>
       <div class="relative reveal rd1">
         <!-- Connecting line desktop -->
-        <div class="absolute top-[2.75rem] left-[12.5%] right-[12.5%] border-t border-dashed border-primary/20 hidden sm:block pointer-events-none"></div>
+        <div class="absolute top-[2.75rem] left-[12.5%] right-[12.5%] hidden sm:block pointer-events-none overflow-hidden" style="height:1px;">
+          <div class="hiw-line w-full h-px border-t border-dashed border-primary/40"></div>
+        </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-10 sm:gap-6 relative">
 
           <div class="flex flex-col items-center text-center gap-5">
-            <div class="relative z-10 w-22 h-22 w-[88px] h-[88px] rounded-full bg-surface-container border border-primary/25 flex items-center justify-center shadow-xl shadow-primary/10">
+            <div class="step-icon-lux relative z-10 w-22 h-22 w-[88px] h-[88px] rounded-full bg-surface-container border border-primary/25 flex items-center justify-center shadow-xl shadow-primary/10">
               <span class="material-symbols-outlined text-primary" style="font-size:32px;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 48">search</span>
             </div>
             <div class="space-y-1.5">
@@ -653,7 +933,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
 
           <div class="flex flex-col items-center text-center gap-5">
-            <div class="relative z-10 w-[88px] h-[88px] rounded-full bg-surface-container border border-primary/25 flex items-center justify-center shadow-xl shadow-primary/10">
+            <div class="step-icon-lux relative z-10 w-[88px] h-[88px] rounded-full bg-surface-container border border-primary/25 flex items-center justify-center shadow-xl shadow-primary/10">
               <span class="material-symbols-outlined text-primary" style="font-size:32px;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 48">calendar_month</span>
             </div>
             <div class="space-y-1.5">
@@ -664,7 +944,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
 
           <div class="flex flex-col items-center text-center gap-5">
-            <div class="relative z-10 w-[88px] h-[88px] rounded-full bg-surface-container border border-primary/25 flex items-center justify-center shadow-xl shadow-primary/10">
+            <div class="step-icon-lux relative z-10 w-[88px] h-[88px] rounded-full bg-surface-container border border-primary/25 flex items-center justify-center shadow-xl shadow-primary/10">
               <span class="material-symbols-outlined text-primary" style="font-size:32px;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 48">sailing</span>
             </div>
             <div class="space-y-1.5">
@@ -675,7 +955,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
 
           <div class="flex flex-col items-center text-center gap-5">
-            <div class="relative z-10 w-[88px] h-[88px] rounded-full bg-surface-container border border-primary/25 flex items-center justify-center shadow-xl shadow-primary/10">
+            <div class="step-icon-lux relative z-10 w-[88px] h-[88px] rounded-full bg-surface-container border border-primary/25 flex items-center justify-center shadow-xl shadow-primary/10">
               <span class="material-symbols-outlined text-primary" style="font-size:32px;font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 48">star</span>
             </div>
             <div class="space-y-1.5">
@@ -698,7 +978,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           Every voyage, <span class="text-primary">simplified.</span>
         </h2>
       </div>
-      <div class="video-wrapper rounded-3xl overflow-hidden shadow-2xl border border-surface-container aspect-video w-full">
+      <div class="video-wrapper video-lux rounded-3xl overflow-hidden shadow-2xl border border-surface-container aspect-video w-full">
         <iframe
           class="w-full h-full"
           src="https://www.youtube.com/embed/EykoxAd-dbs?autoplay=1&mute=1&loop=1&playlist=EykoxAd-dbs&controls=1"
@@ -746,17 +1026,17 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   <section class="py-16 sm:py-20 px-4 sm:px-8 scroll-mt-20 bg-surface-container-low" id="captains">
     <div class="max-w-7xl mx-auto">
       <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-end mb-14 sm:mb-20">
-        <div class="reveal">
-          <h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Captains</h2>
+        <div class="reveal-left">
+          <h2 class="eyebrow-lux text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Captains</h2>
           <h3 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-on-surface">Built for people who actually spend time at sea.</h3>
         </div>
-        <p class="text-base sm:text-lg text-on-surface-variant leading-relaxed reveal rd1">
+        <p class="text-base sm:text-lg text-on-surface-variant leading-relaxed reveal-right rd1">
           Plan your route. Open your available cabins. Book services before you arrive. Run it all from your phone. And when something breaks at 2 AM in a strange marina, you don't have to call twelve numbers and hope for the best.
         </p>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <!-- Feature 1 -->
-        <div class="bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
+        <div class="feature-card-reveal rd1 bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
           <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/50 to-transparent"></div>
           <div class="flex items-start gap-4">
             <div class="card-icon-filled w-10 h-10 rounded-xl flex items-center justify-center text-primary shrink-0 group-hover:scale-110 transition-transform mt-0.5">
@@ -772,7 +1052,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
         </div>
         <!-- Feature 2 -->
-        <div class="bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
+        <div class="feature-card-reveal rd2 bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
           <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/50 to-transparent"></div>
           <div class="flex items-start gap-4">
             <div class="card-icon-filled w-10 h-10 rounded-xl flex items-center justify-center text-primary shrink-0 group-hover:scale-110 transition-transform mt-0.5">
@@ -788,7 +1068,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
         </div>
         <!-- Feature 3 -->
-        <div class="bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
+        <div class="feature-card-reveal rd3 bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
           <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/50 to-transparent"></div>
           <div class="flex items-start gap-4">
             <div class="card-icon-filled w-10 h-10 rounded-xl flex items-center justify-center text-primary shrink-0 group-hover:scale-110 transition-transform mt-0.5">
@@ -804,7 +1084,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
         </div>
         <!-- Feature 4 -->
-        <div class="bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
+        <div class="feature-card-reveal rd4 bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
           <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/50 to-transparent"></div>
           <div class="flex items-start gap-4">
             <div class="card-icon-filled w-10 h-10 rounded-xl flex items-center justify-center text-primary shrink-0 group-hover:scale-110 transition-transform mt-0.5">
@@ -820,7 +1100,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
         </div>
         <!-- Highlight: Run your fleet -->
-        <div class="sm:col-span-2 bg-primary text-on-primary p-5 rounded-2xl shadow-xl shadow-primary/20 relative overflow-hidden group">
+        <div class="feature-card-reveal rd5 sm:col-span-2 bg-primary text-on-primary p-5 rounded-2xl shadow-xl shadow-primary/20 relative overflow-hidden group">
           <div class="absolute -right-4 -bottom-4 opacity-[0.07] pointer-events-none group-hover:scale-110 transition-transform duration-500 origin-bottom-right">
             <span class="material-symbols-outlined" style="font-size:180px" data-icon="account_balance">account_balance</span>
           </div>
@@ -830,7 +1110,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
             </div>
             <div>
               <h4 class="font-bold text-base mb-1">Run your fleet</h4>
-              <p class="text-white/70 text-sm leading-relaxed">Multiple yachts. Revenue, occupancy, routes — one dashboard.</p>
+              <p class="text-white/70 text-sm leading-relaxed">Multiple yachts. Revenue, occupancy, and routes in one dashboard.</p>
             </div>
           </div>
         </div>
@@ -844,8 +1124,8 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
         <!-- Left: heading + steps -->
-        <div>
-          <h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Travelers</h2>
+        <div class="reveal-left">
+          <h2 class="eyebrow-lux text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Travelers</h2>
           <h3 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-on-surface mb-5 sm:mb-6">No experience needed. You just need to find the right yacht.</h3>
           <p class="text-base sm:text-lg text-on-surface-variant leading-relaxed mb-10 sm:mb-12">No license. No experience. No hidden fees. Just show up and get on board.</p>
 
@@ -888,7 +1168,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
         </div>
 
         <!-- Right: visual card -->
-        <div class="bg-surface-container-low rounded-3xl p-6 sm:p-10 border border-surface-container">
+        <div class="reveal-right bg-surface-container-low rounded-3xl p-6 sm:p-10 border border-surface-container">
           <div class="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-5 sm:mb-6">Open passage</div>
           <div id="passage-map" class="w-full h-44 sm:h-48 rounded-2xl overflow-hidden mb-4 relative z-0"></div>
           <div class="bg-surface-container rounded-2xl border border-surface-container-high p-5 sm:p-6 shadow-sm mb-4">
@@ -935,17 +1215,17 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   <section class="py-16 sm:py-20 px-4 sm:px-8 scroll-mt-20 bg-surface-container-low" id="marinas">
     <div class="max-w-7xl mx-auto">
       <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-end mb-14 sm:mb-20">
-        <div class="reveal">
-          <h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Marinas &amp; Service Providers</h2>
+        <div class="reveal-left">
+          <h2 class="eyebrow-lux text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Marinas &amp; Service Providers</h2>
           <h3 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-on-surface">Get found by sailors who are already on the way.</h3>
         </div>
-        <p class="text-base sm:text-lg text-on-surface-variant leading-relaxed reveal rd1">
+        <p class="text-base sm:text-lg text-on-surface-variant leading-relaxed reveal-right rd1">
           Sailors arrive in a new marina with their phones out, looking for a mechanic, fuel, or provisions. Most of the time they find nothing. Oceanid puts you in front of them before they even arrive.
         </p>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <!-- Feature 1 -->
-        <div class="bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
+        <div class="feature-card-reveal rd1 bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
           <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/50 to-transparent"></div>
           <div class="flex items-start gap-4">
             <div class="card-icon-filled w-10 h-10 rounded-xl flex items-center justify-center text-primary shrink-0 group-hover:scale-110 transition-transform mt-0.5">
@@ -961,7 +1241,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
         </div>
         <!-- Feature 2 -->
-        <div class="bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
+        <div class="feature-card-reveal rd2 bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
           <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/50 to-transparent"></div>
           <div class="flex items-start gap-4">
             <div class="card-icon-filled w-10 h-10 rounded-xl flex items-center justify-center text-primary shrink-0 group-hover:scale-110 transition-transform mt-0.5">
@@ -977,7 +1257,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
         </div>
         <!-- Feature 3 -->
-        <div class="bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
+        <div class="feature-card-reveal rd3 bg-surface-container rounded-2xl border border-surface-container-high p-5 card-lift group relative overflow-hidden">
           <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/50 to-transparent"></div>
           <div class="flex items-start gap-4">
             <div class="card-icon-filled w-10 h-10 rounded-xl flex items-center justify-center text-primary shrink-0 group-hover:scale-110 transition-transform mt-0.5">
@@ -993,7 +1273,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
         </div>
         <!-- Feature 4 — highlight -->
-        <div class="bg-primary text-on-primary p-5 rounded-2xl shadow-xl shadow-primary/20 relative overflow-hidden group">
+        <div class="feature-card-reveal rd4 bg-primary text-on-primary p-5 rounded-2xl shadow-xl shadow-primary/20 relative overflow-hidden group">
           <div class="absolute -right-4 -bottom-4 opacity-[0.07] pointer-events-none group-hover:scale-110 transition-transform duration-500 origin-bottom-right">
             <span class="material-symbols-outlined" style="font-size:140px" data-icon="star">star</span>
           </div>
@@ -1094,7 +1374,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 
       <!-- CTA -->
       <div class="text-center reveal">
-        <a class="btn-shimmer inline-flex items-center justify-center gap-2 bg-primary text-on-primary px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/20 no-underline" href="https://www.indiegogo.com/projects/oceanid/oceanid-one-app-for-life-at-sea" target="_blank" rel="noopener">
+        <a class="btn-shimmer cta-pulse inline-flex items-center justify-center gap-2 bg-primary text-on-primary px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/20 no-underline" href="https://www.indiegogo.com/projects/oceanid/oceanid-one-app-for-life-at-sea" target="_blank" rel="noopener">
           Back us on Indiegogo
           <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
         </a>
@@ -1119,7 +1399,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </button>
           <div class="faq-body" style="grid-template-rows:1fr">
             <div>
-              <p class="text-on-surface-variant leading-relaxed text-sm sm:text-base px-6 sm:px-8 pb-6 sm:pb-8">The platform is already built and fully functional. We don't have public users yet — Indiegogo is how we bring together the first community before opening to everyone.</p>
+              <p class="text-on-surface-variant leading-relaxed text-sm sm:text-base px-6 sm:px-8 pb-6 sm:pb-8">The platform is already built and fully functional. We don't have public users yet. Indiegogo is how we bring together the first community before opening to everyone.</p>
             </div>
           </div>
         </div>
@@ -1198,14 +1478,14 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     </div>
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-8">
       <div class="text-center mb-10 sm:mb-12 reveal">
-        <h2 class="text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">Get in Touch</h2>
+        <h2 class="eyebrow-lux text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">Get in Touch</h2>
         <h3 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight mb-5">We'd love to hear from you.</h3>
         <p class="text-lg sm:text-xl text-white/60 leading-relaxed max-w-lg mx-auto">
           Whether you're a captain looking to list your passages, a marina wanting to connect services, or a traveler with questions. Reach out and we'll get back to you promptly.
         </p>
       </div>
       <div class="max-w-lg mx-auto reveal rd1">
-        <div class="bg-[#080c18]/85 backdrop-blur-xl rounded-2xl p-6 sm:p-8 border border-white/10 shadow-2xl">
+        <div class="form-luxury bg-[#080c18]/85 backdrop-blur-xl rounded-2xl p-6 sm:p-8 shadow-2xl">
           <form id="early-form-bottom" class="space-y-3" novalidate>
             <input type="hidden" name="_source" value="final-cta"/>
             <div class="relative">
@@ -1288,7 +1568,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
       <span class="text-xs text-white/25">© <span id="footer-year">2026</span> Oceanid</span>
       <span class="text-white/10 hidden sm:inline">·</span>
-      <a href="mailto:contact@oceanid.io" class="text-xs text-white/30 hover:text-white/60 transition-colors">contact@oceanid.io</a>
+      <a href="/cdn-cgi/l/email-protection#6a0905041e0b091e2a05090f0b04030e440305" class="text-xs text-white/30 hover:text-white/60 transition-colors"><span class="__cf_email__" data-cfemail="72111d1c06131106321d1117131c1b165c1b1d">[email&#160;protected]</span></a>
       <span class="text-white/10 hidden sm:inline">·</span>
       <a href="tel:+35795086066" class="text-xs text-white/30 hover:text-white/60 transition-colors">+357 950 86066</a>
       <span class="text-white/10 hidden sm:inline">·</span>
@@ -1301,10 +1581,10 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 </footer>
 
 
-<script>
-// Scroll-reveal
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Scroll-reveal — handles all reveal variants
 (function () {
-  var els = document.querySelectorAll('.reveal');
+  var els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .feature-card-reveal');
   if (!els.length) return;
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
@@ -1313,7 +1593,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
         io.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.08 });
   els.forEach(function (el) { io.observe(el); });
 })();
 
@@ -1500,6 +1780,62 @@ function closeMobileMenu() {
 document.fonts.ready.then(function() {
   document.body.classList.add('fonts-loaded');
 });
+
+// ── Scroll progress bar ───────────────────────────────────
+(function () {
+  var bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  function update() {
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0) + '%';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+// ── Cursor glow (desktop only) ────────────────────────────
+(function () {
+  var glow = document.getElementById('cursor-glow');
+  if (!glow || window.matchMedia('(pointer: coarse)').matches) return;
+  var active = false;
+  document.addEventListener('mousemove', function (e) {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top  = e.clientY + 'px';
+    if (!active) { glow.style.opacity = '1'; active = true; }
+  }, { passive: true });
+  document.addEventListener('mouseleave', function () {
+    glow.style.opacity = '0'; active = false;
+  });
+})();
+
+// ── Hero parallax ─────────────────────────────────────────
+(function () {
+  var bg = document.querySelector('.hero-parallax-bg');
+  if (!bg) return;
+  var hero = bg.closest('section');
+  if (!hero) return;
+  window.addEventListener('scroll', function () {
+    var sy = window.scrollY;
+    if (sy > hero.offsetHeight) return;
+    bg.style.transform = 'translateY(' + (sy * 0.25) + 'px)';
+  }, { passive: true });
+})();
+
+// ── How It Works line draw ────────────────────────────────
+(function () {
+  var line = document.querySelector('.hiw-line');
+  if (!line) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-drawn');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  io.observe(line);
+})();
 
   // Early Access Forms (hero + bottom CTA)
   (function () {
