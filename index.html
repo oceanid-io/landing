@@ -1464,8 +1464,14 @@ function closeMobileMenu() {
     errorEl.classList.add("hidden");
     errorEl.textContent = "";
 
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!name || !email || !message) {
       errorEl.textContent = "Please fill in your name, email, and message.";
+      errorEl.classList.remove("hidden");
+      return;
+    } else if (!emailRegex.test(email)) {
+      errorEl.textContent = "Please enter a valid email address.";
       errorEl.classList.remove("hidden");
       return;
     }
@@ -1495,29 +1501,37 @@ document.fonts.ready.then(function() {
   document.body.classList.add('fonts-loaded');
 });
 
-// Early Access Forms (hero + bottom CTA)
-(function () {
-  function setupEarlyForm(formId) {
-    var form = document.getElementById(formId);
-    if (!form) return;
-    var card = form.closest('.rounded-2xl') || form.parentElement;
-    var errorEl = card.querySelector('.ea-form-error');
-    var successEl = card.querySelector('.ea-form-success');
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var name  = form.querySelector('[name="name"]').value.trim();
-      var email = form.querySelector('[name="email"]').value.trim();
-      errorEl.classList.add('hidden');
-      errorEl.textContent = '';
-      if (!name || !email) {
-        errorEl.textContent = 'Please fill in your name and email.';
-        errorEl.classList.remove('hidden');
-        return;
-      }
-      var btn = form.querySelector('button[type="submit"]');
-      btn.disabled = true;
-      btn.innerHTML = 'Sending… <span class="material-symbols-outlined text-base">hourglass_empty</span>';
-      fetch('https://formspree.io/f/mgorrkvz', {
+  // Early Access Forms (hero + bottom CTA)
+  (function () {
+    function setupEarlyForm(formId) {
+      var form = document.getElementById(formId);
+      if (!form) return;
+      var card = form.closest('.rounded-2xl') || form.parentElement;
+      var errorEl = card.querySelector('.ea-form-error');
+      var successEl = card.querySelector('.ea-form-success');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name  = form.querySelector('[name="name"]').value.trim();
+        var email = form.querySelector('[name="email"]').value.trim();
+        errorEl.classList.add('hidden');
+        errorEl.textContent = '';
+        
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!name || !email) {
+          errorEl.textContent = 'Please fill in your name and email.';
+          errorEl.classList.remove('hidden');
+          return;
+        } else if (!emailRegex.test(email)) {
+          errorEl.textContent = 'Please enter a valid email address.';
+          errorEl.classList.remove('hidden');
+          return;
+        }
+        
+        var btn = form.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.innerHTML = 'Sending… <span class="material-symbols-outlined text-base">hourglass_empty</span>';
+        fetch('https://formspree.io/f/mgorrkvz', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
         body: new FormData(form)
