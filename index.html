@@ -2,7 +2,7 @@
 <html class="scroll-smooth" lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>Oceanid | One app for life at sea.</title>
 <meta name="description" content="One app for life at sea. Plan trips, open cabins to verified travelers, and book marina services—all from your phone."/>
@@ -264,6 +264,18 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   /* Smooth nav transition */
   nav { transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
   nav.scrolled { background: rgba(8,12,24,0.98) !important; box-shadow: 0 1px 24px -4px rgba(0,0,0,0.4); border-bottom-color: rgba(255,255,255,0.05); }
+
+  /* iOS safe area — push nav content below the status bar / Dynamic Island */
+  nav {
+    padding-top: env(safe-area-inset-top, 0px);
+    /* Fully opaque strip in the safe area so hero image doesn't bleed through */
+    background-image: linear-gradient(to bottom, #080C18 env(safe-area-inset-top, 0px), transparent env(safe-area-inset-top, 0px));
+  }
+  /* Hero inner content: clear both the fixed nav and the safe area */
+  .hero-content-inner { padding-top: calc(7rem + env(safe-area-inset-top, 0px)); }
+  @media (min-width: 640px) {
+    .hero-content-inner { padding-top: calc(8rem + env(safe-area-inset-top, 0px)); }
+  }
 
   /* Audience cards */
   .audience-card { transition: box-shadow 0.3s ease, transform 0.22s ease; }
@@ -545,7 +557,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
       <div class="hero-orb orb-3" style="width:320px;height:320px;background:radial-gradient(circle,rgba(92,107,192,0.10) 0%,transparent 70%);bottom:80px;left:4%;filter:blur(55px);"></div>
     </div>
 
-    <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pt-28 pb-20 sm:pt-32 sm:pb-24">
+    <div class="hero-content-inner relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pb-20 sm:pb-24">
       <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
 
         <!-- Left: headline, badges, form -->
