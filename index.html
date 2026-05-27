@@ -262,8 +262,8 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   .trust-item:hover .trust-icon { border-color: rgba(92,107,192,0.4) !important; background: rgba(92,107,192,0.15); }
 
   /* Smooth nav transition */
-  nav { transition: background 0.3s ease, box-shadow 0.3s ease; }
-  nav.scrolled { background: rgba(8,12,24,0.98) !important; box-shadow: 0 1px 24px -4px rgba(0,0,0,0.4); }
+  nav { transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+  nav.scrolled { background: rgba(8,12,24,0.98) !important; box-shadow: 0 1px 24px -4px rgba(0,0,0,0.4); border-bottom-color: rgba(255,255,255,0.05); }
 
   /* Audience cards */
   .audience-card { transition: box-shadow 0.3s ease, transform 0.22s ease; }
@@ -483,7 +483,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 <!-- Navigation -->
 <div id="scroll-progress"></div>
 <div id="cursor-glow"></div>
-<nav class="fixed top-0 w-full z-50 bg-[#080C18]/80 backdrop-blur-md border-b border-surface-container transform-gpu">
+<nav class="fixed top-0 w-full z-50 bg-[#080C18]/80 backdrop-blur-md border-b border-surface-container/50 transform-gpu">
   <div class="flex justify-between items-center w-full px-4 sm:px-8 py-4 sm:py-5 max-w-7xl mx-auto">
     <a class="flex items-center gap-2.5 group transition-opacity hover:opacity-85" href="#" aria-label="Oceanid home">
       <img src="https://storage.googleapis.com/oceanid-public/logo.png" alt="Oceanid Logo" class="h-8 sm:h-9 w-auto" loading="eager"/>
@@ -504,7 +504,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     </button>
   </div>
   <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden md:hidden border-t border-surface-container bg-[#0C1020]/95 backdrop-blur-md px-4 py-3 space-y-1">
+  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full border-b border-surface-container bg-[#0C1020]/95 backdrop-blur-md px-4 py-3 space-y-1 shadow-2xl">
     <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors" href="#captains" onclick="closeMobileMenu()">
       <span class="material-symbols-outlined text-lg">sailing</span>For Captains
     </a>
