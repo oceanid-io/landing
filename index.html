@@ -450,7 +450,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 
   /* Section eyebrow line */
   .eyebrow-lux {
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center;
     gap: 10px;
   }
@@ -461,6 +461,9 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     background: currentColor;
     opacity: 0.45;
     flex-shrink: 0;
+  }
+  .text-center .eyebrow-lux::before {
+    display: none;
   }
 
   /* How It Works step icon glow ring */
@@ -632,9 +635,9 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 
         <!-- Right: Phone mockup + store badges -->
         <div class="flex flex-col items-center justify-center gap-6 py-4">
-          <!-- Phone (desktop only) -->
-          <div class="hidden lg:flex justify-center">
-          <div style="filter:drop-shadow(0 40px 80px rgba(0,0,0,0.75)) drop-shadow(0 0 50px rgba(92,107,192,0.28));transform:perspective(1200px) rotateY(-5deg) rotateX(1.5deg)">
+          <!-- Phone mockup -->
+          <div class="flex justify-center w-full max-w-full">
+          <div class="phone-float" style="filter:drop-shadow(0 40px 80px rgba(0,0,0,0.75)) drop-shadow(0 0 50px rgba(92,107,192,0.28));transform:perspective(1200px) rotateY(-5deg) rotateX(1.5deg)">
             <div class="relative w-[270px] bg-[#111114] rounded-[44px]" style="padding:3px;box-shadow:0 0 0 1px #1c1c20 inset">
               <!-- Dynamic island -->
               <div class="absolute top-[10px] left-1/2 -translate-x-1/2 w-[108px] h-[30px] bg-[#111114] rounded-full z-20"></div>
@@ -1373,7 +1376,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
       </div>
 
       <!-- Stepper -->
-      <div class="relative flex flex-col sm:flex-row items-start sm:items-center gap-0 mb-10 reveal">
+      <div class="relative flex flex-col sm:flex-row items-center gap-8 sm:gap-0 mb-10 reveal">
 
         <!-- Step 1 -->
         <div class="flex-1 flex flex-col items-center text-center px-4 relative z-10">
@@ -1571,7 +1574,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 </main>
 
 <!-- Footer -->
-<footer class="w-full border-t border-white/[0.06] bg-[#060910] overflow-x-hidden">
+<footer class="relative z-50 w-full border-t border-white/[0.06] bg-[#060910] overflow-x-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-8 py-6">
 
     <!-- Top row: logo + socials -->
@@ -1603,7 +1606,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
       <span class="text-xs text-white/25">© <span id="footer-year">2026</span> Oceanid</span>
       <span class="text-white/10 hidden sm:inline">·</span>
-      <a href="/cdn-cgi/l/email-protection#6a0905041e0b091e2a05090f0b04030e440305" class="text-xs text-white/30 hover:text-white/60 transition-colors"><span class="__cf_email__" data-cfemail="72111d1c06131106321d1117131c1b165c1b1d">[email&#160;protected]</span></a>
+      <a href="mailto:contact@oceanid.io" class="relative z-50 text-xs text-white/30 hover:text-white/60 transition-colors">contact@oceanid.io</a>
       <span class="text-white/10 hidden sm:inline">·</span>
       <a href="tel:+35795086066" class="text-xs text-white/30 hover:text-white/60 transition-colors">+357 950 86066</a>
       <span class="text-white/10 hidden sm:inline">·</span>
@@ -1616,7 +1619,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 </footer>
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // Scroll-reveal — handles all reveal variants
 (function () {
   var els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .feature-card-reveal');
