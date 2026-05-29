@@ -161,7 +161,7 @@ Deno.serve(async (req) => {
     await smtp.send({
       from: '"Oceanid" <contact@oceanid.io>',
       to: email,
-      subject: "Welcome to Oceanid — you're on the list",
+      subject: "Welcome to Oceanid",
       html: buildWelcomeHtml(name, role),
     })
     await smtp.close()

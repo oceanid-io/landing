@@ -311,6 +311,43 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     opacity: 0; transition: opacity 0.6s ease;
   }
 
+  /* ── Avatar spinning ring ─────────────────────────────── */
+  @keyframes spinRing { to { transform: rotate(360deg); } }
+  .avatar-ring {
+    position: relative; width: 101px; height: 101px;
+    border-radius: 50%; padding: 2.5px; flex-shrink: 0;
+    background: conic-gradient(
+      rgba(92,107,192,0.9) 0deg, rgba(92,107,192,0.06) 130deg,
+      rgba(92,107,192,0.06) 210deg, rgba(92,107,192,0.9) 340deg
+    );
+    animation: spinRing 6s linear infinite;
+    box-shadow: 0 0 22px rgba(92,107,192,0.22), 0 0 0 5px rgba(92,107,192,0.07);
+  }
+  .avatar-inner {
+    width: 100%; height: 100%;
+    border-radius: 50%; overflow: hidden;
+    animation: spinRing 6s linear infinite reverse;
+  }
+
+  /* ── Hourglass flip ───────────────────────────────────── */
+  @keyframes hourglassFlip {
+    0%, 35%  { transform: rotate(0deg); }
+    65%, 100% { transform: rotate(180deg); }
+  }
+  .hourglass-spin { display: inline-block; animation: hourglassFlip 1.2s ease-in-out infinite; }
+
+  /* ── Required dot ping ─────────────────────────────────── */
+  @keyframes reqPing {
+    0%   { transform: scale(0.85); opacity: 0.9; }
+    100% { transform: scale(2.8);  opacity: 0; }
+  }
+  .req-dot::before {
+    content: ''; position: absolute;
+    inset: -3px; border-radius: 50%;
+    background: rgba(248,113,113,0.5);
+    animation: reqPing 1.4s ease-out infinite;
+  }
+
   /* Floating phone */
   @keyframes phoneFloat {
     0%,100% { transform: perspective(1200px) rotateY(-5deg) rotateX(1.5deg) translateY(0px); }
@@ -497,6 +534,146 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     to   { transform: translate(-50%, -50%) rotate(360deg); }
   }
   .compass-spin { animation: compassSpin 120s linear infinite; }
+
+  /* ── Custom phone field ────────────────────────────────── */
+  /* Single unified box — same look as every other input */
+  .phone-field {
+    display: flex; align-items: stretch; position: relative;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 1rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .phone-field:focus-within {
+    border-color: rgba(92,107,192,0.5);
+    box-shadow: 0 0 0 2px rgba(92,107,192,0.25);
+  }
+  .phone-field.code-open { border-color: rgba(92,107,192,0.45); }
+
+  .phone-code-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 0 10px 0 14px;
+    background: transparent; border: none;
+    border-radius: 1rem 0 0 1rem;
+    color: rgba(255,255,255,0.65);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    white-space: nowrap; cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.15s, background 0.15s;
+  }
+  .phone-code-btn:hover { color: #fff; background: rgba(255,255,255,0.04); border-radius: 1rem 0 0 1rem; }
+  .phone-code-btn .pc-flag { font-size: 1.05rem; line-height: 1; display: flex; align-items: center; }
+  .pc-dial { min-width: 0; }
+  .pc-dial:empty { display: none; }
+  .phone-code-btn .pc-arrow { font-size: 14px; opacity: 0.4; transition: transform 0.2s; line-height: 1; }
+  .phone-field.code-open .pc-arrow { transform: rotate(180deg); }
+
+  /* Thin separator between selector and input */
+  .phone-divider {
+    width: 1px; flex-shrink: 0; align-self: stretch;
+    background: rgba(255,255,255,0.09);
+    margin: 6px 0;
+  }
+
+  .phone-num-input {
+    flex: 1; min-width: 0;
+    padding-left: 0.75rem; padding-right: 1rem;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 1rem 1rem 0 !important;
+    color: #fff !important;
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    line-height: 1.25rem !important;
+    outline: none !important; box-shadow: none !important;
+  }
+  .phone-num-input::placeholder { color: rgba(255,255,255,0.30) !important; font-family: 'Manrope', sans-serif !important; font-size: 0.875rem !important; font-weight: 500 !important; }
+
+  .phone-wrap-sm .phone-code-btn,
+  .phone-wrap-sm .phone-num-input { padding-top: 0.625rem; padding-bottom: 0.625rem; }
+  @media (min-width: 640px) {
+    .phone-wrap-sm .phone-code-btn,
+    .phone-wrap-sm .phone-num-input { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+  }
+  .phone-wrap-md .phone-code-btn,
+  .phone-wrap-md .phone-num-input { padding-top: 0.875rem; padding-bottom: 0.875rem; }
+
+  .phone-dropdown {
+    display: none; position: absolute; left: 0; top: calc(100% + 5px);
+    z-index: 60; width: 290px;
+    background: #0F1525;
+    border: 1px solid rgba(92,107,192,0.28);
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 40px -8px rgba(0,0,0,0.7);
+    overflow: hidden;
+  }
+  .phone-dropdown.open { display: block; }
+  .phone-search {
+    display: block; width: 100%;
+    padding: 9px 14px;
+    background: rgba(255,255,255,0.04);
+    border: none; border-bottom: 1px solid rgba(255,255,255,0.07);
+    color: #E4E7F0; font-family: 'Manrope', sans-serif; font-size: 0.82rem;
+    outline: none;
+  }
+  .phone-search::placeholder { color: rgba(255,255,255,0.30); }
+  .phone-search:focus { background: rgba(92,107,192,0.07); }
+  .phone-clist { list-style: none; margin: 0; padding: 4px 0; max-height: 230px; overflow-y: auto; }
+  .phone-clist::-webkit-scrollbar { width: 4px; }
+  .phone-clist::-webkit-scrollbar-track { background: transparent; }
+  .phone-clist::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+  .phone-citem {
+    display: flex; align-items: center; gap: 9px;
+    padding: 7px 14px; cursor: pointer;
+    color: rgba(228,231,240,0.85); font-family: 'Manrope', sans-serif; font-size: 0.84rem;
+    transition: background 0.1s;
+  }
+  .phone-citem:hover, .phone-citem.sel { background: rgba(92,107,192,0.15); color: #fff; }
+  .phone-citem .ci-flag { font-size: 1rem; flex-shrink: 0; }
+  .phone-citem .ci-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .phone-citem .ci-code { color: rgba(228,231,240,0.38); font-size: 0.8rem; flex-shrink: 0; }
+
+  /* ── Custom role dropdown ──────────────────────────────── */
+  .role-select-wrap { position: relative; }
+  .role-select-btn {
+    display: flex; align-items: center; width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 1rem;
+    color: rgba(255,255,255,0.30);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.875rem; font-weight: 500;
+    cursor: pointer; text-align: left;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .role-select-btn:focus { outline: none; }
+  .role-select-btn.has-value { color: #fff; }
+  .role-select-wrap.rs-open .role-select-btn {
+    border-color: rgba(92,107,192,0.5);
+    box-shadow: 0 0 0 2px rgba(92,107,192,0.25);
+  }
+  .role-select-arrow { font-size: 16px; opacity: 0.4; transition: transform 0.2s; flex-shrink: 0; }
+  .role-select-wrap.rs-open .role-select-arrow { transform: rotate(180deg); }
+  .role-select-dropdown {
+    display: none; position: absolute; left: 0; right: 0; top: calc(100% + 5px);
+    z-index: 60; background: #0F1525;
+    border: 1px solid rgba(92,107,192,0.28);
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 40px -8px rgba(0,0,0,0.7);
+    overflow: hidden; list-style: none; margin: 0; padding: 4px 0;
+  }
+  .role-select-wrap.rs-open .role-select-dropdown { display: block; }
+  .role-select-dropdown li {
+    padding: 8px 16px; cursor: pointer;
+    color: rgba(228,231,240,0.85);
+    font-family: 'Manrope', sans-serif; font-size: 0.875rem; font-weight: 500;
+    transition: background 0.1s;
+  }
+  .role-select-dropdown li:hover, .role-select-dropdown li.rs-sel {
+    background: rgba(92,107,192,0.15); color: #fff;
+  }
 </style>
 </head>
 <body class="bg-background text-on-surface">
@@ -610,36 +787,50 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 
           <!-- Early Access Form (hero) -->
           <div class="form-luxury bg-[#080c18]/80 backdrop-blur-xl rounded-2xl p-4 sm:p-6 shadow-2xl fade-up fade-up-delay-3 mt-6 sm:mt-8 max-w-lg">
-            <h3 class="text-base sm:text-xl font-bold text-white mb-0.5">Become an Early Explorer</h3>
-            <p class="text-white/50 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">Get early access to the app and exclusive member benefits.</p>
+            <h3 class="text-base sm:text-xl font-bold text-white mb-0.5 text-center">Become an Early Explorer</h3>
+            <p class="text-white/50 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed text-center">Get early access to the app and exclusive member benefits.</p>
             <form id="early-form-hero" class="space-y-2 sm:space-y-2.5" novalidate>
               <input type="hidden" name="_source" value="hero-section"/>
               <div class="relative">
                 <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="person">person</span>
-                <input type="text" name="name" required placeholder="Full Name" class="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
-              </div>
-              <div class="flex gap-2">
-                <select name="phone_country_code" aria-label="Phone country code" data-default-country="Spain" class="phone-country-code w-[7.5rem] sm:w-36 px-3 py-2.5 sm:py-3 rounded-xl bg-[#0c1020] border border-white/10 text-white/70 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium appearance-none">
-                </select>
-                <div class="relative flex-1 min-w-0">
-                  <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="phone">phone</span>
-                  <input type="tel" name="phone_local" placeholder="Phone Number" class="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
-                </div>
+                <input type="text" name="name" required placeholder="Full Name" class="w-full pl-9 sm:pl-10 pr-7 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
+                <span class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold" data-req="name" style="font-size:11px;display:none">*</span>
               </div>
               <div class="relative">
                 <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="mail">mail</span>
-                <input type="email" name="email" required placeholder="Email Address" class="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
+                <input type="email" name="email" required placeholder="Email Address" class="w-full pl-9 sm:pl-10 pr-7 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
+                <span class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold" data-req="email" style="font-size:11px;display:none">*</span>
               </div>
-              <div class="relative">
+              <div class="phone-wrap-sm">
+                <div class="phone-field" id="phone-field-hero">
+                  <button type="button" class="phone-code-btn" id="pcb-hero" aria-haspopup="listbox" aria-expanded="false">
+                    <span class="pc-flag" id="pcf-hero"><span class="material-symbols-outlined" style="font-size:16px;color:rgba(255,255,255,0.25)">phone</span></span>
+                    <span class="pc-dial" id="pcd-hero"></span>
+                    <span class="material-symbols-outlined pc-arrow" data-icon="expand_more">expand_more</span>
+                  </button>
+                  <div class="phone-divider"></div>
+                  <div class="phone-dropdown" id="pdd-hero" role="listbox">
+                    <input type="text" class="phone-search" placeholder="Search country or code…" autocomplete="off"/>
+                    <ul class="phone-clist" id="pcl-hero"></ul>
+                  </div>
+                  <input type="hidden" name="phone_country_code" id="pcc-hero" value=""/>
+                  <input type="tel" name="phone_local" inputmode="numeric" pattern="[0-9\s\-\(\)]+" placeholder="Phone Number" class="phone-num-input"/>
+                </div>
+              </div>
+              <div class="role-select-wrap">
                 <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="badge">badge</span>
-                <select name="role" class="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-[#0c1020] border border-white/10 text-white/60 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium appearance-none">
-                  <option value="" style="background:#0f1525">Select your role</option>
-                  <option value="Captain / Skipper" style="background:#0f1525">Captain / Skipper</option>
-                  <option value="Fleet Manager" style="background:#0f1525">Fleet Manager</option>
-                  <option value="Marina / Service Provider" style="background:#0f1525">Marina / Service Provider</option>
-                  <option value="Traveler / Guest" style="background:#0f1525">Traveler / Guest</option>
-                  <option value="Other" style="background:#0f1525">Other</option>
-                </select>
+                <button type="button" class="role-select-btn pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="role-select-value flex-1">Select your role</span>
+                  <span class="material-symbols-outlined role-select-arrow">expand_more</span>
+                </button>
+                <input type="hidden" name="role" value=""/>
+                <ul class="role-select-dropdown" role="listbox">
+                  <li role="option" data-value="Captain / Skipper">Captain / Skipper</li>
+                  <li role="option" data-value="Fleet Manager">Fleet Manager</li>
+                  <li role="option" data-value="Marina / Service Provider">Marina / Service Provider</li>
+                  <li role="option" data-value="Traveler / Guest">Traveler / Guest</li>
+                  <li role="option" data-value="Other">Other</li>
+                </ul>
               </div>
               <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
               <button type="submit" class="btn-shimmer w-full bg-primary text-white py-2.5 sm:py-3.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
@@ -1430,7 +1621,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   </section>
 
   <!-- FAQ -->
-  <section class="py-16 sm:py-20 px-4 sm:px-8 scroll-mt-20" id="faq">
+  <section class="py-16 sm:py-20 pb-8 sm:pb-10 px-4 sm:px-8 scroll-mt-20" id="faq">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-12 sm:mb-16 reveal">
         <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-on-surface">Frequently asked questions</h2>
@@ -1497,25 +1688,13 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
           </div>
         </div>
 
-        <div class="faq-item bg-surface-container rounded-2xl border border-surface-container-high overflow-hidden">
-          <button class="w-full flex items-center justify-between gap-4 p-6 sm:p-8 text-left" onclick="toggleFaq(this)">
-            <span class="faq-q font-bold text-base sm:text-lg text-on-surface">I own a marina. Is the basic listing really free?</span>
-            <span class="faq-chevron material-symbols-outlined text-on-surface-variant" style="font-size:22px">expand_more</span>
-          </button>
-          <div class="faq-body">
-            <div>
-              <p class="text-on-surface-variant leading-relaxed text-sm sm:text-base px-6 sm:px-8 pb-6 sm:pb-8">Yes. A basic profile in the Oceanid marina catalog is free. Harbor Partner (€250+) gives zero commission for 12 months and catalog priority from day one.</p>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
 
 
   <!-- About Section -->
-  <section class="py-16 sm:py-20 px-4 sm:px-8 scroll-mt-20" id="about">
+  <section class="py-8 sm:py-12 px-4 sm:px-8 scroll-mt-20" id="about">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-12 sm:mb-16 reveal">
         <h2 class="eyebrow-lux text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">About Us</h2>
@@ -1527,12 +1706,14 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 
         <!-- Ika -->
         <div class="reveal rd1 card-lift bg-surface-container rounded-3xl border border-surface-container-high p-8 flex flex-col items-center text-center gap-5">
-          <div class="w-24 h-24 rounded-full overflow-hidden shrink-0" style="border: 2px solid rgba(92,107,192,0.4); box-shadow: 0 0 0 6px rgba(92,107,192,0.10);">
-            <img src="https://storage.googleapis.com/oceanid-public/ika.jpeg" alt="Ika Gabashvili" class="w-full h-full object-cover" loading="lazy"/>
+          <div class="avatar-ring">
+            <div class="avatar-inner">
+              <img src="https://storage.googleapis.com/oceanid-public/ika.jpeg" alt="Ika Gabashvili" class="w-full h-full object-cover" loading="lazy"/>
+            </div>
           </div>
           <div class="flex-1">
             <h3 class="text-xl font-bold text-on-surface">Ika Gabashvili</h3>
-            <p class="text-on-surface-variant text-sm leading-relaxed mt-3">Senior software engineer and co-founder of Oceanid, with experience building complex backend and cloud infrastructure across cybersecurity and blockchain industries. Background spans security automation, scalable distributed systems, and production-scale platform architecture, bringing a hands-on engineering mindset to Oceanid's mission: making boat trips easier to discover, book, and operate.</p>
+            <p class="text-on-surface-variant text-sm leading-relaxed mt-3">Senior software engineer and co-founder of Oceanid, with experience building complex backend and cloud infrastructure across cybersecurity and blockchain industries. Background spans security automation, scalable distributed systems, and production-scale platform architecture, bringing a hands-on engineering mindset to Oceanid's mission: giving every sailor a smarter, connected experience at sea.</p>
           </div>
           <a href="https://www.linkedin.com/in/ika-gabashvili" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-xs font-semibold text-on-surface-variant hover:text-primary transition-colors">
             <svg class="w-4 h-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
@@ -1542,12 +1723,14 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 
         <!-- Andrey -->
         <div class="reveal rd2 card-lift bg-surface-container rounded-3xl border border-surface-container-high p-8 flex flex-col items-center text-center gap-5">
-          <div class="w-24 h-24 rounded-full overflow-hidden shrink-0" style="border: 2px solid rgba(92,107,192,0.4); box-shadow: 0 0 0 6px rgba(92,107,192,0.10);">
-            <img src="https://storage.googleapis.com/oceanid-public/andrey.jpeg" alt="Andrey Obruchkov" class="w-full h-full object-cover" loading="lazy"/>
+          <div class="avatar-ring">
+            <div class="avatar-inner">
+              <img src="https://storage.googleapis.com/oceanid-public/andrey.jpeg" alt="Andrey Obruchkov" class="w-full h-full object-cover" loading="lazy"/>
+            </div>
           </div>
           <div class="flex-1">
             <h3 class="text-xl font-bold text-on-surface">Andrey Obruchkov</h3>
-            <p class="text-on-surface-variant text-sm leading-relaxed mt-3">Senior software engineer and co-founder of Oceanid, specializing in distributed systems, cloud infrastructure, real-time, and security-focused systems. His background spans fintech, production-scale platforms, secure system design, and low-level engineering, bringing a practical engineering mindset to Oceanid's mission: making yacht trips easier to book, manage, and operate.</p>
+            <p class="text-on-surface-variant text-sm leading-relaxed mt-3">Senior software engineer and co-founder of Oceanid, specializing in distributed systems, cloud infrastructure, real-time, and security-focused systems. His background spans fintech, production-scale platforms, secure system design, and low-level engineering, bringing a practical engineering mindset to Oceanid's mission: making yacht trips easier to book, manage, and operate for everyone on the water.</p>
           </div>
           <a href="https://www.linkedin.com/in/andrey-obruchkov" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-xs font-semibold text-on-surface-variant hover:text-primary transition-colors">
             <svg class="w-4 h-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
@@ -1580,30 +1763,44 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
             <input type="hidden" name="_source" value="final-cta"/>
             <div class="relative">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="person">person</span>
-              <input type="text" name="name" required placeholder="Full Name" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
-            </div>
-            <div class="flex gap-2">
-              <select name="phone_country_code" aria-label="Phone country code" data-default-country="Spain" class="phone-country-code w-[7.5rem] sm:w-36 px-3 py-3.5 rounded-xl bg-[#0c1020] border border-white/10 text-white/70 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium appearance-none">
-              </select>
-              <div class="relative flex-1 min-w-0">
-                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="phone">phone</span>
-                <input type="tel" name="phone_local" placeholder="Phone Number" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
-              </div>
+              <input type="text" name="name" required placeholder="Full Name" class="w-full pl-10 pr-7 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
+              <span class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold" data-req="name" style="font-size:11px;display:none">*</span>
             </div>
             <div class="relative">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="mail">mail</span>
-              <input type="email" name="email" required placeholder="Email Address" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
+              <input type="email" name="email" required placeholder="Email Address" class="w-full pl-10 pr-7 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
+              <span class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold" data-req="email" style="font-size:11px;display:none">*</span>
             </div>
-            <div class="relative">
+            <div class="phone-wrap-md">
+              <div class="phone-field" id="phone-field-bottom">
+                <button type="button" class="phone-code-btn" id="pcb-bottom" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="pc-flag" id="pcf-bottom"><span class="material-symbols-outlined" style="font-size:16px;color:rgba(255,255,255,0.25)">phone</span></span>
+                  <span class="pc-dial" id="pcd-bottom"></span>
+                  <span class="material-symbols-outlined pc-arrow" data-icon="expand_more">expand_more</span>
+                </button>
+                <div class="phone-divider"></div>
+                <div class="phone-dropdown" id="pdd-bottom" role="listbox">
+                  <input type="text" class="phone-search" placeholder="Search country or code…" autocomplete="off"/>
+                  <ul class="phone-clist" id="pcl-bottom"></ul>
+                </div>
+                <input type="hidden" name="phone_country_code" id="pcc-bottom" value=""/>
+                <input type="tel" name="phone_local" inputmode="numeric" pattern="[0-9\s\-\(\)]+" placeholder="Phone Number" class="phone-num-input"/>
+              </div>
+            </div>
+            <div class="role-select-wrap">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="badge">badge</span>
-              <select name="role" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-[#0c1020] border border-white/10 text-white/60 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium appearance-none">
-                <option value="" style="background:#0f1525">Select your role</option>
-                <option value="Captain / Skipper" style="background:#0f1525">Captain / Skipper</option>
-                <option value="Fleet Manager" style="background:#0f1525">Fleet Manager</option>
-                <option value="Marina / Service Provider" style="background:#0f1525">Marina / Service Provider</option>
-                <option value="Traveler / Guest" style="background:#0f1525">Traveler / Guest</option>
-                <option value="Other" style="background:#0f1525">Other</option>
-              </select>
+              <button type="button" class="role-select-btn pl-10 pr-3 py-3.5" aria-haspopup="listbox" aria-expanded="false">
+                <span class="role-select-value flex-1">Select your role</span>
+                <span class="material-symbols-outlined role-select-arrow">expand_more</span>
+              </button>
+              <input type="hidden" name="role" value=""/>
+              <ul class="role-select-dropdown" role="listbox">
+                <li role="option" data-value="Captain / Skipper">Captain / Skipper</li>
+                <li role="option" data-value="Fleet Manager">Fleet Manager</li>
+                <li role="option" data-value="Marina / Service Provider">Marina / Service Provider</li>
+                <li role="option" data-value="Traveler / Guest">Traveler / Guest</li>
+                <li role="option" data-value="Other">Other</li>
+              </ul>
             </div>
             <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
             <button type="submit" class="btn-shimmer w-full bg-primary text-white py-4 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
@@ -1932,106 +2129,175 @@ document.fonts.ready.then(function() {
   io.observe(line);
 })();
 
-  // Early Access Forms (hero + bottom CTA)
+  // ── Custom phone country selector ────────────────────────
   (function () {
-    var phoneCountries = [
-      ['Afghanistan', '+93'], ['Albania', '+355'], ['Algeria', '+213'], ['American Samoa', '+1-684'],
-      ['Andorra', '+376'], ['Angola', '+244'], ['Anguilla', '+1-264'], ['Antigua and Barbuda', '+1-268'],
-      ['Argentina', '+54'], ['Armenia', '+374'], ['Aruba', '+297'], ['Australia', '+61'],
-      ['Austria', '+43'], ['Azerbaijan', '+994'], ['Bahamas', '+1-242'], ['Bahrain', '+973'],
-      ['Bangladesh', '+880'], ['Barbados', '+1-246'], ['Belarus', '+375'], ['Belgium', '+32'],
-      ['Belize', '+501'], ['Benin', '+229'], ['Bermuda', '+1-441'], ['Bhutan', '+975'],
-      ['Bolivia', '+591'], ['Bosnia and Herzegovina', '+387'], ['Botswana', '+267'], ['Brazil', '+55'],
-      ['British Virgin Islands', '+1-284'], ['Brunei', '+673'], ['Bulgaria', '+359'], ['Burkina Faso', '+226'],
-      ['Burundi', '+257'], ['Cambodia', '+855'], ['Cameroon', '+237'], ['Canada', '+1'],
-      ['Cape Verde', '+238'], ['Cayman Islands', '+1-345'], ['Central African Republic', '+236'], ['Chad', '+235'],
-      ['Chile', '+56'], ['China', '+86'], ['Colombia', '+57'], ['Comoros', '+269'],
-      ['Cook Islands', '+682'], ['Costa Rica', '+506'], ['Croatia', '+385'], ['Cuba', '+53'],
-      ['Curacao', '+599'], ['Cyprus', '+357'], ['Czech Republic', '+420'], ['Democratic Republic of the Congo', '+243'],
-      ['Denmark', '+45'], ['Djibouti', '+253'], ['Dominica', '+1-767'], ['Dominican Republic', '+1-809'],
-      ['Dominican Republic', '+1-829'], ['Dominican Republic', '+1-849'], ['Ecuador', '+593'], ['Egypt', '+20'],
-      ['El Salvador', '+503'], ['Equatorial Guinea', '+240'], ['Eritrea', '+291'], ['Estonia', '+372'],
-      ['Eswatini', '+268'], ['Ethiopia', '+251'], ['Falkland Islands', '+500'], ['Faroe Islands', '+298'],
-      ['Fiji', '+679'], ['Finland', '+358'], ['France', '+33'], ['French Guiana', '+594'],
-      ['French Polynesia', '+689'], ['Gabon', '+241'], ['Gambia', '+220'], ['Georgia', '+995'],
-      ['Germany', '+49'], ['Ghana', '+233'], ['Gibraltar', '+350'], ['Greece', '+30'],
-      ['Greenland', '+299'], ['Grenada', '+1-473'], ['Guadeloupe', '+590'], ['Guam', '+1-671'],
-      ['Guatemala', '+502'], ['Guernsey', '+44-1481'], ['Guinea', '+224'], ['Guinea-Bissau', '+245'],
-      ['Guyana', '+592'], ['Haiti', '+509'], ['Honduras', '+504'], ['Hong Kong', '+852'],
-      ['Hungary', '+36'], ['Iceland', '+354'], ['India', '+91'], ['Indonesia', '+62'],
-      ['Iran', '+98'], ['Iraq', '+964'], ['Ireland', '+353'], ['Isle of Man', '+44-1624'],
-      ['Israel', '+972'], ['Italy', '+39'], ['Ivory Coast', '+225'], ['Jamaica', '+1-876'],
-      ['Japan', '+81'], ['Jersey', '+44-1534'], ['Jordan', '+962'], ['Kazakhstan', '+7'],
-      ['Kenya', '+254'], ['Kiribati', '+686'], ['Kosovo', '+383'], ['Kuwait', '+965'],
-      ['Kyrgyzstan', '+996'], ['Laos', '+856'], ['Latvia', '+371'], ['Lebanon', '+961'],
-      ['Lesotho', '+266'], ['Liberia', '+231'], ['Libya', '+218'], ['Liechtenstein', '+423'],
-      ['Lithuania', '+370'], ['Luxembourg', '+352'], ['Macau', '+853'], ['Madagascar', '+261'],
-      ['Malawi', '+265'], ['Malaysia', '+60'], ['Maldives', '+960'], ['Mali', '+223'],
-      ['Malta', '+356'], ['Marshall Islands', '+692'], ['Martinique', '+596'], ['Mauritania', '+222'],
-      ['Mauritius', '+230'], ['Mayotte', '+262'], ['Mexico', '+52'], ['Micronesia', '+691'],
-      ['Moldova', '+373'], ['Monaco', '+377'], ['Mongolia', '+976'], ['Montenegro', '+382'],
-      ['Montserrat', '+1-664'], ['Morocco', '+212'], ['Mozambique', '+258'], ['Myanmar', '+95'],
-      ['Namibia', '+264'], ['Nauru', '+674'], ['Nepal', '+977'], ['Netherlands', '+31'],
-      ['New Caledonia', '+687'], ['New Zealand', '+64'], ['Nicaragua', '+505'], ['Niger', '+227'],
-      ['Nigeria', '+234'], ['Niue', '+683'], ['North Korea', '+850'], ['North Macedonia', '+389'],
-      ['Northern Mariana Islands', '+1-670'], ['Norway', '+47'], ['Oman', '+968'], ['Pakistan', '+92'],
-      ['Palau', '+680'], ['Palestine', '+970'], ['Panama', '+507'], ['Papua New Guinea', '+675'],
-      ['Paraguay', '+595'], ['Peru', '+51'], ['Philippines', '+63'], ['Poland', '+48'],
-      ['Portugal', '+351'], ['Puerto Rico', '+1-787'], ['Puerto Rico', '+1-939'], ['Qatar', '+974'],
-      ['Republic of the Congo', '+242'], ['Reunion', '+262'], ['Romania', '+40'], ['Russia', '+7'],
-      ['Rwanda', '+250'], ['Saint Barthelemy', '+590'], ['Saint Helena', '+290'], ['Saint Kitts and Nevis', '+1-869'],
-      ['Saint Lucia', '+1-758'], ['Saint Martin', '+590'], ['Saint Pierre and Miquelon', '+508'],
-      ['Saint Vincent and the Grenadines', '+1-784'], ['Samoa', '+685'], ['San Marino', '+378'],
-      ['Sao Tome and Principe', '+239'], ['Saudi Arabia', '+966'], ['Senegal', '+221'], ['Serbia', '+381'],
-      ['Seychelles', '+248'], ['Sierra Leone', '+232'], ['Singapore', '+65'], ['Sint Maarten', '+1-721'],
-      ['Slovakia', '+421'], ['Slovenia', '+386'], ['Solomon Islands', '+677'], ['Somalia', '+252'],
-      ['South Africa', '+27'], ['South Korea', '+82'], ['South Sudan', '+211'], ['Spain', '+34'],
-      ['Sri Lanka', '+94'], ['Sudan', '+249'], ['Suriname', '+597'], ['Sweden', '+46'],
-      ['Switzerland', '+41'], ['Syria', '+963'], ['Taiwan', '+886'], ['Tajikistan', '+992'],
-      ['Tanzania', '+255'], ['Thailand', '+66'], ['Timor-Leste', '+670'], ['Togo', '+228'],
-      ['Tokelau', '+690'], ['Tonga', '+676'], ['Trinidad and Tobago', '+1-868'], ['Tunisia', '+216'],
-      ['Turkey', '+90'], ['Turkmenistan', '+993'], ['Turks and Caicos Islands', '+1-649'], ['Tuvalu', '+688'],
-      ['Uganda', '+256'], ['Ukraine', '+380'], ['United Arab Emirates', '+971'], ['United Kingdom', '+44'],
-      ['United States', '+1'], ['Uruguay', '+598'], ['US Virgin Islands', '+1-340'], ['Uzbekistan', '+998'],
-      ['Vanuatu', '+678'], ['Vatican City', '+379'], ['Venezuela', '+58'], ['Vietnam', '+84'],
-      ['Wallis and Futuna', '+681'], ['Western Sahara', '+212'], ['Yemen', '+967'], ['Zambia', '+260'],
-      ['Zimbabwe', '+263'],
+    var allCountries = [];
+    var PREFERRED = ['ES','GB','US','FR','DE','IT','PT','GR','HR','TR','CY','MT','IL','AE'];
+    var FIELDS = [
+      { btn:'pcb-hero',   drop:'pdd-hero',   list:'pcl-hero',   code:'pcc-hero',   dial:'pcd-hero',   flag:'pcf-hero'   },
+      { btn:'pcb-bottom', drop:'pdd-bottom', list:'pcl-bottom', code:'pcc-bottom', dial:'pcd-bottom', flag:'pcf-bottom' },
     ];
 
-    function populatePhoneCountryCodes() {
-      document.querySelectorAll('.phone-country-code').forEach(function (select) {
-        if (select.options.length) return;
-        var defaultCountry = select.getAttribute('data-default-country') || 'Spain';
+    function buildDial(idd) {
+      if (!idd || !idd.root) return null;
+      var s = idd.suffixes || [];
+      return idd.root + (s.length === 1 ? s[0] : '');
+    }
 
-        phoneCountries.forEach(function (country) {
-          var option = document.createElement('option');
-          option.value = country[1];
-          option.textContent = country[0] + ' ' + country[1];
-          option.style.background = '#0f1525';
-          if (country[0] === defaultCountry) option.selected = true;
-          select.appendChild(option);
+    function sortC(arr) {
+      var p = [], r = [];
+      arr.forEach(function(c) { (PREFERRED.indexOf(c.code) !== -1 ? p : r).push(c); });
+      p.sort(function(a,b) { return PREFERRED.indexOf(a.code) - PREFERRED.indexOf(b.code); });
+      r.sort(function(a,b) { return a.name.localeCompare(b.name); });
+      return p.concat(r);
+    }
+
+    function renderList(f, countries) {
+      var ul = document.getElementById(f.list);
+      if (!ul) return;
+      ul.innerHTML = '';
+      countries.forEach(function(c) {
+        var li = document.createElement('li');
+        li.className = 'phone-citem';
+        li.innerHTML = '<span class="ci-flag">' + c.flag + '</span>' +
+          '<span class="ci-name">' + c.name + '</span>' +
+          '<span class="ci-code">' + c.dial + '</span>';
+        li.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          var ce = document.getElementById(f.code); if (ce) ce.value = c.dial;
+          var de = document.getElementById(f.dial); if (de) de.textContent = c.dial;
+          var fe = document.getElementById(f.flag); if (fe) fe.textContent = c.flag;
+          closeAll();
         });
+        ul.appendChild(li);
       });
     }
 
-    function normalizePhone(form) {
-      var localInput = form.querySelector('[name="phone_local"]');
-      var codeInput = form.querySelector('[name="phone_country_code"]');
-      if (!localInput) return '';
-
-      var local = localInput.value.trim();
-      if (!local) return '';
-
-      var digits = local.replace(/\D/g, '');
-      if (!digits) return '';
-
-      if (local.charAt(0) === '+') return '+' + digits;
-
-      var countryCodeDigits = codeInput ? codeInput.value.replace(/\D/g, '') : '';
-      return '+' + countryCodeDigits + digits.replace(/^0+/, '');
+    function closeAll() {
+      FIELDS.forEach(function(f) {
+        var d = document.getElementById(f.drop); if (d) d.classList.remove('open');
+        var b = document.getElementById(f.btn); if (b) b.setAttribute('aria-expanded','false');
+        var field = b && b.closest('.phone-field'); if (field) field.classList.remove('code-open');
+      });
     }
 
-    populatePhoneCountryCodes();
+    FIELDS.forEach(function(f) {
+      var btn  = document.getElementById(f.btn);
+      var drop = document.getElementById(f.drop);
+      if (!btn || !drop) return;
+
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isOpen = drop.classList.contains('open');
+        closeAll();
+        if (!isOpen) {
+          drop.classList.add('open');
+          btn.setAttribute('aria-expanded','true');
+          var field = btn.closest('.phone-field'); if (field) field.classList.add('code-open');
+          var s = drop.querySelector('.phone-search');
+          if (s) { s.value = ''; s.focus(); }
+          renderList(f, allCountries);
+        }
+      });
+
+      var search = drop.querySelector('.phone-search');
+      if (search) {
+        search.addEventListener('input', function() {
+          var q = this.value.trim().toLowerCase();
+          renderList(f, q ? allCountries.filter(function(c) {
+            return c.name.toLowerCase().indexOf(q) !== -1 || c.dial.indexOf(q) !== -1;
+          }) : allCountries);
+        });
+        search.addEventListener('keydown', function(e) { if (e.key==='Escape') closeAll(); });
+      }
+
+      // block non-numeric on phone input
+      var numInput = drop.closest('.phone-field') && drop.closest('.phone-field').querySelector('[name="phone_local"]');
+      if (numInput) {
+        numInput.addEventListener('input', function() {
+          this.value = this.value.replace(/[^0-9\s\-\(\)\+]/g, '');
+        });
+      }
+    });
+
+    document.addEventListener('click', closeAll);
+
+    var FALLBACK = [
+      {code:'ES',name:'Spain',         dial:'+34', flag:'🇪🇸'},{code:'GB',name:'United Kingdom',dial:'+44', flag:'🇬🇧'},
+      {code:'US',name:'United States', dial:'+1',  flag:'🇺🇸'},{code:'FR',name:'France',         dial:'+33', flag:'🇫🇷'},
+      {code:'DE',name:'Germany',       dial:'+49', flag:'🇩🇪'},{code:'IT',name:'Italy',           dial:'+39', flag:'🇮🇹'},
+      {code:'PT',name:'Portugal',      dial:'+351',flag:'🇵🇹'},{code:'GR',name:'Greece',          dial:'+30', flag:'🇬🇷'},
+      {code:'HR',name:'Croatia',       dial:'+385',flag:'🇭🇷'},{code:'TR',name:'Turkey',          dial:'+90', flag:'🇹🇷'},
+      {code:'CY',name:'Cyprus',        dial:'+357',flag:'🇨🇾'},{code:'MT',name:'Malta',           dial:'+356',flag:'🇲🇹'},
+      {code:'IL',name:'Israel',        dial:'+972',flag:'🇮🇱'},{code:'AE',name:'UAE',             dial:'+971',flag:'🇦🇪'},
+    ];
+
+    fetch('https://restcountries.com/v3.1/all?fields=name,idd,cca2,flag')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var list = [];
+        data.forEach(function(c) {
+          var d = buildDial(c.idd);
+          if (!d || d.length < 2) return;
+          list.push({code:c.cca2, name:c.name.common, dial:d, flag:c.flag});
+        });
+        allCountries = sortC(list);
+      })
+      .catch(function() { allCountries = sortC(FALLBACK); });
+  })();
+
+  // ── Custom role dropdown ─────────────────────────────────
+  (function () {
+    function closeAllRole() {
+      document.querySelectorAll('.role-select-wrap.rs-open').forEach(function(w) {
+        w.classList.remove('rs-open');
+        var b = w.querySelector('.role-select-btn'); if (b) b.setAttribute('aria-expanded','false');
+      });
+    }
+    document.querySelectorAll('.role-select-wrap').forEach(function(wrap) {
+      var btn    = wrap.querySelector('.role-select-btn');
+      var list   = wrap.querySelector('.role-select-dropdown');
+      var valSp  = wrap.querySelector('.role-select-value');
+      var hidden = wrap.querySelector('input[type="hidden"]');
+      if (!btn || !list) return;
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var wasOpen = wrap.classList.contains('rs-open');
+        closeAllRole();
+        if (!wasOpen) {
+          wrap.classList.add('rs-open');
+          btn.setAttribute('aria-expanded','true');
+        }
+      });
+      list.querySelectorAll('li').forEach(function(li) {
+        li.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          hidden.value = li.dataset.value;
+          valSp.textContent = li.dataset.value;
+          btn.classList.add('has-value');
+          list.querySelectorAll('li.rs-sel').forEach(function(s) { s.classList.remove('rs-sel'); });
+          li.classList.add('rs-sel');
+          closeAllRole();
+        });
+      });
+    });
+    document.addEventListener('click', closeAllRole);
+  })();
+
+  // Early Access Forms (hero + bottom CTA)
+  (function () {
+    function normalizePhone(form) {
+      var codeEl = form.querySelector('[name="phone_country_code"]');
+      var localEl = form.querySelector('[name="phone_local"]');
+      if (!localEl) return '';
+      var local = localEl.value.trim();
+      if (!local) return '';
+      var digits = local.replace(/\D/g, '');
+      if (!digits) return '';
+      if (local.charAt(0) === '+') return '+' + digits;
+      var code = codeEl ? codeEl.value.replace(/\D/g,'') : '';
+      return '+' + code + digits.replace(/^0+/,'');
+    }
 
     function setupEarlyForm(formId) {
       var form = document.getElementById(formId);
@@ -2039,28 +2305,41 @@ document.fonts.ready.then(function() {
       var card = form.closest('.rounded-2xl') || form.parentElement;
       var errorEl = card.querySelector('.ea-form-error');
       var successEl = card.querySelector('.ea-form-success');
+
+      function showDot(req) {
+        var dot = form.querySelector('.req-dot[data-req="' + req + '"]');
+        if (dot) dot.style.display = '';
+      }
+      function hideDot(req) {
+        var dot = form.querySelector('.req-dot[data-req="' + req + '"]');
+        if (dot) dot.style.display = 'none';
+      }
+
+      var nameInput  = form.querySelector('[name="name"]');
+      var emailInput = form.querySelector('[name="email"]');
+      if (nameInput)  nameInput.addEventListener('input',  function() { if (this.value.trim()) hideDot('name'); });
+      if (emailInput) emailInput.addEventListener('input', function() { if (this.value.trim()) hideDot('email'); });
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        var name  = form.querySelector('[name="name"]').value.trim();
-        var email = form.querySelector('[name="email"]').value.trim();
-        errorEl.classList.add('hidden');
-        errorEl.textContent = '';
-        
+        var name  = nameInput  ? nameInput.value.trim()  : '';
+        var email = emailInput ? emailInput.value.trim() : '';
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
-        if (!name || !email) {
-          errorEl.textContent = 'Please fill in your name and email.';
-          errorEl.classList.remove('hidden');
+        var hasError = false;
+
+        if (!name)  { showDot('name');  hasError = true; }
+        if (!email) { showDot('email'); hasError = true; }
+
+        if (hasError) {
           return;
         } else if (!emailRegex.test(email)) {
-          errorEl.textContent = 'Please enter a valid email address.';
-          errorEl.classList.remove('hidden');
+          showDot('email');
           return;
         }
         
         var btn = form.querySelector('button[type="submit"]');
         btn.disabled = true;
-        btn.innerHTML = 'Sending… <span class="material-symbols-outlined text-base">hourglass_empty</span>';
+        btn.innerHTML = 'Sending… <span class="material-symbols-outlined text-base hourglass-spin">hourglass_empty</span>';
         var formData = new FormData(form);
         formData.delete('phone_country_code');
         formData.delete('phone_local');
