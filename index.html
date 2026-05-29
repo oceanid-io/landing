@@ -618,9 +618,22 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
                 <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="person">person</span>
                 <input type="text" name="name" required placeholder="Full Name" class="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
               </div>
-              <div class="relative">
-                <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="phone">phone</span>
-                <input type="tel" name="phone" placeholder="Phone Number" class="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
+              <div class="flex gap-2">
+                <select name="phone_country_code" aria-label="Phone country code" class="w-[7.5rem] sm:w-36 px-3 py-2.5 sm:py-3 rounded-xl bg-[#0c1020] border border-white/10 text-white/70 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium appearance-none">
+                  <option value="+972" style="background:#0f1525">IL +972</option>
+                  <option value="+357" style="background:#0f1525">CY +357</option>
+                  <option value="+30" style="background:#0f1525">GR +30</option>
+                  <option value="+90" style="background:#0f1525">TR +90</option>
+                  <option value="+39" style="background:#0f1525">IT +39</option>
+                  <option value="+33" style="background:#0f1525">FR +33</option>
+                  <option value="+34" style="background:#0f1525">ES +34</option>
+                  <option value="+44" style="background:#0f1525">UK +44</option>
+                  <option value="+1" style="background:#0f1525">US +1</option>
+                </select>
+                <div class="relative flex-1 min-w-0">
+                  <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="phone">phone</span>
+                  <input type="tel" name="phone_local" placeholder="Phone Number" class="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
+                </div>
               </div>
               <div class="relative">
                 <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="mail">mail</span>
@@ -1578,9 +1591,22 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
               <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="person">person</span>
               <input type="text" name="name" required placeholder="Full Name" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
             </div>
-            <div class="relative">
-              <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="phone">phone</span>
-              <input type="tel" name="phone" placeholder="Phone Number" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
+            <div class="flex gap-2">
+              <select name="phone_country_code" aria-label="Phone country code" class="w-[7.5rem] sm:w-36 px-3 py-3.5 rounded-xl bg-[#0c1020] border border-white/10 text-white/70 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium appearance-none">
+                <option value="+972" style="background:#0f1525">IL +972</option>
+                <option value="+357" style="background:#0f1525">CY +357</option>
+                <option value="+30" style="background:#0f1525">GR +30</option>
+                <option value="+90" style="background:#0f1525">TR +90</option>
+                <option value="+39" style="background:#0f1525">IT +39</option>
+                <option value="+33" style="background:#0f1525">FR +33</option>
+                <option value="+34" style="background:#0f1525">ES +34</option>
+                <option value="+44" style="background:#0f1525">UK +44</option>
+                <option value="+1" style="background:#0f1525">US +1</option>
+              </select>
+              <div class="relative flex-1 min-w-0">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="phone">phone</span>
+                <input type="tel" name="phone_local" placeholder="Phone Number" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
+              </div>
             </div>
             <div class="relative">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="mail">mail</span>
@@ -1926,6 +1952,23 @@ document.fonts.ready.then(function() {
 
   // Early Access Forms (hero + bottom CTA)
   (function () {
+    function normalizePhone(form) {
+      var localInput = form.querySelector('[name="phone_local"]');
+      var codeInput = form.querySelector('[name="phone_country_code"]');
+      if (!localInput) return '';
+
+      var local = localInput.value.trim();
+      if (!local) return '';
+
+      var digits = local.replace(/\D/g, '');
+      if (!digits) return '';
+
+      if (local.charAt(0) === '+') return '+' + digits;
+
+      var countryCode = codeInput ? codeInput.value : '';
+      return countryCode + digits.replace(/^0+/, '');
+    }
+
     function setupEarlyForm(formId) {
       var form = document.getElementById(formId);
       if (!form) return;
@@ -1954,18 +1997,27 @@ document.fonts.ready.then(function() {
         var btn = form.querySelector('button[type="submit"]');
         btn.disabled = true;
         btn.innerHTML = 'Sending… <span class="material-symbols-outlined text-base">hourglass_empty</span>';
+        var formData = new FormData(form);
+        formData.delete('phone_country_code');
+        formData.delete('phone_local');
+        formData.set('phone', normalizePhone(form));
         fetch('https://ofgzihmokzjtalrfcjbd.supabase.co/functions/v1/waitlist', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
-        body: new FormData(form)
+        body: formData
       })
-      .then(function (res) { return res.ok ? res : Promise.reject(res); })
+      .then(function (res) {
+        if (res.ok) return res;
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          throw new Error(data.error || 'Something went wrong.');
+        });
+      })
       .then(function () {
         form.classList.add('hidden');
         successEl.classList.remove('hidden');
       })
-      .catch(function () {
-        errorEl.textContent = 'Something went wrong. Please email us at contact@oceanid.io.';
+      .catch(function (err) {
+        errorEl.textContent = (err && err.message ? err.message : 'Something went wrong.') + ' Please email us at contact@oceanid.io.';
         errorEl.classList.remove('hidden');
         btn.disabled = false;
         btn.innerHTML = 'Get Early Access <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>';
