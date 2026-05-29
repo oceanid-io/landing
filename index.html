@@ -1954,7 +1954,7 @@ document.fonts.ready.then(function() {
         var btn = form.querySelector('button[type="submit"]');
         btn.disabled = true;
         btn.innerHTML = 'Sending… <span class="material-symbols-outlined text-base">hourglass_empty</span>';
-        fetch('https://formspree.io/f/mgorrkvz', {
+        fetch('https://ofgzihmokzjtalrfcjbd.supabase.co/functions/v1/waitlist', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
         body: new FormData(form)
