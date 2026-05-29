@@ -619,7 +619,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
                 <input type="text" name="name" required placeholder="Full Name" class="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
               </div>
               <div class="flex gap-2">
-                <select name="phone_country_code" aria-label="Phone country code" data-default-code="+972" class="phone-country-code w-[7.5rem] sm:w-36 px-3 py-2.5 sm:py-3 rounded-xl bg-[#0c1020] border border-white/10 text-white/70 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium appearance-none">
+                <select name="phone_country_code" aria-label="Phone country code" data-default-country="United States" class="phone-country-code w-[7.5rem] sm:w-36 px-3 py-2.5 sm:py-3 rounded-xl bg-[#0c1020] border border-white/10 text-white/70 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium appearance-none">
                 </select>
                 <div class="relative flex-1 min-w-0">
                   <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="phone">phone</span>
@@ -1583,7 +1583,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
               <input type="text" name="name" required placeholder="Full Name" class="w-full pl-10 pr-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium"/>
             </div>
             <div class="flex gap-2">
-              <select name="phone_country_code" aria-label="Phone country code" data-default-code="+972" class="phone-country-code w-[7.5rem] sm:w-36 px-3 py-3.5 rounded-xl bg-[#0c1020] border border-white/10 text-white/70 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium appearance-none">
+              <select name="phone_country_code" aria-label="Phone country code" data-default-country="United States" class="phone-country-code w-[7.5rem] sm:w-36 px-3 py-3.5 rounded-xl bg-[#0c1020] border border-white/10 text-white/70 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium appearance-none">
               </select>
               <div class="relative flex-1 min-w-0">
                 <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="phone">phone</span>
@@ -2001,14 +2001,14 @@ document.fonts.ready.then(function() {
     function populatePhoneCountryCodes() {
       document.querySelectorAll('.phone-country-code').forEach(function (select) {
         if (select.options.length) return;
-        var defaultCode = select.getAttribute('data-default-code') || '+972';
+        var defaultCountry = select.getAttribute('data-default-country') || 'United States';
 
         phoneCountries.forEach(function (country) {
           var option = document.createElement('option');
           option.value = country[1];
           option.textContent = country[0] + ' ' + country[1];
           option.style.background = '#0f1525';
-          if (country[1] === defaultCode && country[0] === 'Israel') option.selected = true;
+          if (country[0] === defaultCountry) option.selected = true;
           select.appendChild(option);
         });
       });
