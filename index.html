@@ -6,6 +6,8 @@
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>Oceanid | One app for life at sea.</title>
 <meta name="description" content="One app for life at sea. Plan trips, open cabins to verified travelers, and book marina services—all from your phone."/>
+<meta name="robots" content="index, follow, max-image-preview:large"/>
+<link rel="canonical" href="https://oceanid.io/"/>
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
@@ -25,6 +27,65 @@
 
 <!-- Favicon -->
 <link rel="icon" type="image/png" href="https://storage.googleapis.com/oceanid-public/logo.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://oceanid.io/#organization",
+      "name": "Oceanid",
+      "legalName": "DOVENTA HOLDINGS LIMITED",
+      "url": "https://oceanid.io/",
+      "logo": "https://storage.googleapis.com/oceanid-public/logo.png",
+      "description": "Oceanid is one app for life at sea, helping captains, travelers, marinas, and service providers plan trips, open cabins to verified travelers, and book marina services.",
+      "email": "contact@oceanid.io",
+      "telephone": "+35795086066",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Agias Zonis 12, Office 101",
+        "addressLocality": "Limassol",
+        "postalCode": "3027",
+        "addressCountry": "CY"
+      },
+      "sameAs": [
+        "https://www.facebook.com/OceanidSeaLife",
+        "https://www.youtube.com/@oceanid-sea-life",
+        "https://www.instagram.com/oceanidsealife/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://oceanid.io/#website",
+      "url": "https://oceanid.io/",
+      "name": "Oceanid",
+      "description": "One app for life at sea.",
+      "publisher": {
+        "@id": "https://oceanid.io/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "MobileApplication",
+      "@id": "https://oceanid.io/#app",
+      "name": "Oceanid",
+      "url": "https://oceanid.io/",
+      "operatingSystem": "iOS, Android",
+      "applicationCategory": "TravelApplication",
+      "description": "Oceanid helps captains, travelers, marinas, and service providers manage trips, shared cabins, and marina services from one app.",
+      "publisher": {
+        "@id": "https://oceanid.io/#organization"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/PreOrder"
+      }
+    }
+  ]
+}
+</script>
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
