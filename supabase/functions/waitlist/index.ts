@@ -15,7 +15,7 @@ const links = {
   facebookPage: 'https://www.facebook.com/OceanidSeaLife',
   facebookGroup: 'https://www.facebook.com/groups/oceanid',
   instagram: 'https://www.instagram.com/oceanidsealife/',
-  discord: 'https://discord.gg/5kWh3X4DE',
+  discord: 'https://discord.gg/caUTTgQFMa',
   youtube: 'https://www.youtube.com/@oceanid-sea-life',
 }
 
