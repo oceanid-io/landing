@@ -735,6 +735,30 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   .role-select-dropdown li:hover, .role-select-dropdown li.rs-sel {
     background: rgba(92,107,192,0.15); color: #fff;
   }
+
+  @media (prefers-reduced-motion: reduce), (hover: none) and (pointer: coarse) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.001ms !important;
+    }
+
+    body::after,
+    #cursor-glow,
+    #scroll-progress {
+      display: none !important;
+    }
+
+    .hero-parallax-bg,
+    .phone-float,
+    .hero-orb {
+      transform: none !important;
+      will-change: auto !important;
+    }
+  }
 </style>
 </head>
 <body class="bg-background text-on-surface">
@@ -1278,10 +1302,10 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
       <div class="video-wrapper video-lux overflow-hidden rounded-2xl shadow-2xl aspect-video w-full">
         <iframe
           class="w-full h-full"
-          src="https://www.youtube.com/embed/EykoxAd-dbs?autoplay=1&mute=1&loop=1&playlist=EykoxAd-dbs&controls=1"
+          src="https://www.youtube.com/embed/EykoxAd-dbs?controls=1&rel=0&playsinline=1&origin=https%3A%2F%2Foceanid.io"
           title="The Sea Is for Everyone: Introducing Oceanid"
           frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen>
         </iframe>
@@ -1991,49 +2015,71 @@ function toggleFaq(btn) {
 
 // Leaflet passage map — non-interactive, CARTO Positron tiles
 (function () {
-  var map = L.map('passage-map', {
-    center: [38.5, 24.5],
-    zoom: 5,
-    zoomControl: false,
-    scrollWheelZoom: false,
-    doubleClickZoom: false,
-    touchZoom: false,
-    dragging: false,
-    tap: false,
-    keyboard: false,
-    attributionControl: false
-  });
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    subdomains: 'abcd',
-    maxZoom: 10
-  }).addTo(map);
-  var route = [
-    [44.1194, 15.2314],  // Zadar
-    [43.5,    16.4],     // Split — Dalmatian coast
-    [42.8,    17.8],     // south Adriatic, off Dubrovnik
-    [41.5,    18.4],     // south Adriatic
-    [40.3,    18.9],     // Otranto strait
-    [39.0,    19.5],     // Ionian Sea
-    [38.0,    20.0],     // Ionian Sea, west of Kefalonia
-    [37.2,    21.0],     // west Peloponnese coast
-    [36.5,    21.8],     // SW, approaching Cape Akritas
-    [36.2,    22.8],     // south of Cape Matapan
-    [36.0,    24.0],     // Sea of Crete, north of Crete
-    [36.4,    25.5],     // Sea of Crete east
-    [36.3,    27.0],     // approaching Rhodes
-    [36.4499, 28.2278],  // Rhodes
-    [35.9,    29.5],
-    [35.3,    31.0],
-    [35.0,    32.2],
-    [34.9177, 33.6375]   // Larnaca
-  ];
-  L.polyline(route, { color: 'rgba(92,107,192,0.28)', weight: 10, lineCap: 'round' }).addTo(map);
-  L.polyline(route, { color: '#4A58A8', weight: 6.4, opacity: 0.78, lineCap: 'round' }).addTo(map);
-  L.polyline(route, { color: '#5C6BC0', weight: 4, lineCap: 'round' }).addTo(map);
-  L.circleMarker([44.1194, 15.2314], { radius: 7, fillColor: '#E4E7F0', color: '#5C6BC0', weight: 2.5, fillOpacity: 1 }).addTo(map);
-  L.circleMarker([36.4499, 28.2278], { radius: 7, fillColor: '#5C6BC0', color: '#fff', weight: 2.5, fillOpacity: 1 }).addTo(map);
-  L.circleMarker([34.9177, 33.6375], { radius: 7, fillColor: '#5C6BC0', color: '#fff', weight: 2.5, fillOpacity: 1 }).addTo(map);
-  map.getContainer().style.pointerEvents = 'none';
+  var mapEl = document.getElementById('passage-map');
+  if (!mapEl || typeof L === 'undefined') return;
+
+  function initPassageMap() {
+    if (mapEl.dataset.initialized === 'true') return;
+    mapEl.dataset.initialized = 'true';
+
+    var map = L.map(mapEl, {
+      center: [38.5, 24.5],
+      zoom: 5,
+      zoomControl: false,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      touchZoom: false,
+      dragging: false,
+      tap: false,
+      keyboard: false,
+      attributionControl: false
+    });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd',
+      maxZoom: 10
+    }).addTo(map);
+    var route = [
+      [44.1194, 15.2314],  // Zadar
+      [43.5,    16.4],     // Split — Dalmatian coast
+      [42.8,    17.8],     // south Adriatic, off Dubrovnik
+      [41.5,    18.4],     // south Adriatic
+      [40.3,    18.9],     // Otranto strait
+      [39.0,    19.5],     // Ionian Sea
+      [38.0,    20.0],     // Ionian Sea, west of Kefalonia
+      [37.2,    21.0],     // west Peloponnese coast
+      [36.5,    21.8],     // SW, approaching Cape Akritas
+      [36.2,    22.8],     // south of Cape Matapan
+      [36.0,    24.0],     // Sea of Crete, north of Crete
+      [36.4,    25.5],     // Sea of Crete east
+      [36.3,    27.0],     // approaching Rhodes
+      [36.4499, 28.2278],  // Rhodes
+      [35.9,    29.5],
+      [35.3,    31.0],
+      [35.0,    32.2],
+      [34.9177, 33.6375]   // Larnaca
+    ];
+    L.polyline(route, { color: 'rgba(92,107,192,0.28)', weight: 10, lineCap: 'round' }).addTo(map);
+    L.polyline(route, { color: '#4A58A8', weight: 6.4, opacity: 0.78, lineCap: 'round' }).addTo(map);
+    L.polyline(route, { color: '#5C6BC0', weight: 4, lineCap: 'round' }).addTo(map);
+    L.circleMarker([44.1194, 15.2314], { radius: 7, fillColor: '#E4E7F0', color: '#5C6BC0', weight: 2.5, fillOpacity: 1 }).addTo(map);
+    L.circleMarker([36.4499, 28.2278], { radius: 7, fillColor: '#5C6BC0', color: '#fff', weight: 2.5, fillOpacity: 1 }).addTo(map);
+    L.circleMarker([34.9177, 33.6375], { radius: 7, fillColor: '#5C6BC0', color: '#fff', weight: 2.5, fillOpacity: 1 }).addTo(map);
+    map.getContainer().style.pointerEvents = 'none';
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          initPassageMap();
+          io.disconnect();
+        }
+      });
+    }, { rootMargin: '300px 0px' });
+    io.observe(mapEl);
+  } else {
+    initPassageMap();
+  }
 })();
 
 // Mobile nav
