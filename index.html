@@ -609,7 +609,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     border-color: rgba(92,107,192,0.5);
     box-shadow: 0 0 0 2px rgba(92,107,192,0.25);
   }
-  .phone-field.code-open { border-color: rgba(92,107,192,0.45); }
+  .phone-field.code-open { border-color: rgba(92,107,192,0.45); z-index: 80; }
 
   .phone-code-btn {
     display: flex; align-items: center; gap: 5px;
@@ -669,6 +669,10 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     border-radius: 0.75rem;
     box-shadow: 0 20px 40px -8px rgba(0,0,0,0.7);
     overflow: hidden;
+  }
+  .phone-field.open-up .phone-dropdown {
+    top: auto;
+    bottom: calc(100% + 5px);
   }
   .phone-dropdown.open { display: block; }
   .phone-search {
@@ -892,7 +896,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
                 <span class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold" data-req="email" style="font-size:11px;display:none">*</span>
               </div>
               <div class="phone-wrap-sm">
-                <div class="phone-field" id="phone-field-hero">
+                <div class="phone-field open-up" id="phone-field-hero">
                   <button type="button" class="phone-code-btn" id="pcb-hero" aria-haspopup="listbox" aria-expanded="false">
                     <span class="pc-flag" id="pcf-hero"><span class="material-symbols-outlined" style="font-size:16px;color:rgba(255,255,255,0.25)">phone</span></span>
                     <span class="pc-dial" id="pcd-hero"></span>
@@ -1862,7 +1866,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
               <span class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold" data-req="email" style="font-size:11px;display:none">*</span>
             </div>
             <div class="phone-wrap-md">
-              <div class="phone-field" id="phone-field-bottom">
+              <div class="phone-field open-up" id="phone-field-bottom">
                 <button type="button" class="phone-code-btn" id="pcb-bottom" aria-haspopup="listbox" aria-expanded="false">
                   <span class="pc-flag" id="pcf-bottom"><span class="material-symbols-outlined" style="font-size:16px;color:rgba(255,255,255,0.25)">phone</span></span>
                   <span class="pc-dial" id="pcd-bottom"></span>
