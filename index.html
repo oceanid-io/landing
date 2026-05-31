@@ -14,16 +14,16 @@
 <meta property="og:url" content="https://oceanid.io/" />
 <meta property="og:title" content="Oceanid | One app for life at sea." />
 <meta property="og:description" content="One app for life at sea. Plan trips, open cabins to verified travelers, and book marina services—all from your phone." />
-<meta property="og:image" content="https://storage.googleapis.com/oceanid-public/logo-text.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+<meta property="og:image" content="https://storage.googleapis.com/oceanid-public/oceanid_x_header_1500x500.png" />
+<meta property="og:image:width" content="1500" />
+<meta property="og:image:height" content="500" />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content="https://oceanid.io/" />
 <meta property="twitter:title" content="Oceanid | One app for life at sea." />
 <meta property="twitter:description" content="One app for life at sea. Plan trips, open cabins to verified travelers, and book marina services—all from your phone." />
-<meta property="twitter:image" content="https://storage.googleapis.com/oceanid-public/logo-text.png" />
+<meta property="twitter:image" content="https://storage.googleapis.com/oceanid-public/oceanid_x_header_1500x500.png" />
 
 <!-- Favicon -->
 <link rel="icon" type="image/png" href="https://storage.googleapis.com/oceanid-public/logo.png" />
@@ -544,6 +544,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   .form-luxury {
     border: 1px solid rgba(92,107,192,0.22) !important;
     box-shadow: 0 0 0 1px rgba(92,107,192,0.08), 0 24px 48px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+    overflow: hidden;
   }
 
   /* Section eyebrow line */
@@ -663,7 +664,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 
   .phone-dropdown {
     display: none; position: absolute; left: 0; top: calc(100% + 5px);
-    z-index: 60; width: 290px;
+    z-index: 60; width: 100%; min-width: 220px; max-width: 290px;
     background: #0F1525;
     border: 1px solid rgba(92,107,192,0.28);
     border-radius: 0.75rem;
@@ -685,7 +686,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
   }
   .phone-search::placeholder { color: rgba(255,255,255,0.30); }
   .phone-search:focus { background: rgba(92,107,192,0.07); }
-  .phone-clist { list-style: none; margin: 0; padding: 4px 0; max-height: 230px; overflow-y: auto; }
+  .phone-clist { list-style: none; margin: 0; padding: 4px 0; max-height: 115px; overflow-y: auto; }
   .phone-clist::-webkit-scrollbar { width: 4px; }
   .phone-clist::-webkit-scrollbar-track { background: transparent; }
   .phone-clist::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
@@ -2295,6 +2296,10 @@ document.fonts.ready.then(function() {
         var b = document.getElementById(f.btn); if (b) b.setAttribute('aria-expanded','false');
         var field = b && b.closest('.phone-field'); if (field) field.classList.remove('code-open');
       });
+      document.querySelectorAll('.role-select-wrap.rs-open').forEach(function(w) {
+        w.classList.remove('rs-open');
+        var rb = w.querySelector('.role-select-btn'); if (rb) rb.setAttribute('aria-expanded','false');
+      });
     }
 
     FIELDS.forEach(function(f) {
@@ -2312,7 +2317,7 @@ document.fonts.ready.then(function() {
           var field = btn.closest('.phone-field'); if (field) field.classList.add('code-open');
           var s = drop.querySelector('.phone-search');
           if (s) { s.value = ''; s.focus(); }
-          renderList(f, allCountries);
+          renderList(f, allCountries.slice(0, 3));
         }
       });
 
@@ -2322,7 +2327,7 @@ document.fonts.ready.then(function() {
           var q = this.value.trim().toLowerCase();
           renderList(f, q ? allCountries.filter(function(c) {
             return c.name.toLowerCase().indexOf(q) !== -1 || c.dial.indexOf(q) !== -1;
-          }) : allCountries);
+          }) : allCountries.slice(0, 3));
         });
         search.addEventListener('keydown', function(e) { if (e.key==='Escape') closeAll(); });
       }
@@ -2369,6 +2374,8 @@ document.fonts.ready.then(function() {
         w.classList.remove('rs-open');
         var b = w.querySelector('.role-select-btn'); if (b) b.setAttribute('aria-expanded','false');
       });
+      document.querySelectorAll('.phone-dropdown.open').forEach(function(d) { d.classList.remove('open'); });
+      document.querySelectorAll('.phone-field.code-open').forEach(function(f) { f.classList.remove('code-open'); });
     }
     document.querySelectorAll('.role-select-wrap').forEach(function(wrap) {
       var btn    = wrap.querySelector('.role-select-btn');
