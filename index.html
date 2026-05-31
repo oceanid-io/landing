@@ -698,6 +698,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
 
   /* ── Custom role dropdown ──────────────────────────────── */
   .role-select-wrap { position: relative; }
+  .role-select-wrap.rs-open { z-index: 80; }
   .role-select-btn {
     display: flex; align-items: center; width: 100%;
     background: rgba(255,255,255,0.05);
@@ -724,6 +725,10 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
     border-radius: 0.75rem;
     box-shadow: 0 20px 40px -8px rgba(0,0,0,0.7);
     overflow: hidden; list-style: none; margin: 0; padding: 4px 0;
+  }
+  .role-select-wrap.open-up .role-select-dropdown {
+    top: auto;
+    bottom: calc(100% + 5px);
   }
   .role-select-wrap.rs-open .role-select-dropdown { display: block; }
   .role-select-dropdown li {
@@ -902,7 +907,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
                   <input type="tel" name="phone_local" inputmode="numeric" pattern="[0-9\s\-\(\)]+" placeholder="Phone Number" class="phone-num-input"/>
                 </div>
               </div>
-              <div class="role-select-wrap">
+              <div class="role-select-wrap open-up">
                 <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="badge">badge</span>
                 <button type="button" class="role-select-btn pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3" aria-haspopup="listbox" aria-expanded="false">
                   <span class="role-select-value flex-1">Select your role</span>
@@ -1872,7 +1877,7 @@ src="https://www.facebook.com/tr?id=1532998645050503&ev=PageView&noscript=1"
                 <input type="tel" name="phone_local" inputmode="numeric" pattern="[0-9\s\-\(\)]+" placeholder="Phone Number" class="phone-num-input"/>
               </div>
             </div>
-            <div class="role-select-wrap">
+            <div class="role-select-wrap open-up">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none" style="font-size:16px" data-icon="badge">badge</span>
               <button type="button" class="role-select-btn pl-10 pr-3 py-3.5" aria-haspopup="listbox" aria-expanded="false">
                 <span class="role-select-value flex-1">Select your role</span>
