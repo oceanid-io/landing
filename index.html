@@ -2899,6 +2899,12 @@
 
 
   <script>
+    function trackMetaLead() {
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead');
+      }
+    }
+
       // Scroll-reveal — handles all reveal variants
       (function () {
         var els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .feature-card-reveal');
@@ -3105,6 +3111,7 @@
         })
           .then(function (res) { return res.ok ? res : Promise.reject(res); })
           .then(function () {
+            trackMetaLead();
             form.classList.add("hidden");
             document.getElementById("form-success").classList.remove("hidden");
           })
@@ -3409,6 +3416,7 @@
               });
             })
             .then(function () {
+              trackMetaLead();
               form.classList.add('hidden');
               successEl.classList.remove('hidden');
             })
