@@ -2899,9 +2899,9 @@
 
 
   <script>
-    function trackMetaLead() {
+    function trackMetaCompleteRegistration() {
       if (typeof fbq === 'function') {
-        fbq('track', 'Lead');
+        fbq('track', 'CompleteRegistration');
       }
     }
 
@@ -3072,56 +3072,6 @@
           }
         });
       }
-
-      // Contact form — AJAX submission via Formspree
-      var form = document.getElementById("contact-form");
-      if (!form) return;
-
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        var name = form.querySelector("#name").value.trim();
-        var email = form.querySelector("#email").value.trim();
-        var message = form.querySelector("#message").value.trim();
-        var errorEl = document.getElementById("form-error");
-        var submitBtn = document.getElementById("form-submit");
-
-        errorEl.classList.add("hidden");
-        errorEl.textContent = "";
-
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (!name || !email || !message) {
-          errorEl.textContent = "Please fill in your name, email, and message.";
-          errorEl.classList.remove("hidden");
-          return;
-        } else if (!emailRegex.test(email)) {
-          errorEl.textContent = "Please enter a valid email address.";
-          errorEl.classList.remove("hidden");
-          return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = "Sending… <span class=\"material-symbols-outlined\" data-icon=\"hourglass_empty\">hourglass_empty</span>";
-
-        fetch("https://formspree.io/f/mgorrkvz", {
-          method: "POST",
-          headers: { "Accept": "application/json" },
-          body: new FormData(form)
-        })
-          .then(function (res) { return res.ok ? res : Promise.reject(res); })
-          .then(function () {
-            trackMetaLead();
-            form.classList.add("hidden");
-            document.getElementById("form-success").classList.remove("hidden");
-          })
-          .catch(function () {
-            errorEl.textContent = "Something went wrong. Please email us at contact@oceanid.io.";
-            errorEl.classList.remove("hidden");
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = "Send Message <span class=\"material-symbols-outlined\" data-icon=\"send\">send</span>";
-          });
-      });
     })();
     document.fonts.ready.then(function () {
       document.body.classList.add('fonts-loaded');
@@ -3416,7 +3366,7 @@
               });
             })
             .then(function () {
-              trackMetaLead();
+              trackMetaCompleteRegistration();
               form.classList.add('hidden');
               successEl.classList.remove('hidden');
             })
