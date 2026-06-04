@@ -482,6 +482,232 @@
       box-shadow: 0 16px 40px -8px rgba(92, 107, 192, 0.1);
     }
 
+    /* ══════════════════════════════════════════════════
+       PAIN SECTION V2 — animated cards
+    ══════════════════════════════════════════════════ */
+    .pain-section-bg {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Floating background particles */
+    .pain-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .pain-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(92,107,192,0.18) 0%, transparent 70%);
+    }
+    .pp1 { width: 320px; height: 320px; top: -60px; left: -80px; animation: painDrift 18s ease-in-out infinite; }
+    .pp2 { width: 200px; height: 200px; bottom: 10%; right: 5%; animation: painDrift 24s ease-in-out infinite reverse; }
+    .pp3 { width: 140px; height: 140px; top: 40%; left: 30%; animation: painDrift 14s ease-in-out infinite 3s; opacity: 0.6; }
+    .pp4 { width: 100px; height: 100px; bottom: 20%; left: 10%; animation: painDrift 20s ease-in-out infinite 6s; opacity: 0.4; }
+
+    @keyframes painDrift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(20px, -30px) scale(1.06); }
+      66% { transform: translate(-15px, 20px) scale(0.95); }
+    }
+
+    /* Animated underline */
+    .pain-underline {
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, #5c6bc0, #00838f);
+      border-radius: 999px;
+      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .pain-underline.in-view {
+      width: 80px;
+    }
+
+    /* Card v2 */
+    .pain-card-v2 {
+      position: relative;
+      background: linear-gradient(145deg, rgba(15,21,37,0.9) 0%, rgba(12,16,32,0.95) 100%);
+      border: 1px solid rgba(92,107,192,0.14);
+      border-radius: 20px;
+      padding: 36px 32px 28px;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    .pain-card-v2:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px -12px rgba(92,107,192,0.18), 0 0 0 1px rgba(92,107,192,0.22);
+      border-color: rgba(92,107,192,0.28);
+    }
+
+    /* Glow blob per card */
+    .pain-card-glow {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(50px);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .pain-card-v2:hover .pain-card-glow { opacity: 1; }
+    .pain-glow-captain {
+      width: 220px; height: 220px;
+      top: -60px; right: -40px;
+      background: radial-gradient(circle, rgba(92,107,192,0.28) 0%, transparent 70%);
+    }
+    .pain-glow-traveler {
+      width: 220px; height: 220px;
+      bottom: -60px; left: -40px;
+      background: radial-gradient(circle, rgba(0,131,143,0.22) 0%, transparent 70%);
+    }
+
+    /* Floating icon */
+    .pain-float-icon {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 40px;
+      height: 40px;
+      color: rgba(92,107,192,0.35);
+      animation: painIconBob 6s ease-in-out infinite;
+    }
+    .pain-float-icon--traveler {
+      color: rgba(0,131,143,0.3);
+      animation-delay: 2s;
+    }
+    @keyframes painIconBob {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      40% { transform: translateY(-6px) rotate(3deg); }
+      70% { transform: translateY(-3px) rotate(-2deg); }
+    }
+
+    .pain-card-v2 { display: flex; flex-direction: column; }
+    .pain-card-inner { position: relative; z-index: 1; display: flex; flex-direction: column; flex: 1; }
+    .pain-text { flex: 1; }
+
+    .pain-label {
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #8a9ee8;
+      margin-bottom: 14px;
+    }
+    .pain-float-icon--traveler ~ .pain-card-inner .pain-label { color: #4db6ac; }
+    .pain-glow-traveler ~ .pain-float-icon--traveler ~ .pain-card-inner .pain-label { color: #4db6ac; }
+
+    .pain-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(228,231,240,0.65);
+      margin-bottom: 0;
+    }
+
+    .pain-highlight {
+      color: #e4e7f0;
+      font-weight: 700;
+      background: linear-gradient(90deg, rgba(92,107,192,0.18), rgba(0,131,143,0.12));
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .pain-killer-line {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-top: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Mini stat row */
+    .pain-stat-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .pain-stat {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+    }
+    .pain-stat-num {
+      color: #8a9ee8;
+    }
+    .pain-stat-sep {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* Animated border line along bottom */
+    .pain-card-border-anim {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #5c6bc0, transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .pain-card-border-anim--traveler {
+      background: linear-gradient(90deg, transparent, #00838f, transparent);
+    }
+    .pain-card-v2:hover .pain-card-border-anim { transform: scaleX(1); }
+
+    /* Bottom connector */
+    .pain-connector {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 48px;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .pain-connector.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .pain-connector-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(92,107,192,0.35), transparent);
+      animation: painLinePulse 3s ease-in-out infinite;
+    }
+    @keyframes painLinePulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    .pain-connector-text {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(92,107,192,0.7);
+      white-space: nowrap;
+    }
+
+    .pain-glow-provider {
+      width: 220px; height: 220px;
+      top: -40px; right: -40px;
+      background: radial-gradient(circle, rgba(121,134,203,0.22) 0%, transparent 70%);
+    }
+    .pain-float-icon--provider {
+      color: rgba(121,134,203,0.3);
+      animation-delay: 4s;
+    }
+    .pain-card-border-anim--provider {
+      background: linear-gradient(90deg, transparent, #7986cb, transparent);
+    }
+
     /* Trust item hover */
     .trust-item {
       transition: transform 0.22s ease, background 0.22s ease;
@@ -534,12 +760,12 @@
 
     /* Hero inner content: clear both the fixed nav and the safe area */
     .hero-content-inner {
-      padding-top: calc(7rem + env(safe-area-inset-top, 0px));
+      padding-top: calc(6rem + env(safe-area-inset-top, 0px));
     }
 
     @media (min-width: 640px) {
       .hero-content-inner {
-        padding-top: calc(8rem + env(safe-area-inset-top, 0px));
+        padding-top: calc(6.5rem + env(safe-area-inset-top, 0px));
       }
     }
 
@@ -1381,6 +1607,415 @@
         will-change: auto !important;
       }
     }
+
+    /* ══════════════════════════════════════════════════
+       PHONE STAGE — shrinks the phone on shorter viewports
+       so countdown + phone + store badges all stay in view
+    ══════════════════════════════════════════════════ */
+    .phone-stage {
+      transform-origin: top center;
+      transition: transform 0.2s ease, margin-bottom 0.2s ease;
+    }
+
+    /* Scale the phone down on shorter viewports so countdown + phone +
+       store badges all remain visible. The negative margin-bottom
+       compensates for the empty visual space the transform leaves in
+       the document flow. Tiered by viewport height. */
+    /* Only scale on genuinely short viewports — keep the phone at full
+       size whenever there's room for it. */
+    @media (min-width: 1024px) and (max-height: 880px) {
+      .phone-stage { transform: scale(0.92); margin-bottom: -56px; }
+    }
+    @media (min-width: 1024px) and (max-height: 800px) {
+      .phone-stage { transform: scale(0.84); margin-bottom: -110px; }
+    }
+    @media (min-width: 1024px) and (max-height: 720px) {
+      .phone-stage { transform: scale(0.74); margin-bottom: -170px; }
+    }
+
+    /* ══════════════════════════════════════════════════
+       LAUNCH COUNTDOWN — split-flap board
+    ══════════════════════════════════════════════════ */
+    .countdown {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px 12px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(15, 21, 37, 0.88) 0%, rgba(8, 12, 24, 0.78) 100%);
+      border: 1px solid rgba(92, 107, 192, 0.28);
+      box-shadow:
+        0 0 0 1px rgba(92, 107, 192, 0.06),
+        0 16px 32px -10px rgba(0, 0, 0, 0.55),
+        0 0 28px -10px rgba(92, 107, 192, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      width: 270px;
+      max-width: 100%;
+    }
+
+    .countdown-eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #8a9ee8;
+      width: 100%;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .countdown-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 4px;
+    }
+
+    .countdown-eyebrow .cd-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #5C6BC0;
+      box-shadow: 0 0 10px rgba(92, 107, 192, 0.95), 0 0 22px rgba(92, 107, 192, 0.55);
+      animation: live-pulse 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    .flap-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .flap-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        linear-gradient(180deg, #1f2a4a 0%, #131a2f 49%, #0a0f1e 50%, #161e36 100%);
+      border-radius: 5px;
+      min-width: 38px;
+      height: 34px;
+      overflow: hidden;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .flap-card::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.55);
+      box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.04);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .flap-digit {
+      font-family: 'Manrope', sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      color: #f0f3ff;
+      letter-spacing: 0.02em;
+      text-align: center;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5), 0 0 18px rgba(138, 158, 232, 0.25);
+      transform-origin: center top;
+    }
+
+    @keyframes flapFlip {
+      0% {
+        transform: scaleY(0.1);
+        opacity: 0.3;
+      }
+      55% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    }
+
+    .flap-digit.flap-anim {
+      animation: flapFlip 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .flap-label {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(255, 255, 255, 0.42);
+    }
+
+    .flap-colon {
+      color: rgba(138, 158, 232, 0.55);
+      font-weight: 800;
+      font-size: 15px;
+      padding-bottom: 14px;
+      animation: live-pulse 1s ease-in-out infinite;
+    }
+
+    @media (max-width: 480px) {
+      .countdown {
+        gap: 5px;
+        padding: 9px 12px 10px;
+        border-radius: 14px;
+      }
+      .countdown-eyebrow {
+        font-size: 8px;
+        gap: 5px;
+        letter-spacing: 0.14em;
+        padding-bottom: 5px;
+      }
+      .flap-card {
+        min-width: 34px;
+        height: 32px;
+      }
+      .flap-digit {
+        font-size: 17px;
+      }
+      .flap-label {
+        font-size: 7.5px;
+        letter-spacing: 0.14em;
+      }
+      .flap-colon {
+        font-size: 13px;
+        padding-bottom: 14px;
+      }
+    }
+
+    /* ══════════════════════════════════════════════════
+       DRIFTING YACHT silhouette across the hero
+    ══════════════════════════════════════════════════ */
+    .yacht-drift {
+      position: absolute;
+      bottom: 18%;
+      left: -140px;
+      width: 130px;
+      height: 84px;
+      opacity: 0.32;
+      pointer-events: none;
+      animation: yachtSail 95s linear infinite;
+      z-index: 1;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.4));
+    }
+
+    @keyframes yachtSail {
+      0% { transform: translateX(0) translateY(0); }
+      25% { transform: translateX(28vw) translateY(-4px); }
+      50% { transform: translateX(56vw) translateY(2px); }
+      75% { transform: translateX(82vw) translateY(-3px); }
+      100% { transform: translateX(118vw) translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════════════
+       LIVE BOARDING TOAST (lighthouse beacon)
+    ══════════════════════════════════════════════════ */
+    /* ══════════════════════════════════════════════════
+       MESSAGE IN A BOTTLE (easter egg)
+    ══════════════════════════════════════════════════ */
+    .bottle-trigger {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 95;
+      width: 54px;
+      height: 54px;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      animation: bottleBob 5s ease-in-out infinite;
+      filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 18px rgba(0, 131, 143, 0.4));
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .bottle-trigger:hover {
+      transform: scale(1.12);
+      filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 28px rgba(0, 131, 143, 0.65));
+    }
+
+    @keyframes bottleBob {
+      0%, 100% { transform: translateY(0) rotate(-9deg); }
+      50% { transform: translateY(-10px) rotate(9deg); }
+    }
+
+    .bottle-tip {
+      position: fixed;
+      right: 78px;
+      bottom: 28px;
+      z-index: 96;
+      background: rgba(15, 21, 37, 0.95);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 8px;
+      white-space: nowrap;
+      border: 1px solid rgba(92, 107, 192, 0.35);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(6px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+    }
+
+    .bottle-trigger:hover + .bottle-tip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .bottle-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: rgba(4, 8, 16, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.32s ease;
+    }
+
+    .bottle-modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .bottle-note {
+      max-width: 380px;
+      width: 100%;
+      background: linear-gradient(180deg, #f5e8c8 0%, #e9d39e 100%);
+      color: #2a1f10;
+      padding: 30px 30px 24px;
+      border-radius: 6px;
+      position: relative;
+      transform: rotate(-1.6deg) scale(0.88);
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow:
+        0 36px 64px -14px rgba(0, 0, 0, 0.78),
+        0 0 60px -10px rgba(0, 131, 143, 0.35),
+        inset 0 0 30px rgba(122, 86, 32, 0.18);
+    }
+
+    .bottle-modal.is-open .bottle-note {
+      transform: rotate(-1.6deg) scale(1);
+    }
+
+    .bottle-note::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px dashed rgba(122, 86, 32, 0.22);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .bottle-note h4 {
+      font-family: 'Manrope', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #3b2912;
+    }
+
+    .bottle-note p {
+      font-family: 'Manrope', sans-serif;
+      font-size: 14.5px;
+      line-height: 1.55;
+      margin-bottom: 12px;
+      color: #3a2c17;
+      font-weight: 500;
+    }
+
+    .bottle-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      padding: 12px 22px;
+      background: #2a1f10;
+      color: #f5e8c8;
+      border: none;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.15s ease;
+      text-decoration: none;
+    }
+
+    .bottle-cta:hover {
+      background: #3d2e18;
+      transform: translateY(-1px);
+    }
+
+    .bottle-sign {
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-style: italic;
+      margin-top: 8px;
+      text-align: right;
+      color: #5a4220;
+      font-weight: 500;
+    }
+
+    .bottle-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: transparent;
+      border: 0;
+      color: rgba(74, 51, 24, 0.55);
+      cursor: pointer;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: color 0.18s ease, background 0.18s ease;
+      z-index: 2;
+    }
+
+    .bottle-close:hover {
+      color: #2a1f10;
+      background: rgba(122, 86, 32, 0.12);
+    }
+
+    @media (max-width: 480px) {
+      .bottle-trigger { width: 46px; height: 46px; right: 12px; bottom: 12px; }
+      .bottle-tip { display: none; }
+      .bottle-note { padding: 26px 22px 20px; }
+      .bottle-note h4 { font-size: 19px; }
+      .bottle-note p { font-size: 13.5px; }
+    }
   </style>
 </head>
 
@@ -1507,9 +2142,20 @@
         <div class="hero-orb orb-3"
           style="width:320px;height:320px;background:radial-gradient(circle,rgba(92,107,192,0.10) 0%,transparent 70%);bottom:80px;left:4%;filter:blur(55px);">
         </div>
+        <!-- Drifting yacht silhouette -->
+        <svg class="yacht-drift" viewBox="0 0 130 84" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M58 12 L58 60 L22 60 Z" fill="rgba(255,255,255,0.55)" />
+          <path d="M60 14 L60 60 L92 60 Z" fill="rgba(255,255,255,0.38)" />
+          <line x1="58" y1="8" x2="58" y2="62" stroke="rgba(255,255,255,0.65)" stroke-width="1.2" />
+          <circle cx="58" cy="8" r="2" fill="rgba(255,255,255,0.7)" />
+          <path d="M14 62 L102 62 L90 73 L24 73 Z" fill="rgba(28,40,72,0.95)" stroke="rgba(255,255,255,0.18)" stroke-width="0.8" />
+          <ellipse cx="58" cy="78" rx="52" ry="2" fill="rgba(92,107,192,0.22)" />
+          <ellipse cx="40" cy="80" rx="14" ry="0.8" fill="rgba(255,255,255,0.18)" />
+          <ellipse cx="78" cy="80" rx="12" ry="0.8" fill="rgba(255,255,255,0.14)" />
+        </svg>
       </div>
 
-      <div class="hero-content-inner relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pb-20 sm:pb-24">
+      <div class="hero-content-inner relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pb-10 sm:pb-14">
         <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
 
           <!-- Left: headline, badges, form -->
@@ -1523,7 +2169,7 @@
 
             <!-- Subtext -->
             <p class="text-sm sm:text-lg text-white/65 leading-relaxed max-w-lg fade-up fade-up-delay-2">
-              Plan trips, open cabins to verified travelers, connect with service providers, book from your phone.
+              Travelers book verified sailing trips with trusted captains. Captains fill their cabins and earn from every voyage. Service providers get discovered by the right crews. One app for the sea.
             </p>
 
             <!-- Early Access Form (hero) -->
@@ -1625,9 +2271,39 @@
           </div>
 
           <!-- Right: Phone mockup + store badges -->
-          <div class="flex flex-col items-center justify-center gap-6 py-4">
-            <!-- Phone mockup -->
-            <div class="flex justify-center w-full max-w-full">
+          <div class="flex flex-col items-center justify-center gap-3 sm:gap-4 py-2">
+            <!-- Countdown + phone scale together as one unit -->
+            <div class="phone-stage flex flex-col items-center gap-3 w-full max-w-full">
+              <!-- Launch countdown (matches phone width) -->
+              <div class="countdown fade-up fade-up-delay-2" id="launch-countdown"
+                aria-label="Time until Oceanid launches">
+                <div class="countdown-eyebrow">
+                  <span class="cd-dot"></span>
+                  <span>Setting sail in</span>
+                </div>
+                <div class="countdown-row">
+                  <div class="flap-unit">
+                    <div class="flap-card"><span class="flap-digit" data-cd="d">00</span></div>
+                    <span class="flap-label">days</span>
+                  </div>
+                  <span class="flap-colon">:</span>
+                  <div class="flap-unit">
+                    <div class="flap-card"><span class="flap-digit" data-cd="h">00</span></div>
+                    <span class="flap-label">hrs</span>
+                  </div>
+                  <span class="flap-colon">:</span>
+                  <div class="flap-unit">
+                    <div class="flap-card"><span class="flap-digit" data-cd="m">00</span></div>
+                    <span class="flap-label">min</span>
+                  </div>
+                  <span class="flap-colon">:</span>
+                  <div class="flap-unit">
+                    <div class="flap-card"><span class="flap-digit" data-cd="s">00</span></div>
+                    <span class="flap-label">sec</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Phone mockup -->
               <div class="phone-float"
                 style="filter:drop-shadow(0 40px 80px rgba(0,0,0,0.75)) drop-shadow(0 0 50px rgba(92,107,192,0.28));transform:perspective(1200px) rotateY(-5deg) rotateX(1.5deg)">
                 <div class="relative w-[270px] bg-[#111114] rounded-[44px]"
@@ -1874,7 +2550,7 @@
             </div><!-- /phone wrapper -->
 
             <!-- Store badges (coming soon) -->
-            <div class="flex flex-wrap justify-center gap-3">
+            <div class="flex flex-wrap justify-center gap-3 mt-6">
               <!-- App Store -->
               <div
                 class="relative inline-flex items-center gap-3 bg-black/75 border border-white/15 rounded-[14px] px-5 py-2.5 cursor-default select-none">
@@ -2090,37 +2766,123 @@
     </section>
 
     <!-- Sound familiar? Pain Points -->
-    <section class="py-16 sm:py-20 px-4 sm:px-8" id="pain-points">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-12 sm:mb-16 reveal">
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface">Sound familiar?
-          </h2>
+    <section class="py-16 sm:py-24 px-4 sm:px-8 pain-section-bg" id="pain-points">
+      <!-- Animated background particles -->
+      <div class="pain-particles" aria-hidden="true">
+        <span class="pain-particle pp1"></span>
+        <span class="pain-particle pp2"></span>
+        <span class="pain-particle pp3"></span>
+        <span class="pain-particle pp4"></span>
+      </div>
+      <div class="max-w-5xl mx-auto relative">
+
+        <!-- Heading with animated underline -->
+        <div class="text-center mb-14 sm:mb-20 reveal">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface">Sound familiar?</h2>
+          <div class="pain-underline mx-auto mt-4"></div>
         </div>
+
+        <!-- Three cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          <div class="pain-card bg-surface-container-low border-l-4 border-primary rounded-2xl p-8 reveal rd1">
-            <div class="text-xs font-black uppercase tracking-[0.3em] text-primary mb-4">For Captains</div>
-            <p class="text-on-surface-variant leading-relaxed">
-              You call the marina. Nobody picks up. You send another message. You wait. You look for a mechanic on
-              Facebook and get three contradicting answers. You've got five apps open and haven't even left the dock
-              yet.
-            </p>
+
+          <!-- Captains card -->
+          <div class="pain-card-v2 reveal rd1 group">
+            <div class="pain-card-glow pain-glow-captain"></div>
+            <div class="pain-float-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 6 L24 42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M24 6 L38 22 L24 22Z" fill="currentColor" opacity="0.9"/>
+                <path d="M24 6 L10 18 L24 18Z" fill="currentColor" opacity="0.45"/>
+                <path d="M8 38 Q24 32 40 38" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <path d="M4 42 Q24 36 44 42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="pain-card-inner">
+              <div class="pain-label">For Captains</div>
+              <p class="pain-text">
+                You call the marina. Nobody picks up. You send another message. You wait. You look for a mechanic on
+                Facebook and get three contradicting answers. You've got five apps open.
+              </p>
+              <p class="pain-killer-line">Haven't even left the dock yet.</p>
+              <div class="pain-stat-row">
+                <span class="pain-stat"><span class="pain-stat-num">5</span>+ apps</span>
+                <span class="pain-stat-sep"></span>
+                <span class="pain-stat">Hours wasted</span>
+                <span class="pain-stat-sep"></span>
+                <span class="pain-stat">Before departure</span>
+              </div>
+            </div>
+            <div class="pain-card-border-anim"></div>
           </div>
-          <div class="pain-card bg-surface-container-low border-l-4 border-primary rounded-2xl p-8 reveal rd2">
-            <div class="text-xs font-black uppercase tracking-[0.3em] text-primary mb-4">For Travelers</div>
-            <p class="text-on-surface-variant leading-relaxed">
-              You want to try sailing for the first time. But you don't know who to ask, whether it's safe, or what it
-              costs.
-            </p>
-            <p class="text-on-surface font-bold mt-4">So you don't go.</p>
+
+          <!-- Travelers card -->
+          <div class="pain-card-v2 reveal rd2 group">
+            <div class="pain-card-glow pain-glow-traveler"></div>
+            <div class="pain-float-icon pain-float-icon--traveler" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+                <circle cx="24" cy="24" r="3" fill="currentColor"/>
+                <path d="M24 6 L24 10M24 38 L24 42M6 24 L10 24M38 24 L42 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M24 24 L32 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="32" cy="16" r="2.5" fill="currentColor" opacity="0.8"/>
+              </svg>
+            </div>
+            <div class="pain-card-inner">
+              <div class="pain-label" style="color:#4db6ac">For Travelers</div>
+              <p class="pain-text">
+                You want to try sailing for the first time. But you don't know who to ask, whether it's safe, or what
+                it costs.
+              </p>
+              <p class="pain-killer-line">So you don't go.</p>
+              <div class="pain-stat-row">
+                <span class="pain-stat">No idea where to start</span>
+                <span class="pain-stat-sep"></span>
+                <span class="pain-stat">No trust</span>
+                <span class="pain-stat-sep"></span>
+                <span class="pain-stat">No booking</span>
+              </div>
+            </div>
+            <div class="pain-card-border-anim pain-card-border-anim--traveler"></div>
           </div>
-          <div class="pain-card bg-surface-container-low border-l-4 border-primary rounded-2xl p-8 reveal rd3">
-            <div class="text-xs font-black uppercase tracking-[0.3em] text-primary mb-4">For Marinas</div>
-            <p class="text-on-surface-variant leading-relaxed">
-              Sailors pull into your marina with no idea you exist. They search Facebook groups. Sometimes they find
-              what they need. Usually not.
-            </p>
+
+          <!-- Service Providers card -->
+          <div class="pain-card-v2 reveal rd3 group">
+            <div class="pain-card-glow pain-glow-provider"></div>
+            <div class="pain-float-icon pain-float-icon--provider" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 36 L20 20 L28 28 L36 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                <circle cx="36" cy="14" r="3" fill="currentColor" opacity="0.8"/>
+                <path d="M8 40 L40 40" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+                <path d="M14 44 L34 44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.25"/>
+              </svg>
+            </div>
+            <div class="pain-card-inner">
+              <div class="pain-label" style="color:#7986cb">For Service Providers</div>
+              <p class="pain-text">
+                Sailors arrive needing fuel, repairs, or provisions. They have no idea you exist. They search Facebook
+                groups. Sometimes they find what they need.
+              </p>
+              <p class="pain-killer-line">Usually not.</p>
+              <div class="pain-stat-row">
+                <span class="pain-stat">Invisible to crews</span>
+                <span class="pain-stat-sep"></span>
+                <span class="pain-stat">Lost bookings</span>
+                <span class="pain-stat-sep"></span>
+                <span class="pain-stat">No reach</span>
+              </div>
+            </div>
+            <div class="pain-card-border-anim pain-card-border-anim--provider"></div>
           </div>
+
         </div>
+
+        <!-- Bottom connector line -->
+        <div class="pain-connector reveal rd3">
+          <div class="pain-connector-line"></div>
+          <span class="pain-connector-text">Oceanid fixes this</span>
+          <div class="pain-connector-line"></div>
+        </div>
+
       </div>
     </section>
 
@@ -2921,12 +3683,177 @@
   </footer>
 
 
+
+  <!-- Message in a bottle (easter egg) -->
+  <button id="bottle-trigger" class="bottle-trigger" aria-label="A message in a bottle — click to open">
+    <svg viewBox="0 0 80 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="glass-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#7ec8d1" stop-opacity="0.95" />
+          <stop offset="55%" stop-color="#3d8d96" stop-opacity="0.92" />
+          <stop offset="100%" stop-color="#1e5a63" stop-opacity="0.96" />
+        </linearGradient>
+        <linearGradient id="cork-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#a66f3d" />
+          <stop offset="50%" stop-color="#7a4a22" />
+          <stop offset="100%" stop-color="#5c3517" />
+        </linearGradient>
+        <linearGradient id="paper-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fbf2d8" />
+          <stop offset="100%" stop-color="#e6d3a2" />
+        </linearGradient>
+        <radialGradient id="shine-grad" cx="0.3" cy="0.3" r="0.4">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55" />
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+
+      <!-- Cork top edge -->
+      <ellipse cx="40" cy="6" rx="9" ry="2.2" fill="#b97f4d" />
+      <!-- Cork body -->
+      <path d="M31 6 L31 18 Q31 20 33 20 L47 20 Q49 20 49 18 L49 6 Z" fill="url(#cork-grad)" />
+      <!-- Cork bottom rim shadow -->
+      <ellipse cx="40" cy="20" rx="9" ry="1.4" fill="rgba(0,0,0,0.3)" />
+      <!-- Cork grain lines -->
+      <line x1="34" y1="10" x2="34" y2="17" stroke="rgba(0,0,0,0.25)" stroke-width="0.6" stroke-linecap="round" />
+      <line x1="46" y1="9" x2="46" y2="16" stroke="rgba(0,0,0,0.25)" stroke-width="0.6" stroke-linecap="round" />
+      <line x1="40" y1="11" x2="40" y2="18" stroke="rgba(0,0,0,0.18)" stroke-width="0.5" stroke-linecap="round" />
+
+      <!-- Bottle neck -->
+      <path d="M33 20 L33 30 Q33 33 32 35 L28 42 L52 42 L48 35 Q47 33 47 30 L47 20 Z" fill="url(#glass-grad)" stroke="rgba(255,255,255,0.28)" stroke-width="0.6" />
+
+      <!-- Bottle shoulders + body -->
+      <path d="M28 42 Q22 46 22 54 L22 80 Q22 90 32 90 L48 90 Q58 90 58 80 L58 54 Q58 46 52 42 Z"
+        fill="url(#glass-grad)" stroke="rgba(255,255,255,0.32)" stroke-width="0.8" />
+
+      <!-- Inside ambient -->
+      <path d="M25 50 Q25 48 27 47 L53 47 Q55 48 55 50 L55 80 Q55 87 49 87 L31 87 Q25 87 25 80 Z"
+        fill="rgba(20, 50, 60, 0.35)" />
+
+      <!-- Glass shine main highlight -->
+      <path d="M27 48 Q27 50 27 56 L27 78" stroke="rgba(255,255,255,0.55)" stroke-width="2.4" stroke-linecap="round" fill="none" />
+      <!-- Smaller right highlight -->
+      <path d="M53 56 L53 70" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" stroke-linecap="round" fill="none" />
+
+      <!-- Rolled note (parchment) -->
+      <g transform="rotate(-8 40 66)">
+        <rect x="32" y="50" width="16" height="28" rx="2" fill="url(#paper-grad)" stroke="rgba(122,86,32,0.35)" stroke-width="0.4" />
+        <!-- ends of scroll (rolled edges) -->
+        <ellipse cx="40" cy="50" rx="8" ry="1.4" fill="#e6d3a2" stroke="rgba(122,86,32,0.5)" stroke-width="0.4" />
+        <ellipse cx="40" cy="78" rx="8" ry="1.4" fill="#cdb780" stroke="rgba(122,86,32,0.4)" stroke-width="0.4" />
+        <!-- text lines on scroll -->
+        <line x1="35" y1="56" x2="45" y2="56" stroke="rgba(122,86,32,0.55)" stroke-width="0.55" />
+        <line x1="35" y1="60" x2="44" y2="60" stroke="rgba(122,86,32,0.55)" stroke-width="0.55" />
+        <line x1="35" y1="64" x2="45" y2="64" stroke="rgba(122,86,32,0.55)" stroke-width="0.55" />
+        <line x1="35" y1="68" x2="43" y2="68" stroke="rgba(122,86,32,0.55)" stroke-width="0.55" />
+        <line x1="35" y1="72" x2="44" y2="72" stroke="rgba(122,86,32,0.55)" stroke-width="0.55" />
+      </g>
+
+      <!-- Glass shine overlay (subtle) -->
+      <path d="M28 42 Q22 46 22 54 L22 80 Q22 90 32 90 L48 90 Q58 90 58 80 L58 54 Q58 46 52 42 Z"
+        fill="url(#shine-grad)" />
+
+      <!-- Bottom water/reflection -->
+      <ellipse cx="40" cy="93" rx="18" ry="2" fill="rgba(0,131,143,0.45)" />
+      <ellipse cx="40" cy="94" rx="12" ry="0.8" fill="rgba(255,255,255,0.18)" />
+    </svg>
+  </button>
+  <span class="bottle-tip" id="bottle-tip">A message washed ashore…</span>
+
+  <!-- Bottle modal -->
+  <div id="bottle-modal" class="bottle-modal" role="dialog" aria-modal="true" aria-labelledby="bottle-title"
+    aria-hidden="true">
+    <div class="bottle-note">
+      <button id="bottle-close" class="bottle-close" aria-label="Close message">
+        <span class="material-symbols-outlined" style="font-size:20px">close</span>
+      </button>
+      <h4 id="bottle-title">Ahoy, explorer.</h4>
+      <p>You found our bottle drifting through the page. Curious souls like you deserve to be first. Sign up now and
+        get exclusive early access to Oceanid before anyone else.</p>
+      <p style="text-align:center;margin:20px 0 18px;">
+        <button id="bottle-cta" class="bottle-cta">Claim my early access &#8594;</button>
+      </p>
+      <p style="font-size:12.5px;opacity:0.65;text-align:center;margin-bottom:6px;">Exclusive early access · Be first to set sail.</p>
+      <p class="bottle-sign">— The Oceanid crew</p>
+    </div>
+  </div>
+
   <script>
     function trackMetaCompleteRegistration() {
       if (typeof fbq === 'function') {
         fbq('track', 'CompleteRegistration');
       }
     }
+
+    // ════════════════════════════════════════════════
+    // Launch countdown — flip the digits to July 15
+    // ════════════════════════════════════════════════
+    (function () {
+      var TARGET = new Date('2026-07-15T00:00:00Z').getTime();
+      function tick() {
+        var diff = Math.max(0, TARGET - Date.now());
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor((diff % 86400000) / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        set('d', String(d).padStart(2, '0'));
+        set('h', String(h).padStart(2, '0'));
+        set('m', String(m).padStart(2, '0'));
+        set('s', String(s).padStart(2, '0'));
+      }
+      function set(unit, val) {
+        var els = document.querySelectorAll('[data-cd="' + unit + '"]');
+        for (var i = 0; i < els.length; i++) {
+          var el = els[i];
+          if (el.textContent !== val) {
+            el.textContent = val;
+            el.classList.remove('flap-anim');
+            void el.offsetWidth;
+            el.classList.add('flap-anim');
+          }
+        }
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+
+    // ════════════════════════════════════════════════
+    // Message-in-a-bottle modal
+    // ════════════════════════════════════════════════
+    (function () {
+      var trigger = document.getElementById('bottle-trigger');
+      var modal = document.getElementById('bottle-modal');
+      var close = document.getElementById('bottle-close');
+      var cta = document.getElementById('bottle-cta');
+      if (!trigger || !modal) return;
+      function open() {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function shut() {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+      trigger.addEventListener('click', open);
+      close && close.addEventListener('click', shut);
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) shut();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) shut();
+      });
+      cta && cta.addEventListener('click', function () {
+        shut();
+        var bottomForm = document.getElementById('early-form-bottom');
+        if (bottomForm) {
+          bottomForm.closest('section, .form-luxury, [class*="rounded"]').scrollIntoView({ behavior: 'instant', block: 'center' });
+          var nameInput = bottomForm.querySelector('input[name="name"]');
+          if (nameInput) nameInput.focus();
+        }
+      });
+    })();
 
       // Scroll-reveal — handles all reveal variants
       (function () {
@@ -2942,6 +3869,24 @@
         }, { threshold: 0.08 });
         els.forEach(function (el) { io.observe(el); });
       })();
+
+    // Pain section — animated underline + connector
+    (function () {
+      var underline = document.querySelector('.pain-underline');
+      if (underline) {
+        var io = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { underline.classList.add('in-view'); io.disconnect(); }
+        }, { threshold: 0.5 });
+        io.observe(underline);
+      }
+      var connector = document.querySelector('.pain-connector');
+      if (connector) {
+        var io2 = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { connector.classList.add('revealed'); io2.disconnect(); }
+        }, { threshold: 0.4 });
+        io2.observe(connector);
+      }
+    })();
 
     // Nav scroll-spy
     (function () {
