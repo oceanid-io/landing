@@ -2016,6 +2016,13 @@
       .bottle-note h4 { font-size: 19px; }
       .bottle-note p { font-size: 13.5px; }
     }
+
+    /* Prevent iOS Safari zoom-on-focus (requires font-size >= 16px on inputs) */
+    @media (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
   </style>
 </head>
 
