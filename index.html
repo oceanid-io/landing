@@ -503,13 +503,13 @@
       background: radial-gradient(circle, rgba(92,107,192,0.18) 0%, transparent 70%);
     }
     .pp1 { width: 320px; height: 320px; top: -60px; left: -80px; animation: painDrift 18s ease-in-out infinite; }
-    .pp2 { width: 200px; height: 200px; bottom: 10%; right: 5%; animation: painDrift 24s ease-in-out infinite reverse; }
+    .pp2 { width: 200px; height: 200px; bottom: 10%; right: 0; animation: painDrift 24s ease-in-out infinite reverse; }
     .pp3 { width: 140px; height: 140px; top: 40%; left: 30%; animation: painDrift 14s ease-in-out infinite 3s; opacity: 0.6; }
     .pp4 { width: 100px; height: 100px; bottom: 20%; left: 10%; animation: painDrift 20s ease-in-out infinite 6s; opacity: 0.4; }
 
     @keyframes painDrift {
       0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(20px, -30px) scale(1.06); }
+      33% { transform: translate(-10px, -30px) scale(1.06); }
       66% { transform: translate(-15px, 20px) scale(0.95); }
     }
 
@@ -2025,7 +2025,12 @@
     }
 
     /* Prevent horizontal scroll/shift on iOS when keyboard opens */
-    html, body {
+    html {
+      overflow-x: clip;
+      max-width: 100%;
+    }
+    body {
+      position: relative;
       overflow-x: hidden;
       max-width: 100%;
     }
@@ -3882,6 +3887,11 @@
         }, { threshold: 0.08 });
         els.forEach(function (el) { io.observe(el); });
       })();
+
+    // Prevent horizontal scroll on iOS (kill any x-offset immediately)
+    window.addEventListener('scroll', function () {
+      if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+    }, { passive: true });
 
     // Pain section — animated underline + connector
     (function () {
