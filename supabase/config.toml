@@ -1,2 +1,11 @@
 [functions.waitlist]
 verify_jwt = false
+
+[functions.account-link]
+verify_jwt = false
+
+[functions.account-state]
+verify_jwt = false
+
+[functions.reward-claim]
+verify_jwt = false

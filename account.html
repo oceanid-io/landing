@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+
+<head>
+  <!-- Termly Consent Banner (must be first script) -->
+  <script src="https://app.termly.io/resource-blocker/0abc2961-5f3d-4206-9026-c631001e93a9"></script>
+
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Your Oceanid account</title>
+  <meta name="description" content="Sign in to your Oceanid account to claim your founding reward and manage your trips, billing, and profile." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://oceanid.io/account" />
+
+  <!-- ────────────────────────────────────────────────────────────────
+       Auth0 SPA configuration — REPLACE BEFORE DEPLOY
+       ──────────────────────────────────────────────────────────────── -->
+  <meta name="x-auth0-domain"     content="YOUR_AUTH0_DOMAIN.auth0.com" />
+  <meta name="x-auth0-client-id"  content="YOUR_AUTH0_CLIENT_ID" />
+  <meta name="x-supabase-fn-base" content="https://ofgzihmokzjtalrfcjbd.supabase.co/functions/v1" />
+
+  <link rel="icon" type="image/png" href="https://storage.googleapis.com/oceanid-public/logo.png" />
+
+  <!-- Google Consent Mode v2 defaults -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C0JJHDD6VM"></script>
+  <script>
+    gtag('js', new Date());
+    gtag('config', 'G-C0JJHDD6VM');
+  </script>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js"></script>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#5C6BC0",
+            "primary-dim": "#4A58A8",
+            "primary-container": "#1A2060",
+            "on-primary": "#FFFFFF",
+            "secondary": "#3949AB",
+            "tertiary": "#00838F",
+            "background": "#080C18",
+            "surface": "#0C1020",
+            "surface-deep": "#040810",
+            "on-surface": "#E4E7F0",
+            "on-surface-variant": "#8890A6",
+            "outline": "#2A3450",
+            "surface-container-low": "#0A0E1A",
+            "surface-container": "#0F1525",
+            "surface-container-high": "#151D30",
+            "surface-container-highest": "#1C2540"
+          },
+          fontFamily: {
+            "headline": ["Manrope", "sans-serif"],
+            "body": ["Manrope", "sans-serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem",
+            "2xl": "1.5rem", "3xl": "2.5rem", "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Manrope', sans-serif;
+      background-color: #080C18;
+      color: #E4E7F0;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .reward-card {
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+    .reward-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(92, 107, 192, 0.55);
+      background: rgba(92, 107, 192, 0.06);
+    }
+    .reward-card.selected {
+      border-color: #5C6BC0;
+      background: rgba(92, 107, 192, 0.1);
+      box-shadow: 0 14px 32px rgba(92, 107, 192, 0.22);
+    }
+    .tab-btn[aria-selected="true"] {
+      background: rgba(92, 107, 192, 0.14);
+      color: #E4E7F0;
+      border-color: rgba(92, 107, 192, 0.35);
+    }
+    .tab-btn[aria-selected="true"] .material-symbols-outlined {
+      color: #5C6BC0;
+    }
+    .spin { animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+  <!-- Nav (simplified vs. landing) -->
+  <nav class="sticky top-0 z-50 bg-[#080C18]/85 backdrop-blur-md border-b border-surface-container/60">
+    <div class="flex justify-between items-center w-full px-4 sm:px-8 py-4 sm:py-5 max-w-7xl mx-auto">
+      <a class="flex items-center gap-2.5" href="/" aria-label="Oceanid home">
+        <img src="https://storage.googleapis.com/oceanid-public/logo.png" alt="Oceanid Logo" class="h-8 sm:h-9 w-auto" />
+        <img src="https://storage.googleapis.com/oceanid-public/logo-text.png" alt="Oceanid" class="h-5 sm:h-6 w-auto" />
+      </a>
+      <div class="flex items-center gap-3 sm:gap-5 text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant">
+        <a class="hover:text-primary transition-colors hidden sm:inline" href="/">Home</a>
+        <a class="hover:text-primary transition-colors hidden sm:inline" href="/#faq">FAQ</a>
+        <!-- User chip (signed in) -->
+        <div id="user-chip" hidden class="relative">
+          <button id="user-chip-btn" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-surface-container transition-colors">
+            <img id="user-chip-avatar" alt="" class="w-6 h-6 rounded-full bg-surface-container-high" />
+            <span id="user-chip-name" class="normal-case tracking-normal text-xs font-bold text-on-surface max-w-[120px] truncate"></span>
+            <span class="material-symbols-outlined text-on-surface-variant" style="font-size:16px">expand_more</span>
+          </button>
+          <div id="user-chip-menu" hidden class="absolute right-0 top-full mt-2 w-48 rounded-2xl py-2 shadow-2xl" style="background:#0F1525;border:1px solid #2A3450;">
+            <button id="signout-btn" class="w-full text-left flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors text-xs uppercase tracking-widest font-bold">
+              <span class="material-symbols-outlined text-primary/70" style="font-size:16px">logout</span>Sign out
+            </button>
+          </div>
+        </div>
+        <a class="btn-shimmer bg-primary text-on-primary px-4 py-2 rounded-lg text-[11px] hover:bg-primary-dim transition-colors"
+          href="https://www.indiegogo.com/projects/oceanid/oceanid-one-app-for-life-at-sea" target="_blank" rel="noopener">Back us</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-1 px-4 sm:px-8 py-10 sm:py-14">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- ─── Loading state ─────────────────────────────────────── -->
+      <section id="state-loading" class="py-24 text-center">
+        <span class="material-symbols-outlined text-primary spin" style="font-size:42px">progress_activity</span>
+        <p class="mt-4 text-on-surface-variant text-sm">Loading your account…</p>
+      </section>
+
+      <!-- ─── Signed-out state ──────────────────────────────────── -->
+      <section id="state-signed-out" hidden class="py-10 sm:py-14">
+        <div class="max-w-md mx-auto rounded-2xl p-7 sm:p-9 shadow-2xl text-center"
+          style="background:#0C1020;border:1px solid #2A3450;">
+          <p class="text-primary text-xs font-black uppercase tracking-[0.25em] mb-3">Founding member access</p>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">Sign in to your Oceanid account</h1>
+          <p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+            Manage your founding reward, trips, billing, and profile in one place.
+          </p>
+          <button id="signin-btn"
+            class="w-full bg-primary text-on-primary py-3.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined" style="font-size:18px">login</span>Sign in
+          </button>
+          <p class="text-on-surface-variant/70 text-xs mt-4">
+            Google · Microsoft · Apple · Email + password
+          </p>
+          <div class="border-t border-outline/60 mt-7 pt-5">
+            <p class="text-on-surface-variant text-xs">Not on the waitlist yet?</p>
+            <a href="/#early-access" class="text-primary text-sm font-bold hover:text-primary-dim transition-colors">
+              Join from the homepage →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Signed-in state ───────────────────────────────────── -->
+      <section id="state-signed-in" hidden class="grid grid-cols-12 gap-6 lg:gap-8">
+        <!-- Sidebar -->
+        <aside class="col-span-12 md:col-span-3">
+          <div class="rounded-2xl p-3 sticky top-24" style="background:#0C1020;border:1px solid #2A3450;">
+            <nav id="account-tabs" class="flex md:flex-col gap-1.5 overflow-x-auto md:overflow-visible">
+              <button class="tab-btn flex items-center gap-3 px-4 py-3 rounded-xl text-xs uppercase tracking-widest font-bold text-on-surface-variant border border-transparent hover:bg-surface-container hover:text-on-surface transition-colors flex-shrink-0"
+                data-tab="rewards" aria-selected="true">
+                <span class="material-symbols-outlined" style="font-size:18px">redeem</span>Rewards
+              </button>
+              <button class="tab-btn flex items-center gap-3 px-4 py-3 rounded-xl text-xs uppercase tracking-widest font-bold text-on-surface-variant border border-transparent hover:bg-surface-container hover:text-on-surface transition-colors flex-shrink-0"
+                data-tab="trips" aria-selected="false">
+                <span class="material-symbols-outlined" style="font-size:18px">sailing</span>Trips
+              </button>
+              <button class="tab-btn flex items-center gap-3 px-4 py-3 rounded-xl text-xs uppercase tracking-widest font-bold text-on-surface-variant border border-transparent hover:bg-surface-container hover:text-on-surface transition-colors flex-shrink-0"
+                data-tab="billing" aria-selected="false">
+                <span class="material-symbols-outlined" style="font-size:18px">credit_card</span>Billing
+              </button>
+              <button class="tab-btn flex items-center gap-3 px-4 py-3 rounded-xl text-xs uppercase tracking-widest font-bold text-on-surface-variant border border-transparent hover:bg-surface-container hover:text-on-surface transition-colors flex-shrink-0"
+                data-tab="profile" aria-selected="false">
+                <span class="material-symbols-outlined" style="font-size:18px">person</span>Profile
+              </button>
+            </nav>
+          </div>
+        </aside>
+
+        <!-- Content -->
+        <div class="col-span-12 md:col-span-9 space-y-6">
+
+          <!-- ─── Rewards tab ──────────────────────────────────── -->
+          <section class="tab-panel" data-panel="rewards">
+            <!-- Picker (no reward claimed yet) -->
+            <div id="rewards-picker" hidden>
+              <header class="mb-6">
+                <p class="text-primary text-xs font-black uppercase tracking-[0.25em] mb-2">Founding member reward</p>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Pick one reward — free for 3 months</h2>
+                <p class="text-on-surface-variant text-sm mt-2">You can choose one. We'll email your activation code right after.</p>
+              </header>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <button class="reward-card text-left rounded-2xl p-5"
+                  data-reward="OPER_PRO_3M" style="background:#0C1020;border:1px solid #2A3450;">
+                  <div class="w-10 h-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined" style="font-size:22px">workspace_premium</span>
+                  </div>
+                  <p class="text-on-surface text-base font-extrabold mb-1">3 months Oceanid PRO</p>
+                  <p class="text-on-surface-variant text-xs leading-relaxed mb-4">
+                    For captains and fleet managers. Unlimited vessels and paid trips on PRO, free for 3 months.
+                  </p>
+                  <p class="text-primary text-[10px] font-black uppercase tracking-widest">€60 value</p>
+                </button>
+                <button class="reward-card text-left rounded-2xl p-5"
+                  data-reward="OPER_FEE_WAIVER_3M" style="background:#0C1020;border:1px solid #2A3450;">
+                  <div class="w-10 h-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined" style="font-size:22px">percent</span>
+                  </div>
+                  <p class="text-on-surface text-base font-extrabold mb-1">0% platform fee</p>
+                  <p class="text-on-surface-variant text-xs leading-relaxed mb-4">
+                    For captains, fleet managers, service providers. Keep 100% of every booking for 3 months.
+                  </p>
+                  <p class="text-primary text-[10px] font-black uppercase tracking-widest">3 months</p>
+                </button>
+                <button class="reward-card text-left rounded-2xl p-5"
+                  data-reward="TRAV_FEE_WAIVER_3M" style="background:#0C1020;border:1px solid #2A3450;">
+                  <div class="w-10 h-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined" style="font-size:22px">confirmation_number</span>
+                  </div>
+                  <p class="text-on-surface text-base font-extrabold mb-1">No booking fees</p>
+                  <p class="text-on-surface-variant text-xs leading-relaxed mb-4">
+                    For travelers. The 5% Oceanid booking fee is waived on every trip for 3 months.
+                  </p>
+                  <p class="text-primary text-[10px] font-black uppercase tracking-widest">3 months</p>
+                </button>
+              </div>
+              <div class="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <button id="claim-btn" disabled
+                  class="bg-primary text-on-primary px-6 py-3 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                  Claim this reward
+                  <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span>
+                </button>
+                <p id="claim-help" class="text-on-surface-variant text-xs">Select a reward above to continue.</p>
+                <p id="claim-error" hidden class="text-red-400 text-xs font-semibold"></p>
+              </div>
+            </div>
+
+            <!-- Active reward (already claimed) -->
+            <div id="rewards-active" hidden>
+              <header class="mb-6">
+                <p class="text-primary text-xs font-black uppercase tracking-[0.25em] mb-2">Your founding reward</p>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Reserved & ready to redeem</h2>
+              </header>
+              <div class="rounded-2xl p-6" style="background:#0C1020;border:1px solid #2A3450;">
+                <div class="flex items-start gap-4">
+                  <div class="w-12 h-12 rounded-xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined" id="active-icon" style="font-size:26px">workspace_premium</span>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p id="active-title" class="text-on-surface text-lg font-extrabold mb-1">—</p>
+                    <p id="active-body" class="text-on-surface-variant text-sm mb-4">—</p>
+                    <div class="rounded-xl p-4 bg-[#0A0E1A] border border-outline">
+                      <p class="text-on-surface-variant text-[10px] font-black uppercase tracking-widest mb-1.5">Activation code</p>
+                      <p id="active-code" class="font-mono text-white text-xl font-extrabold tracking-wider select-all">—</p>
+                    </div>
+                    <p class="text-on-surface-variant text-xs mt-3" id="active-meta">—</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Not on waitlist (signed-in user has no waitlist row) -->
+            <div id="rewards-no-waitlist" hidden class="rounded-2xl p-7 text-center" style="background:#0C1020;border:1px solid #2A3450;">
+              <span class="material-symbols-outlined text-primary/70" style="font-size:36px">info</span>
+              <h3 class="text-xl font-extrabold text-white mt-3 mb-2">You're not on the founding waitlist yet</h3>
+              <p class="text-on-surface-variant text-sm mb-5">Founding rewards are reserved for early-access members. Join from the homepage and we'll link your reward to this account on the next sign-in.</p>
+              <a href="/#early-access" class="inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-colors">
+                Join the waitlist
+                <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span>
+              </a>
+            </div>
+          </section>
+
+          <!-- ─── Trips tab ────────────────────────────────────── -->
+          <section class="tab-panel" data-panel="trips" hidden>
+            <header class="mb-6">
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Trips</h2>
+            </header>
+            <div class="rounded-2xl p-10 text-center" style="background:#0C1020;border:1px solid #2A3450;">
+              <span class="material-symbols-outlined text-primary/60" style="font-size:42px">sailing</span>
+              <p class="text-on-surface text-base font-bold mt-3 mb-1">Coming soon</p>
+              <p class="text-on-surface-variant text-sm">Your bookings and route history will appear here when the app launches.</p>
+            </div>
+          </section>
+
+          <!-- ─── Billing tab ──────────────────────────────────── -->
+          <section class="tab-panel" data-panel="billing" hidden>
+            <header class="mb-6">
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Billing</h2>
+            </header>
+            <div class="rounded-2xl p-10 text-center" style="background:#0C1020;border:1px solid #2A3450;">
+              <span class="material-symbols-outlined text-primary/60" style="font-size:42px">credit_card</span>
+              <p class="text-on-surface text-base font-bold mt-3 mb-1">Coming soon</p>
+              <p class="text-on-surface-variant text-sm">Invoices and subscription management will live here.</p>
+            </div>
+          </section>
+
+          <!-- ─── Profile tab ──────────────────────────────────── -->
+          <section class="tab-panel" data-panel="profile" hidden>
+            <header class="mb-6">
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Profile</h2>
+            </header>
+            <div class="rounded-2xl p-6" style="background:#0C1020;border:1px solid #2A3450;">
+              <div class="flex items-center gap-4 mb-6">
+                <img id="profile-avatar" alt="" class="w-16 h-16 rounded-full bg-surface-container-high" />
+                <div>
+                  <p id="profile-name" class="text-on-surface text-lg font-extrabold">—</p>
+                  <p id="profile-email" class="text-on-surface-variant text-sm">—</p>
+                </div>
+              </div>
+              <p class="text-on-surface-variant text-xs">Editable profile fields coming soon.</p>
+            </div>
+          </section>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-surface-container/60 py-6 px-4 sm:px-8">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-on-surface-variant">
+      <span>© <span id="yr"></span> DOVENTA HOLDINGS LIMITED</span>
+      <div class="flex gap-4">
+        <a href="/" class="hover:text-primary transition-colors">Home</a>
+        <a href="mailto:contact@oceanid.io" class="hover:text-primary transition-colors">contact@oceanid.io</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // ─── Config from <meta> tags ─────────────────────────────────
+    const cfg = {
+      domain:   document.querySelector('meta[name="x-auth0-domain"]').content,
+      clientId: document.querySelector('meta[name="x-auth0-client-id"]').content,
+      fnBase:   document.querySelector('meta[name="x-supabase-fn-base"]').content,
+      redirectUri: window.location.origin + '/account',
+    };
+
+    // ─── State helpers ───────────────────────────────────────────
+    const $ = (sel) => document.querySelector(sel);
+    function show(id)   { $(id).hidden = false; }
+    function hide(id)   { $(id).hidden = true; }
+    function setState(name) {
+      ['#state-loading', '#state-signed-out', '#state-signed-in'].forEach(hide);
+      show('#state-' + name);
+    }
+    function setRewardView(view) {
+      ['#rewards-picker', '#rewards-active', '#rewards-no-waitlist'].forEach(hide);
+      show('#rewards-' + view);
+    }
+
+    // ─── Tabs ────────────────────────────────────────────────────
+    function activateTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.setAttribute('aria-selected', String(b.dataset.tab === tab));
+      });
+      document.querySelectorAll('.tab-panel').forEach(p => {
+        p.hidden = p.dataset.panel !== tab;
+      });
+      if (location.hash !== '#' + tab) {
+        history.replaceState(null, '', '#' + tab);
+      }
+    }
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+    });
+
+    // ─── Auth0 ───────────────────────────────────────────────────
+    let auth0Client = null;
+
+    async function initAuth() {
+      auth0Client = await auth0.createAuth0Client({
+        domain: cfg.domain,
+        clientId: cfg.clientId,
+        authorizationParams: { redirect_uri: cfg.redirectUri },
+        cacheLocation: 'localstorage',
+        useRefreshTokens: true,
+      });
+
+      // Handle redirect callback if we just came back from Auth0
+      if (location.search.includes('code=') && location.search.includes('state=')) {
+        await auth0Client.handleRedirectCallback();
+        // strip ?code=&state= but keep any other params (like ?token=)
+        const url = new URL(location.href);
+        url.searchParams.delete('code');
+        url.searchParams.delete('state');
+        history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+      }
+
+      const isAuthed = await auth0Client.isAuthenticated();
+      if (isAuthed) {
+        await renderSignedIn();
+      } else {
+        renderSignedOut();
+      }
+    }
+
+    function renderSignedOut() {
+      setState('signed-out');
+      $('#signin-btn').onclick = () => {
+        // preserve ?token= across the Auth0 round trip via appState
+        const tok = new URL(location.href).searchParams.get('token');
+        auth0Client.loginWithRedirect({
+          appState: tok ? { claimToken: tok } : undefined,
+          authorizationParams: {
+            redirect_uri: cfg.redirectUri + (tok ? '?token=' + encodeURIComponent(tok) : ''),
+          },
+        });
+      };
+    }
+
+    async function renderSignedIn() {
+      setState('signed-in');
+
+      const user = await auth0Client.getUser();
+      const token = await auth0Client.getTokenSilently().catch(() => null);
+      const idClaims = await auth0Client.getIdTokenClaims();
+      const idToken = idClaims?.__raw;
+
+      // User chip
+      const chip = $('#user-chip');
+      chip.hidden = false;
+      $('#user-chip-avatar').src = user.picture || '';
+      $('#user-chip-name').textContent = user.name || user.email || 'Signed in';
+      $('#profile-avatar').src = user.picture || '';
+      $('#profile-name').textContent = user.name || '—';
+      $('#profile-email').textContent = user.email || '—';
+
+      // User chip dropdown
+      $('#user-chip-btn').onclick = () => { $('#user-chip-menu').hidden = !$('#user-chip-menu').hidden; };
+      $('#signout-btn').onclick = () => {
+        auth0Client.logout({ logoutParams: { returnTo: window.location.origin + '/account' } });
+      };
+
+      // Link waitlist row if a token is present in the URL
+      const claimToken = new URL(location.href).searchParams.get('token');
+      if (claimToken) {
+        await fetch(cfg.fnBase + '/account-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + idToken },
+          body: JSON.stringify({ token: claimToken }),
+        }).catch(() => {});
+        // strip ?token= now that we've used it
+        const url = new URL(location.href);
+        url.searchParams.delete('token');
+        history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+      }
+
+      // Load account state
+      const stateRes = await fetch(cfg.fnBase + '/account-state', {
+        headers: { Authorization: 'Bearer ' + idToken },
+      });
+      const state = await stateRes.json().catch(() => ({}));
+
+      renderRewards(state, idToken);
+
+      // Activate tab from hash or default to rewards
+      const hash = (location.hash || '#rewards').slice(1);
+      activateTab(['rewards', 'trips', 'billing', 'profile'].includes(hash) ? hash : 'rewards');
+    }
+
+    // ─── Rewards rendering ───────────────────────────────────────
+    const REWARD_META = {
+      OPER_PRO_3M:        { icon: 'workspace_premium',     title: '3 months Oceanid PRO',  body: 'PRO subscription is free for 3 months. We\'ll auto-apply when you start the PRO upgrade in the app.' },
+      OPER_FEE_WAIVER_3M: { icon: 'percent',               title: '0% platform fee',       body: 'We waive the operator commission on every booking for 3 months from your first paid trip.' },
+      TRAV_FEE_WAIVER_3M: { icon: 'confirmation_number',   title: 'No booking fees',       body: 'The 5% Oceanid booking fee is waived on every trip you book in your first 3 months.' },
+    };
+
+    function renderRewards(state, idToken) {
+      if (state?.reward_claim) {
+        const c = state.reward_claim;
+        const meta = REWARD_META[c.reward_code] || { icon: 'redeem', title: c.reward_code, body: '' };
+        $('#active-icon').textContent = meta.icon;
+        $('#active-title').textContent = meta.title;
+        $('#active-body').textContent = meta.body;
+        $('#active-code').textContent = c.promo_code;
+        const claimed = c.claimed_at ? new Date(c.claimed_at).toLocaleDateString() : '—';
+        $('#active-meta').textContent = 'Reserved on ' + claimed + ' · Status: ' + (c.status || 'RESERVED');
+        setRewardView('active');
+      } else if (state?.waitlist_linked) {
+        setRewardView('picker');
+        wireRewardPicker(idToken);
+      } else {
+        setRewardView('no-waitlist');
+      }
+    }
+
+    function wireRewardPicker(idToken) {
+      let selected = null;
+      const claimBtn = $('#claim-btn');
+      const help = $('#claim-help');
+      const err = $('#claim-error');
+      document.querySelectorAll('#rewards-picker .reward-card').forEach(card => {
+        card.onclick = () => {
+          document.querySelectorAll('#rewards-picker .reward-card').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          selected = card.dataset.reward;
+          claimBtn.disabled = false;
+          help.textContent = 'Click "Claim this reward" to confirm.';
+          err.hidden = true;
+        };
+      });
+      claimBtn.onclick = async () => {
+        if (!selected) return;
+        claimBtn.disabled = true;
+        claimBtn.innerHTML = '<span class="material-symbols-outlined spin" style="font-size:18px">progress_activity</span>Claiming…';
+        err.hidden = true;
+        try {
+          const r = await fetch(cfg.fnBase + '/reward-claim', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + idToken },
+            body: JSON.stringify({ reward_code: selected }),
+          });
+          const data = await r.json();
+          if (!r.ok || !data?.ok) throw new Error(data?.error || 'Could not claim reward');
+          renderRewards({ reward_claim: data.reward_claim, waitlist_linked: true }, idToken);
+        } catch (e) {
+          err.textContent = e.message;
+          err.hidden = false;
+          claimBtn.disabled = false;
+          claimBtn.innerHTML = 'Claim this reward <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span>';
+        }
+      };
+    }
+
+    // ─── Boot ────────────────────────────────────────────────────
+    initAuth().catch(err => {
+      console.error('Auth init failed:', err);
+      setState('signed-out');
+      const e = document.createElement('p');
+      e.className = 'text-red-400 text-xs mt-3';
+      e.textContent = 'Sign-in is temporarily unavailable. Check that Auth0 is configured.';
+      $('#state-signed-out .text-center')?.appendChild(e);
+    });
+  </script>
+</body>
+</html>

@@ -2090,6 +2090,10 @@
         <a class="nav-link hover:text-primary transition-colors" href="#faq" data-section="faq">FAQ</a>
         <a class="nav-link hover:text-primary transition-colors" href="#about" data-section="about">About Us</a>
         <a class="nav-link hover:text-primary transition-colors" href="#early-access" data-section="contact">Contact</a>
+        <a class="nav-link hover:text-primary transition-colors inline-flex items-center gap-1.5"
+          href="/account" data-section="account">
+          <span class="material-symbols-outlined" style="font-size:14px;line-height:1">login</span>Sign in
+        </a>
         <a class="btn-shimmer bg-primary text-on-primary px-4 py-2 rounded-lg text-[11px] hover:bg-primary-dim transition-colors"
           href="https://www.indiegogo.com/projects/oceanid/oceanid-one-app-for-life-at-sea" target="_blank"
           rel="noopener">Back us</a>
@@ -2126,6 +2130,10 @@
       <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
         href="#early-access" onclick="closeMobileMenu()">
         <span class="material-symbols-outlined text-lg">mail</span>Contact
+      </a>
+      <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
+        href="/account" onclick="closeMobileMenu()">
+        <span class="material-symbols-outlined text-lg">login</span>Sign in
       </a>
       <a class="flex items-center justify-center py-3 px-4 rounded-xl bg-primary text-on-primary font-bold text-sm hover:bg-primary-dim transition-colors mt-1"
         href="https://www.indiegogo.com/projects/oceanid/oceanid-one-app-for-life-at-sea" target="_blank" rel="noopener"
@@ -2194,8 +2202,8 @@
             <div
               class="form-luxury bg-[#080c18]/80 backdrop-blur-xl rounded-2xl p-4 sm:p-6 shadow-2xl fade-up fade-up-delay-3 mt-6 sm:mt-8 max-w-lg">
               <h3 class="text-base sm:text-xl font-bold text-white mb-0.5 text-center">Become an Early Explorer</h3>
-              <p class="text-white/50 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed text-center">Get early access to
-                the app and exclusive member benefits.</p>
+              <p class="text-white/50 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed text-center">Founding members pick
+                one reward, free for 3 months — choose yours after sign‑in.</p>
               <form id="early-form-hero" class="space-y-2 sm:space-y-2.5" novalidate>
                 <input type="hidden" name="_source" value="hero-section" />
                 <div class="relative">
@@ -2270,19 +2278,22 @@
                 <h5 class="text-base font-bold text-white">You're in!</h5>
                 <p class="text-white/50 text-sm">We'll reach out with early access details soon.</p>
               </div>
-              <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-3 sm:mt-4">
-                <span class="inline-flex items-center gap-1.5 text-white/35 text-[10px] sm:text-xs font-medium"><span
-                    class="material-symbols-outlined text-primary/80"
-                    style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Early
-                  Access</span>
-                <span class="inline-flex items-center gap-1.5 text-white/35 text-[10px] sm:text-xs font-medium"><span
-                    class="material-symbols-outlined text-primary/80"
-                    style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Exclusive
-                  Offers</span>
-                <span class="inline-flex items-center gap-1.5 text-white/35 text-[10px] sm:text-xs font-medium"><span
-                    class="material-symbols-outlined text-primary/80"
-                    style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Free
-                  to Join</span>
+              <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 mt-3 sm:mt-4">
+                <span class="inline-flex items-center gap-1.5 text-white/55 text-[10px] sm:text-xs font-semibold"
+                  title="3 months of Oceanid PRO subscription, free"><span
+                    class="material-symbols-outlined text-primary"
+                    style="font-size:13px;font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20">workspace_premium</span>3
+                  months PRO</span>
+                <span class="inline-flex items-center gap-1.5 text-white/55 text-[10px] sm:text-xs font-semibold"
+                  title="No platform commission on bookings for 3 months"><span
+                    class="material-symbols-outlined text-primary"
+                    style="font-size:13px;font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20">percent</span>0%
+                  platform fee</span>
+                <span class="inline-flex items-center gap-1.5 text-white/55 text-[10px] sm:text-xs font-semibold"
+                  title="No traveler booking fees for 3 months"><span
+                    class="material-symbols-outlined text-primary"
+                    style="font-size:13px;font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20">confirmation_number</span>No
+                  booking fees</span>
               </div>
             </div>
 
@@ -3614,19 +3625,22 @@
               <h5 class="text-base font-bold text-white">You're in!</h5>
               <p class="text-white/50 text-sm">We'll reach out with early access details soon.</p>
             </div>
-            <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-4">
-              <span class="inline-flex items-center gap-1.5 text-white/35 text-xs font-medium"><span
-                  class="material-symbols-outlined text-primary/80"
-                  style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Early
-                Access</span>
-              <span class="inline-flex items-center gap-1.5 text-white/35 text-xs font-medium"><span
-                  class="material-symbols-outlined text-primary/80"
-                  style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Exclusive
-                Offers</span>
-              <span class="inline-flex items-center gap-1.5 text-white/35 text-xs font-medium"><span
-                  class="material-symbols-outlined text-primary/80"
-                  style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Free
-                to Join</span>
+            <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 mt-4">
+              <span class="inline-flex items-center gap-1.5 text-white/55 text-xs font-semibold"
+                title="3 months of Oceanid PRO subscription, free"><span
+                  class="material-symbols-outlined text-primary"
+                  style="font-size:13px;font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20">workspace_premium</span>3
+                months PRO</span>
+              <span class="inline-flex items-center gap-1.5 text-white/55 text-xs font-semibold"
+                title="No platform commission on bookings for 3 months"><span
+                  class="material-symbols-outlined text-primary"
+                  style="font-size:13px;font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20">percent</span>0%
+                platform fee</span>
+              <span class="inline-flex items-center gap-1.5 text-white/55 text-xs font-semibold"
+                title="No traveler booking fees for 3 months"><span
+                  class="material-symbols-outlined text-primary"
+                  style="font-size:13px;font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20">confirmation_number</span>No
+                booking fees</span>
             </div>
           </div>
         </div>
@@ -3804,10 +3818,10 @@
     }
 
     // ════════════════════════════════════════════════
-    // Launch countdown — flip the digits to July 15
+    // Launch countdown — counts to end of June (founding-member window close)
     // ════════════════════════════════════════════════
     (function () {
-      var TARGET = new Date('2026-07-15T00:00:00Z').getTime();
+      var TARGET = new Date('2026-06-30T23:59:59Z').getTime();
       function tick() {
         var diff = Math.max(0, TARGET - Date.now());
         var d = Math.floor(diff / 86400000);
