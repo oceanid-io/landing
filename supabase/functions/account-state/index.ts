@@ -1,13 +1,7 @@
 // GET (or POST) /functions/v1/account-state
-// Auth: Authorization: Bearer <auth0_id_token>
-//
-// Returns the data the /account dashboard needs:
-//   - waitlist_linked: whether the signed-in user is linked to a waitlist row
-//   - waitlist: { id, email, role } if linked
-//   - reward_claim: the user's existing reward_claims row, or null
+// Auth: Authorization: Bearer <supabase_access_token>
 
-import { createClient } from 'jsr:@supabase/supabase-js@2'
-import { verifyAuth0, HttpError, cors, jsonResponse } from '../_shared/auth0.ts'
+import { verifyUser, serviceClient, HttpError, cors, jsonResponse } from '../_shared/auth.ts'
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors })
@@ -16,27 +10,22 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const user = await verifyAuth0(req)
+    const user = await verifyUser(req)
+    const supabase = serviceClient()
 
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
-    )
-
-    // 1. Find a link row already tied to this Auth0 sub.
+    // 1. Link row already tied to this user?
     let linkedWaitlistId: string | null = null
     {
       const { data: link, error } = await supabase
         .from('waitlist_links')
         .select('waitlist_id')
-        .eq('linked_auth0_sub', user.sub)
+        .eq('linked_user_id', user.id)
         .maybeSingle()
-      if (error) throw new Error(`waitlist_links by sub: ${error.message}`)
+      if (error) throw new Error(`waitlist_links by user: ${error.message}`)
       if (link) linkedWaitlistId = link.waitlist_id
     }
 
-    // 2. If not linked, try to soft-link by email match: find a waitlist row
-    //    matching the user's email whose link row is still unlinked.
+    // 2. Soft-link by email if not yet linked.
     if (!linkedWaitlistId && user.email) {
       const { data: wlRows, error: wlErr } = await supabase
         .from('waitlist')
@@ -47,19 +36,17 @@ Deno.serve(async (req) => {
       for (const row of wlRows ?? []) {
         const { data: candidate, error: linkErr } = await supabase
           .from('waitlist_links')
-          .select('waitlist_id, linked_auth0_sub')
+          .select('waitlist_id, linked_user_id')
           .eq('waitlist_id', row.id)
           .maybeSingle()
         if (linkErr) throw new Error(`waitlist_links candidate: ${linkErr.message}`)
 
-        // Backfill ensures every existing waitlist row has a link row, but
-        // be defensive in case backfill ran before this waitlist row existed.
         if (!candidate) {
           const { error: insErr } = await supabase
             .from('waitlist_links')
             .insert({
               waitlist_id: row.id,
-              linked_auth0_sub: user.sub,
+              linked_user_id: user.id,
               linked_at: new Date().toISOString(),
             })
           if (insErr && !insErr.message.includes('duplicate')) {
@@ -69,13 +56,10 @@ Deno.serve(async (req) => {
           break
         }
 
-        if (!candidate.linked_auth0_sub) {
+        if (!candidate.linked_user_id) {
           const { error: updErr } = await supabase
             .from('waitlist_links')
-            .update({
-              linked_auth0_sub: user.sub,
-              linked_at: new Date().toISOString(),
-            })
+            .update({ linked_user_id: user.id, linked_at: new Date().toISOString() })
             .eq('waitlist_id', row.id)
           if (updErr) throw new Error(`waitlist_links link by email: ${updErr.message}`)
           linkedWaitlistId = row.id
@@ -98,13 +82,13 @@ Deno.serve(async (req) => {
     const { data: claim, error: claimErr } = await supabase
       .from('reward_claims')
       .select('id, reward_code, promo_code, status, expires_at, claimed_at')
-      .eq('auth0_sub', user.sub)
+      .eq('user_id', user.id)
       .maybeSingle()
     if (claimErr) throw new Error(`reward_claims lookup: ${claimErr.message}`)
 
     return jsonResponse(200, {
       ok: true,
-      user: { sub: user.sub, email: user.email, name: user.name, picture: user.picture },
+      user: { id: user.id, email: user.email, name: user.name, picture: user.picture },
       waitlist_linked: Boolean(waitlistRow),
       waitlist: waitlistRow,
       reward_claim: claim ?? null,
