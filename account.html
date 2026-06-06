@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+
+<head>
+  <script src="https://app.termly.io/resource-blocker/0abc2961-5f3d-4206-9026-c631001e93a9"></script>
+
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Your Oceanid account</title>
+  <meta name="description" content="Sign in to your Oceanid account to claim your free reward and manage your trips, billing, and profile." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://oceanid.io/account" />
+
+  <!-- ────────────────────────────────────────────────────────────────
+       Supabase project configuration
+       ──────────────────────────────────────────────────────────────── -->
+  <meta name="x-supabase-url"      content="https://ofgzihmokzjtalrfcjbd.supabase.co" />
+  <meta name="x-supabase-anon-key" content="sb_publishable_Z3SUSKFxEtsmBR3rN73Q7A_b4xeHKmQ" />
+
+  <link rel="icon" type="image/png" href="https://storage.googleapis.com/oceanid-public/logo.png" />
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C0JJHDD6VM"></script>
+  <script>
+    gtag('js', new Date());
+    gtag('config', 'G-C0JJHDD6VM');
+  </script>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#5C6BC0",
+            "primary-dim": "#4A58A8",
+            "primary-container": "#1A2060",
+            "on-primary": "#FFFFFF",
+            "secondary": "#3949AB",
+            "tertiary": "#00838F",
+            "background": "#080C18",
+            "surface": "#0C1020",
+            "surface-deep": "#040810",
+            "on-surface": "#E4E7F0",
+            "on-surface-variant": "#8890A6",
+            "outline": "#2A3450",
+            "surface-container-low": "#0A0E1A",
+            "surface-container": "#0F1525",
+            "surface-container-high": "#151D30",
+            "surface-container-highest": "#1C2540"
+          },
+          fontFamily: {
+            "headline": ["Manrope", "sans-serif"],
+            "body": ["Manrope", "sans-serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem",
+            "2xl": "1.5rem", "3xl": "2.5rem", "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Manrope', sans-serif;
+      background-color: #080C18;
+      color: #E4E7F0;
+    }
+    /* Cinematic sail background, matching the landing hero */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image: url('https://storage.googleapis.com/oceanid-public/background.jpg');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.55);
+    }
+    /* Dark + colour gradients overlay (same recipe as landing hero) */
+    body > .bg-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at 80% -10%, rgba(92,107,192,0.22), transparent 60%),
+        radial-gradient(ellipse 60% 50% at 0% 20%, rgba(0,131,143,0.14), transparent 60%),
+        linear-gradient(180deg, rgba(8,12,24,0.55), rgba(8,12,24,0.85) 55%, #080C18 100%);
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background-image: radial-gradient(#5C6BC0 0.5px, transparent 0.5px);
+      background-size: 24px 24px;
+      opacity: 0.06;
+      z-index: 0;
+    }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+    /* Luxury card surface with gradient border + inner glow */
+    .lux {
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(15,21,37,0.92) 0%, rgba(12,16,32,0.92) 100%);
+      border: 1px solid rgba(92, 107, 192, 0.18);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.04) inset,
+        0 20px 60px -20px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(92,107,192,0.04);
+      backdrop-filter: blur(14px);
+    }
+    .lux::before {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(140deg, rgba(92,107,192,0.45), transparent 35%, transparent 65%, rgba(0,131,143,0.25));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .reward-card {
+      position: relative;
+      transition: transform 0.32s cubic-bezier(0.22,1,0.36,1), border-color 0.22s ease, background 0.22s ease, box-shadow 0.32s ease;
+    }
+    .reward-card:hover { transform: translateY(-4px); border-color: rgba(92, 107, 192, 0.55); background: rgba(92, 107, 192, 0.06); box-shadow: 0 22px 44px -18px rgba(92,107,192,0.45); }
+    .reward-card.selected { border-color: #5C6BC0; background: rgba(92, 107, 192, 0.10); box-shadow: 0 14px 32px rgba(92, 107, 192, 0.28), 0 0 0 1px rgba(92,107,192,0.5); transform: translateY(-2px); }
+
+    .tab-btn[aria-selected="true"] { color: #fff; border-bottom-color: #5C6BC0 !important; }
+    .tab-btn[aria-selected="true"] .material-symbols-outlined { color: #5C6BC0; }
+    .tab-btn-disabled { pointer-events: none; opacity: 0.7; }
+
+    /* Luxury empty-state card — used for Trips/no-waitlist */
+    .empty-state {
+      position: relative;
+      overflow: hidden;
+      padding: 56px 28px 52px;
+      border-radius: 20px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% -10%, rgba(92,107,192,0.22), transparent 60%),
+        linear-gradient(180deg, rgba(15,21,37,0.85) 0%, rgba(10,14,26,0.85) 100%);
+      border: 1px solid rgba(92,107,192,0.22);
+      box-shadow:
+        0 0 0 1px rgba(92,107,192,0.05),
+        0 30px 60px -22px rgba(0,0,0,0.7),
+        0 0 50px -16px rgba(92,107,192,0.32),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+      backdrop-filter: blur(14px);
+    }
+    /* Soft dot grid overlay */
+    .empty-state::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(92,107,192,0.35) 0.6px, transparent 0.6px);
+      background-size: 22px 22px;
+      opacity: 0.18;
+      mask: radial-gradient(ellipse 70% 90% at 50% 50%, #000 30%, transparent 80%);
+      -webkit-mask: radial-gradient(ellipse 70% 90% at 50% 50%, #000 30%, transparent 80%);
+    }
+    .empty-state-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      margin: 0 auto 22px;
+      display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(circle at 35% 30%, #5C6BC0 0%, #3949AB 55%, #2A3A88 100%);
+      color: #fff;
+      box-shadow:
+        0 14px 28px -8px rgba(92,107,192,0.7),
+        0 0 0 6px rgba(92,107,192,0.10),
+        0 0 0 12px rgba(92,107,192,0.05);
+      position: relative;
+      z-index: 1;
+    }
+    .empty-state-icon .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 500;
+    }
+    .empty-state-title {
+      position: relative;
+      z-index: 1;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+    .empty-state-body {
+      position: relative;
+      z-index: 1;
+      max-width: 460px;
+      margin: 0 auto;
+      color: rgba(228, 231, 240, 0.66);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .empty-state-pill {
+      display: inline-block;
+      margin-top: 22px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(92,107,192,0.12);
+      border: 1px solid rgba(92,107,192,0.4);
+      color: #a8b3e6;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+    .empty-state-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #5C6BC0, #4A58A8);
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      box-shadow: 0 14px 28px -8px rgba(92,107,192,0.6);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .empty-state-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 36px -10px rgba(92,107,192,0.75);
+    }
+    .spin { animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    [hidden] { display: none !important; }
+    .oauth-btn { transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.22s ease; }
+    .oauth-btn:hover { background: #151D30; border-color: rgba(92, 107, 192, 0.45); transform: translateY(-1px); box-shadow: 0 10px 24px -12px rgba(92,107,192,0.35); }
+    .form-input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); }
+    .form-input:focus { outline: none; border-color: rgba(92,107,192,0.6); box-shadow: 0 0 0 3px rgba(92,107,192,0.18); }
+
+    /* Fade-up entrance */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fade-up 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+    .fade-up-d1 { animation-delay: 0.08s; }
+    .fade-up-d2 { animation-delay: 0.18s; }
+    .fade-up-d3 { animation-delay: 0.28s; }
+
+    /* Avatar with initials fallback. Picture loads on top of initials;
+       on error the img hides itself and the initials show through. */
+    .avatar {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #3949AB, #00838F);
+      color: #fff;
+      font-weight: 800;
+      text-transform: uppercase;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .avatar.av-sm { width: 28px; height: 28px; font-size: 11px; border-radius: 999px; }
+    .avatar.av-lg { width: 64px; height: 64px; font-size: 22px; border-radius: 999px; }
+
+    main, nav, footer { position: relative; z-index: 1; }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <div class="bg-overlay"></div>
+
+  <nav class="fixed top-0 w-full z-50 bg-[#080C18]/80 backdrop-blur-md border-b border-surface-container/50">
+    <div class="flex justify-between items-center w-full px-4 sm:px-8 py-4 sm:py-5 max-w-7xl mx-auto">
+      <a class="flex items-center gap-2.5 group transition-opacity hover:opacity-85" href="/" aria-label="Oceanid home">
+        <img src="https://storage.googleapis.com/oceanid-public/logo.png" alt="Oceanid Logo" class="h-8 sm:h-9 w-auto" />
+        <img src="https://storage.googleapis.com/oceanid-public/logo-text.png" alt="Oceanid" class="h-5 sm:h-6 w-auto" />
+      </a>
+      <div class="hidden md:flex items-center gap-6 text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant">
+        <!-- Explore dropdown -->
+        <div class="relative group">
+          <button class="hover:text-primary transition-colors flex items-center gap-1 cursor-default">
+            Explore
+            <span class="material-symbols-outlined transition-transform duration-200 group-hover:rotate-180"
+              style="font-size:13px;line-height:1;margin-top:1px">expand_more</span>
+          </button>
+          <div class="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 pointer-events-none group-hover:pointer-events-auto transition-all duration-200">
+            <div class="w-52 rounded-2xl py-2 shadow-2xl" style="background:#0F1525;border:1px solid #2A3450;">
+              <a href="/#captains" class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-primary transition-colors rounded-xl mx-1 hover:bg-surface-container">
+                <span class="material-symbols-outlined text-primary/60 shrink-0" style="font-size:15px;font-variation-settings:'FILL' 1">sailing</span>Captains
+              </a>
+              <a href="/#travelers" class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-primary transition-colors rounded-xl mx-1 hover:bg-surface-container">
+                <span class="material-symbols-outlined text-primary/60 shrink-0" style="font-size:15px;font-variation-settings:'FILL' 1">travel_explore</span>Travelers
+              </a>
+              <a href="/#marinas" class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-primary transition-colors rounded-xl mx-1 hover:bg-surface-container">
+                <span class="material-symbols-outlined text-primary/60 shrink-0" style="font-size:15px;font-variation-settings:'FILL' 1">anchor</span>Marinas &amp; Services
+              </a>
+            </div>
+          </div>
+        </div>
+        <a class="hover:text-primary transition-colors" href="/#faq">FAQ</a>
+        <a class="hover:text-primary transition-colors" href="/#about">About Us</a>
+        <a class="hover:text-primary transition-colors" href="/#early-access">Contact</a>
+        <!-- Disabled Sign in button when on the sign-in page itself (mirrors landing nav) -->
+        <span id="nav-signin-disabled" class="bg-primary/40 text-on-primary/70 px-4 py-2 rounded-lg text-[11px] font-semibold uppercase tracking-widest inline-flex items-center gap-1.5 cursor-default select-none"
+          aria-disabled="true" title="You're on the sign-in page">
+          <span class="material-symbols-outlined" style="font-size:13px;line-height:1">login</span>Sign in
+        </span>
+        <div id="user-chip" hidden class="relative">
+          <button id="user-chip-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-surface-container transition-colors">
+            <span id="user-chip-name" class="normal-case tracking-normal text-xs font-bold text-on-surface max-w-[160px] truncate"></span>
+            <span class="material-symbols-outlined text-on-surface-variant" style="font-size:15px">expand_more</span>
+          </button>
+          <div id="user-chip-menu" hidden class="absolute right-0 top-full mt-2 w-52 rounded-2xl shadow-2xl overflow-hidden"
+            style="background:linear-gradient(180deg,rgba(15,21,37,0.96) 0%,rgba(10,14,26,0.96) 100%);border:1px solid rgba(92,107,192,0.28);box-shadow:0 24px 56px -16px rgba(0,0,0,0.8), 0 0 32px -8px rgba(92,107,192,0.32), inset 0 1px 0 rgba(255,255,255,0.05);backdrop-filter:blur(12px);">
+            <button id="signout-btn" class="w-full text-left flex items-center gap-3 px-4 py-3.5 text-on-surface hover:bg-surface-container/70 transition-colors text-[11px] uppercase tracking-[0.18em] font-bold">
+              <span class="material-symbols-outlined" style="font-size:16px;color:#5C6BC0">logout</span>Sign out
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Hamburger (mobile) -->
+      <button id="mobile-menu-btn" class="md:hidden p-2 -mr-1 rounded-xl hover:bg-surface-container transition-colors" aria-label="Open menu" aria-expanded="false">
+        <span class="material-symbols-outlined text-on-surface">menu</span>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full border-b border-surface-container bg-[#0C1020]/95 backdrop-blur-md px-4 py-3 space-y-1 shadow-2xl">
+      <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors" href="/#captains">
+        <span class="material-symbols-outlined text-lg">sailing</span>For Captains
+      </a>
+      <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors" href="/#travelers">
+        <span class="material-symbols-outlined text-lg">travel_explore</span>For Travelers
+      </a>
+      <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors" href="/#marinas">
+        <span class="material-symbols-outlined text-lg">anchor</span>For Marinas &amp; Service Providers
+      </a>
+      <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors" href="/#faq">
+        <span class="material-symbols-outlined text-lg">help_outline</span>FAQ
+      </a>
+      <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors" href="/#about">
+        <span class="material-symbols-outlined text-lg">group</span>About
+      </a>
+      <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors" href="/#early-access">
+        <span class="material-symbols-outlined text-lg">mail</span>Contact
+      </a>
+      <!-- Disabled Sign in button (mirrors landing mobile menu) -->
+      <span id="nav-signin-disabled-mobile" class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-primary/40 text-on-primary/70 font-bold text-sm mt-1 cursor-default select-none"
+        aria-disabled="true">
+        <span class="material-symbols-outlined text-lg">login</span>Sign in
+      </span>
+      <div id="user-chip-mobile" hidden>
+        <button id="signout-btn-mobile" class="w-full flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors">
+          <span class="material-symbols-outlined text-lg">logout</span>Sign out
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-1 pt-20 px-4 sm:px-8 py-10 sm:py-14">
+    <div class="max-w-6xl mx-auto">
+
+      <section id="state-loading" class="py-24 text-center">
+        <span class="material-symbols-outlined text-primary spin" style="font-size:42px">progress_activity</span>
+        <p class="mt-4 text-on-surface-variant text-sm">Loading your account…</p>
+      </section>
+
+      <!-- ─── Signed-out state ──────────────────────────────────── -->
+      <section id="state-signed-out" hidden class="py-10 sm:py-14">
+        <div class="max-w-md mx-auto rounded-2xl p-7 sm:p-9 shadow-2xl"
+          style="background:#0C1020;border:1px solid #2A3450;">
+          <p class="text-primary text-xs font-black uppercase tracking-[0.25em] mb-3 text-center">Your Oceanid account</p>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2 text-center">Sign in to Oceanid</h1>
+          <p class="text-on-surface-variant text-sm leading-relaxed mb-6 text-center">
+            Manage your reward and trips.
+          </p>
+
+          <div id="auth-error" hidden class="mb-4 p-3 rounded-xl text-sm text-red-300 bg-red-900/20 border border-red-900/40"></div>
+
+          <!-- OAuth providers -->
+          <div class="space-y-2.5 mb-5">
+            <button data-oauth="google" class="oauth-btn w-full flex items-center justify-center gap-3 py-3 rounded-xl text-sm font-bold text-on-surface" style="background:#0F1525;border:1px solid #2A3450;">
+              <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.997 8.997 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z"/></svg>
+              Continue with Google
+            </button>
+          </div>
+
+          <div class="flex items-center gap-3 my-5">
+            <div class="flex-1 h-px bg-outline"></div>
+            <span class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest">or</span>
+            <div class="flex-1 h-px bg-outline"></div>
+          </div>
+
+          <!-- Email + password (auto sign-in / sign-up) -->
+          <form id="email-form" class="space-y-2.5">
+            <input type="email" name="email" required placeholder="Email address"
+              class="form-input w-full px-3.5 py-3 rounded-xl text-on-surface placeholder:text-on-surface-variant/60 text-sm font-medium" />
+            <input type="password" name="password" required minlength="6" placeholder="Password (min 6 chars)"
+              class="form-input w-full px-3.5 py-3 rounded-xl text-on-surface placeholder:text-on-surface-variant/60 text-sm font-medium" />
+            <button type="submit"
+              class="w-full bg-primary text-on-primary py-3 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25">
+              Continue with email
+            </button>
+          </form>
+          <p class="text-center text-on-surface-variant/70 text-xs mt-3">First time? We'll create your account automatically.</p>
+
+        </div>
+      </section>
+
+      <!-- ─── Signed-in state ───────────────────────────────────── -->
+      <section id="state-signed-in" hidden class="max-w-5xl mx-auto">
+
+        <!-- Personal intro -->
+        <header class="mb-8 sm:mb-10 fade-up">
+          <p class="text-primary text-xs font-black uppercase tracking-[0.25em] mb-2">Welcome back</p>
+          <h1 id="welcome-name" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Hi there.</h1>
+          <p class="text-on-surface-variant text-sm sm:text-base mt-2">Manage your reward and trips in one place.</p>
+        </header>
+
+        <!-- Horizontal tab nav -->
+        <nav id="account-tabs" class="flex gap-1 mb-8 border-b border-outline overflow-x-auto fade-up fade-up-d1">
+          <button class="tab-btn flex items-center gap-2 px-4 py-3 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b-2 border-transparent hover:text-on-surface transition-colors flex-shrink-0"
+            data-tab="rewards" aria-selected="true">
+            <span class="material-symbols-outlined" style="font-size:16px">redeem</span>Rewards
+          </button>
+          <button class="tab-btn tab-btn-disabled flex items-center gap-2 px-4 py-3 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant/40 border-b-2 border-transparent cursor-not-allowed flex-shrink-0"
+            data-tab="trips" aria-selected="false" aria-disabled="true" disabled>
+            <span class="material-symbols-outlined" style="font-size:16px">sailing</span>Trips
+            <span class="ml-1 px-1.5 py-0.5 rounded-md text-[8px] font-black tracking-[0.14em] text-primary bg-primary/12 border border-primary/35">SOON</span>
+          </button>
+        </nav>
+
+        <div class="space-y-6 fade-up fade-up-d2">
+
+          <section class="tab-panel" data-panel="rewards">
+            <div id="rewards-picker" hidden>
+              <header class="mb-6">
+                <p class="text-primary text-xs font-black uppercase tracking-[0.25em] mb-2">Your free reward</p>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Pick one reward. Free for 2 months.</h2>
+                <p class="text-on-surface-variant text-sm mt-2">You can choose one. We'll email your activation code right after.</p>
+              </header>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <button class="reward-card text-left rounded-2xl overflow-hidden fade-up fade-up-d1"
+                  data-reward="OPER_PRO_3M" style="background:#0C1020;border:1px solid #2A3450;">
+                  <div class="relative h-32 sm:h-36 overflow-hidden">
+                    <img src="https://storage.googleapis.com/oceanid-public/captain.jpg" alt=""
+                      class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                    <div class="absolute inset-0" style="background:linear-gradient(180deg, rgba(8,12,24,0.05) 0%, rgba(12,16,32,0.85) 80%, #0C1020 100%);"></div>
+                    <div class="absolute top-3 left-3 w-9 h-9 rounded-xl bg-primary/85 text-on-primary flex items-center justify-center shadow-lg shadow-primary/30">
+                      <span class="material-symbols-outlined" style="font-size:20px">workspace_premium</span>
+                    </div>
+                  </div>
+                  <div class="p-5 pt-3">
+                    <p class="text-on-surface text-base font-extrabold mb-1">Captain's Reward</p>
+                    <p class="text-on-surface-variant text-xs leading-relaxed mb-4">
+                      For captains and fleet managers. Unlimited vessels and paid trips on PRO, free for 2 months.
+                    </p>
+                    <p class="text-primary text-[10px] font-black uppercase tracking-widest">2 months PRO · Free</p>
+                  </div>
+                </button>
+                <button class="reward-card text-left rounded-2xl overflow-hidden fade-up fade-up-d3"
+                  data-reward="TRAV_FEE_WAIVER_3M" style="background:#0C1020;border:1px solid #2A3450;">
+                  <div class="relative h-32 sm:h-36 overflow-hidden">
+                    <img src="https://storage.googleapis.com/oceanid-public/travelers.jpg" alt=""
+                      class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                    <div class="absolute inset-0" style="background:linear-gradient(180deg, rgba(8,12,24,0.05) 0%, rgba(12,16,32,0.85) 80%, #0C1020 100%);"></div>
+                    <div class="absolute top-3 left-3 w-9 h-9 rounded-xl bg-primary/85 text-on-primary flex items-center justify-center shadow-lg shadow-primary/30">
+                      <span class="material-symbols-outlined" style="font-size:20px">confirmation_number</span>
+                    </div>
+                  </div>
+                  <div class="p-5 pt-3">
+                    <p class="text-on-surface text-base font-extrabold mb-1">Traveler's Reward</p>
+                    <p class="text-on-surface-variant text-xs leading-relaxed mb-4">
+                      For travelers. The Oceanid booking fee is waived on every trip for 2 months.
+                    </p>
+                    <p class="text-primary text-[10px] font-black uppercase tracking-widest">No booking fees · 2 months</p>
+                  </div>
+                </button>
+                <button class="reward-card text-left rounded-2xl overflow-hidden fade-up fade-up-d2"
+                  data-reward="OPER_FEE_WAIVER_3M" style="background:#0C1020;border:1px solid #2A3450;">
+                  <div class="relative h-32 sm:h-36 overflow-hidden">
+                    <img src="https://storage.googleapis.com/oceanid-public/marina.jpg" alt=""
+                      class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                    <div class="absolute inset-0" style="background:linear-gradient(180deg, rgba(8,12,24,0.05) 0%, rgba(12,16,32,0.85) 80%, #0C1020 100%);"></div>
+                    <div class="absolute top-3 left-3 w-9 h-9 rounded-xl bg-primary/85 text-on-primary flex items-center justify-center shadow-lg shadow-primary/30">
+                      <span class="material-symbols-outlined" style="font-size:20px">percent</span>
+                    </div>
+                  </div>
+                  <div class="p-5 pt-3">
+                    <p class="text-on-surface text-base font-extrabold mb-1">Provider's Reward</p>
+                    <p class="text-on-surface-variant text-xs leading-relaxed mb-4">
+                      For captains, fleet managers, service providers. Keep 100% of every booking for 2 months.
+                    </p>
+                    <p class="text-primary text-[10px] font-black uppercase tracking-widest">No commission · 2 months</p>
+                  </div>
+                </button>
+              </div>
+              <div class="mt-8 flex flex-col items-center text-center gap-3">
+                <p id="claim-help" class="text-on-surface-variant text-sm">Select a reward above to continue.</p>
+                <p id="claim-error" hidden class="text-red-400 text-sm font-semibold"></p>
+                <button id="claim-btn" disabled
+                  class="bg-primary text-on-primary px-10 py-3.5 rounded-xl font-bold text-base hover:bg-primary-dim transition-all disabled:opacity-40 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 shadow-lg shadow-primary/30 min-w-[260px]">
+                  Claim this reward
+                  <span class="material-symbols-outlined" style="font-size:20px">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="rewards-active" hidden>
+              <header class="mb-6">
+                <p class="text-primary text-xs font-black uppercase tracking-[0.25em] mb-2">Your reward</p>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Reserved & ready to redeem</h2>
+              </header>
+              <div class="rounded-2xl p-6" style="background:#0C1020;border:1px solid #2A3450;">
+                <div class="flex items-start gap-4">
+                  <div class="w-12 h-12 rounded-xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined" id="active-icon" style="font-size:26px">workspace_premium</span>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p id="active-title" class="text-on-surface text-lg font-extrabold mb-1">—</p>
+                    <p id="active-body" class="text-on-surface-variant text-sm mb-4">—</p>
+                    <div class="rounded-xl p-4 bg-[#0A0E1A] border border-outline">
+                      <p class="text-on-surface-variant text-[10px] font-black uppercase tracking-widest mb-1.5">Activation code</p>
+                      <p id="active-code" class="font-mono text-white text-xl font-extrabold tracking-wider select-all">—</p>
+                    </div>
+                    <p class="text-on-surface-variant text-xs mt-3" id="active-meta">—</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="rewards-no-waitlist" hidden class="empty-state">
+              <div class="empty-state-icon">
+                <span class="material-symbols-outlined" style="font-size:30px">card_giftcard</span>
+              </div>
+              <h3 class="empty-state-title">You're not on the waitlist yet</h3>
+              <p class="empty-state-body">Rewards are reserved for early‑access members. Join from the homepage and sign back in, and we'll link your reward automatically.</p>
+              <a href="/#early-access" class="empty-state-cta">
+                Join the waitlist
+                <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span>
+              </a>
+            </div>
+          </section>
+
+          <section class="tab-panel" data-panel="trips" hidden>
+            <div class="empty-state">
+              <div class="empty-state-icon">
+                <span class="material-symbols-outlined" style="font-size:30px">sailing</span>
+              </div>
+              <h3 class="empty-state-title">Coming soon</h3>
+              <p class="empty-state-body">Your trips, all in one place.</p>
+            </div>
+          </section>
+
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="relative z-10 w-full border-t border-white/[0.06] bg-[#060910] overflow-x-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-6">
+      <div class="flex items-center justify-between mb-5">
+        <a class="flex items-center gap-2.5" href="/" aria-label="Oceanid home">
+          <img src="https://storage.googleapis.com/oceanid-public/logo.png" alt="Oceanid Logo" class="h-7 w-auto opacity-90 hover:opacity-100 transition-opacity" />
+          <img src="https://storage.googleapis.com/oceanid-public/logo-text.png" alt="Oceanid" class="h-[18px] w-auto opacity-90 hover:opacity-100 transition-opacity" />
+        </a>
+        <div class="flex items-center gap-1.5">
+          <a href="https://discord.gg/caUTTgQFMa" target="_blank" rel="noopener" aria-label="Discord"
+            class="w-8 h-8 flex items-center justify-center text-white/30 hover:text-white/70 transition-colors">
+            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.082.114 18.104.128 18.12a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/OceanidSeaLife" target="_blank" rel="noopener" aria-label="Facebook"
+            class="w-8 h-8 flex items-center justify-center text-white/30 hover:text-white/70 transition-colors">
+            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@oceanid-sea-life" target="_blank" rel="noopener" aria-label="YouTube"
+            class="w-8 h-8 flex items-center justify-center text-white/30 hover:text-white/70 transition-colors">
+            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/oceanidsealife/" target="_blank" rel="noopener" aria-label="Instagram"
+            class="w-8 h-8 flex items-center justify-center text-white/30 hover:text-white/70 transition-colors">
+            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="h-px bg-white/[0.06] mb-5"></div>
+      <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+        <span class="text-xs text-white/25">© <span id="yr">2026</span> Oceanid</span>
+        <span class="text-white/10 hidden sm:inline">·</span>
+        <a href="mailto:contact@oceanid.io" class="text-xs text-white/30 hover:text-white/60 transition-colors">contact@oceanid.io</a>
+        <span class="text-white/10 hidden sm:inline">·</span>
+        <a href="tel:+35795086066" class="text-xs text-white/30 hover:text-white/60 transition-colors">+357 950 86066</a>
+        <span class="text-white/10 hidden sm:inline">·</span>
+        <span class="text-xs text-white/20">Agias Zonis 12, Office 101, Limassol 3027, Cyprus</span>
+        <span class="text-white/10 hidden sm:inline">·</span>
+        <span class="text-xs text-white/20">DOVENTA HOLDINGS LIMITED · HE489599</span>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    (function () {
+      const btn = document.getElementById('mobile-menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', () => {
+        const open = menu.classList.toggle('hidden') === false;
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.add('hidden')));
+    })();
+
+    const SUPABASE_URL = document.querySelector('meta[name="x-supabase-url"]').content;
+    const SUPABASE_ANON = document.querySelector('meta[name="x-supabase-anon-key"]').content;
+    const FN_BASE = SUPABASE_URL + '/functions/v1';
+    const REDIRECT_TO = window.location.origin + window.location.pathname;
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { detectSessionInUrl: true, flowType: 'pkce', persistSession: true, autoRefreshToken: true },
+    });
+
+    const $ = (sel) => document.querySelector(sel);
+    function show(id) { $(id).hidden = false; }
+    function hide(id) { $(id).hidden = true; }
+    function setState(name) {
+      ['#state-loading', '#state-signed-out', '#state-signed-in'].forEach(hide);
+      show('#state-' + name);
+    }
+    function setRewardView(view) {
+      ['#rewards-picker', '#rewards-active', '#rewards-no-waitlist'].forEach(hide);
+      show('#rewards-' + view);
+    }
+    function showAuthError(msg) {
+      const el = $('#auth-error');
+      el.textContent = msg;
+      el.hidden = false;
+    }
+    function activateTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
+      document.querySelectorAll('.tab-panel').forEach(p => p.hidden = p.dataset.panel !== tab);
+      if (location.hash !== '#' + tab) history.replaceState(null, '', '#' + tab);
+    }
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+    });
+
+    // ─── OAuth ─────────────────────────────────────────────────────
+    document.querySelectorAll('[data-oauth]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const provider = btn.dataset.oauth;
+        // preserve ?token= across the OAuth round trip
+        const tok = new URL(location.href).searchParams.get('token');
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider,
+          options: { redirectTo: REDIRECT_TO + (tok ? '?token=' + encodeURIComponent(tok) : '') },
+        });
+        if (error) showAuthError(error.message);
+      });
+    });
+
+    // ─── Email + password (smart: signin first, signup on miss) ───
+    $('#email-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      $('#auth-error').hidden = true;
+      const fd = new FormData(e.target);
+      const email = String(fd.get('email') || '').trim();
+      const password = String(fd.get('password') || '');
+      const tok = new URL(location.href).searchParams.get('token');
+      const opts = { emailRedirectTo: REDIRECT_TO + (tok ? '?token=' + encodeURIComponent(tok) : '') };
+      try {
+        const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+        if (!signInErr) { await afterSignIn(); return; }
+
+        // Fall back to sign-up when the account doesn't exist.
+        const looksLikeMissingUser = /invalid login credentials/i.test(signInErr.message);
+        if (!looksLikeMissingUser) throw signInErr;
+
+        const { data, error: signUpErr } = await supabase.auth.signUp({ email, password, options: opts });
+        if (signUpErr) throw signUpErr;
+        if (!data.session) {
+          showAuthError("Check your inbox to confirm your email, then come back here to sign in.");
+          return;
+        }
+        await afterSignIn();
+      } catch (err) {
+        showAuthError(err.message || 'Something went wrong');
+      }
+    });
+
+    // ─── Sign out ─────────────────────────────────────────────────
+    $('#user-chip-btn').addEventListener('click', () => {
+      $('#user-chip-menu').hidden = !$('#user-chip-menu').hidden;
+    });
+    async function doSignOut() {
+      await supabase.auth.signOut();
+      window.location.href = window.location.origin + window.location.pathname;
+    }
+    $('#signout-btn').addEventListener('click', doSignOut);
+    $('#signout-btn-mobile').addEventListener('click', doSignOut);
+
+    // ─── Boot ─────────────────────────────────────────────────────
+    async function boot() {
+      // Supabase JS handles ?code=&state= in the URL automatically via detectSessionInUrl.
+      // Give it a tick to finish if we just came back from a redirect.
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) await afterSignIn();
+      else setState('signed-out');
+    }
+
+    async function afterSignIn() {
+      setState('signed-in');
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      const user = session?.user;
+      const name = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email || 'Signed in';
+      const picture = user?.user_metadata?.avatar_url || user?.user_metadata?.picture || '';
+
+      $('#user-chip').hidden = false;
+      $('#user-chip-mobile').hidden = false;
+      const signinDisabled = document.getElementById('nav-signin-disabled');
+      const signinDisabledMobile = document.getElementById('nav-signin-disabled-mobile');
+      if (signinDisabled) signinDisabled.hidden = true;
+      if (signinDisabledMobile) signinDisabledMobile.hidden = true;
+      $('#user-chip-name').textContent = name;
+      const profileNameEl = document.getElementById('profile-name'); if (profileNameEl) profileNameEl.textContent = name;
+      const welcomeEl = document.getElementById('welcome-name');
+      if (welcomeEl) {
+        const first = String(name || '').trim().split(/\s+/)[0] || 'sailor';
+        welcomeEl.textContent = 'Hi, ' + first + '.';
+      }
+      const profileEmailEl = document.getElementById('profile-email'); if (profileEmailEl) profileEmailEl.textContent = user?.email || '—';
+      const uChipAv = document.getElementById('user-chip-avatar'); if (uChipAv) paintAvatar(uChipAv, name, picture);
+      const profAv = document.getElementById('profile-avatar'); if (profAv) paintAvatar(profAv, name, picture);
+
+      const claimToken = new URL(location.href).searchParams.get('token');
+      if (claimToken) {
+        try {
+          await fetch(FN_BASE + '/account-link', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token, apikey: SUPABASE_ANON },
+            body: JSON.stringify({ token: claimToken }),
+          });
+        } catch (_) { /* non-fatal */ }
+        const url = new URL(location.href);
+        url.searchParams.delete('token');
+        history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+      }
+
+      const stateRes = await fetch(FN_BASE + '/account-state', {
+        headers: { Authorization: 'Bearer ' + token, apikey: SUPABASE_ANON },
+      });
+      const state = await stateRes.json().catch(() => ({}));
+      renderRewards(state, token);
+
+      const hash = (location.hash || '#rewards').slice(1);
+      activateTab(['rewards', 'trips'].includes(hash) ? hash : 'rewards');
+    }
+
+    function initialsFor(name) {
+      const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+      if (!parts.length) return '?';
+      const first = parts[0][0] || '';
+      const last  = parts.length > 1 ? parts[parts.length - 1][0] : '';
+      return (first + last).toUpperCase().slice(0, 2);
+    }
+    function paintAvatar(el, name, picture) {
+      const initials = initialsFor(name);
+      el.textContent = initials;
+      el.dataset.initials = initials;
+      if (!picture) return;
+      const img = document.createElement('img');
+      img.alt = '';
+      img.referrerPolicy = 'no-referrer';
+      img.onerror = () => img.remove();
+      img.src = picture;
+      el.appendChild(img);
+    }
+
+    const REWARD_META = {
+      OPER_PRO_3M:        { icon: 'workspace_premium',   title: "Captain's Reward",  body: "2 months of Oceanid PRO, free. We'll auto-apply when you start the PRO upgrade in the app." },
+      OPER_FEE_WAIVER_3M: { icon: 'percent',             title: "Provider's Reward", body: 'We waive the operator commission on every booking for 2 months from your first paid trip.' },
+      TRAV_FEE_WAIVER_3M: { icon: 'confirmation_number', title: "Traveler's Reward", body: 'The Oceanid booking fee is waived on every trip you book in your first 2 months.' },
+    };
+
+    function renderRewards(state, token) {
+      if (state?.reward_claim) {
+        const c = state.reward_claim;
+        const meta = REWARD_META[c.reward_code] || { icon: 'redeem', title: c.reward_code, body: '' };
+        $('#active-icon').textContent = meta.icon;
+        $('#active-title').textContent = meta.title;
+        $('#active-body').textContent = meta.body;
+        $('#active-code').textContent = c.promo_code;
+        const claimed = c.claimed_at ? new Date(c.claimed_at).toLocaleDateString() : '—';
+        $('#active-meta').textContent = 'Reserved on ' + claimed + ' · Status: ' + (c.status || 'RESERVED');
+        setRewardView('active');
+      } else if (state?.waitlist_linked) {
+        setRewardView('picker');
+        wireRewardPicker(token, state?.preselected_reward_code || null);
+      } else {
+        setRewardView('no-waitlist');
+      }
+    }
+
+    function wireRewardPicker(token, preselectedCode) {
+      let selected = null;
+      const claimBtn = $('#claim-btn');
+      const help = $('#claim-help');
+      const err = $('#claim-error');
+      const cards = document.querySelectorAll('#rewards-picker .reward-card');
+      function pick(card) {
+        cards.forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selected = card.dataset.reward;
+        claimBtn.disabled = false;
+        help.textContent = 'Click "Claim this reward" to confirm.';
+        err.hidden = true;
+      }
+      cards.forEach(card => { card.onclick = () => pick(card); });
+      // Pre-select the reward the user chose on the landing form (if any).
+      if (preselectedCode) {
+        const match = Array.from(cards).find(c => c.dataset.reward === preselectedCode);
+        if (match) pick(match);
+      }
+      claimBtn.onclick = async () => {
+        if (!selected) return;
+        claimBtn.disabled = true;
+        claimBtn.innerHTML = '<span class="material-symbols-outlined spin" style="font-size:18px">progress_activity</span>Claiming…';
+        err.hidden = true;
+        try {
+          const r = await fetch(FN_BASE + '/reward-claim', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token, apikey: SUPABASE_ANON },
+            body: JSON.stringify({ reward_code: selected }),
+          });
+          const data = await r.json();
+          if (!r.ok || !data?.ok) throw new Error(data?.error || 'Could not claim reward');
+          renderRewards({ reward_claim: data.reward_claim, waitlist_linked: true }, token);
+        } catch (e) {
+          err.textContent = e.message;
+          err.hidden = false;
+          claimBtn.disabled = false;
+          claimBtn.innerHTML = 'Claim this reward <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span>';
+        }
+      };
+    }
+
+    boot().catch(err => {
+      console.error('boot failed:', err);
+      setState('signed-out');
+      showAuthError('Could not initialize sign-in. Check the Supabase project URL + anon key in account.html.');
+    });
+  </script>
+</body>
+</html>

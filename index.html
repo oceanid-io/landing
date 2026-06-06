@@ -1827,6 +1827,24 @@
       100% { transform: translateX(118vw) translateY(0); }
     }
 
+    /* Drifting yacht for the "How it works" section. Slower than the hero
+       version, sits behind the step icons, sails left to right. */
+    .yacht-drift-hiw {
+      position: absolute;
+      top: 38%;
+      left: -160px;
+      width: 110px;
+      height: 72px;
+      opacity: 0.22;
+      pointer-events: none;
+      animation: yachtSail 80s linear infinite;
+      z-index: 0;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .yacht-drift-hiw { animation: none; opacity: 0; }
+    }
+
     /* ══════════════════════════════════════════════════
        LIVE BOARDING TOAST (lighthouse beacon)
     ══════════════════════════════════════════════════ */
@@ -1987,6 +2005,38 @@
       font-weight: 500;
     }
 
+    /* Reward table inside the bottle modal */
+    .bottle-perks {
+      margin: 14px 0 6px;
+      border-top: 1px dashed rgba(90, 66, 32, 0.35);
+      border-bottom: 1px dashed rgba(90, 66, 32, 0.35);
+      padding: 6px 0;
+    }
+    .bottle-perk-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1.1fr;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 4px;
+      font-size: 13px;
+      font-family: 'Manrope', sans-serif;
+    }
+    .bottle-perk-row + .bottle-perk-row {
+      border-top: 1px dashed rgba(90, 66, 32, 0.18);
+    }
+    .bottle-perk-name {
+      font-weight: 800;
+      color: #2d1f0a;
+    }
+    .bottle-perk-arrow {
+      color: #8a6a2b;
+      font-weight: 800;
+    }
+    .bottle-perk-benefit {
+      color: #5a4220;
+      font-weight: 500;
+    }
+
     .bottle-close {
       position: absolute;
       top: 8px;
@@ -2034,7 +2084,915 @@
       overflow-x: hidden;
       max-width: 100%;
     }
+
+    /* Compact reward-by-segment chips inside the form */
+    .reward-chips {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .reward-chip {
+      position: relative;
+      padding: 7px 10px;
+      border-radius: 9px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      text-align: left;
+      transition: transform 0.2s cubic-bezier(0.22,1,0.36,1),
+                  border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      min-width: 0;
+      font-family: inherit;
+      color: inherit;
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+    }
+    /* Selected reward chip — fully unmistakable: solid primary fill, white
+       text, glowing ring outline, lift, check badge in the upper-left. */
+    .reward-chip.selected {
+      border-color: rgba(168,179,230,1) !important;
+      background: linear-gradient(180deg, rgba(92,107,192,0.55) 0%, rgba(92,107,192,0.35) 100%) !important;
+      box-shadow:
+        0 0 0 2px rgba(168,179,230,0.55),
+        0 18px 36px -12px rgba(92,107,192,0.7),
+        inset 0 1px 0 rgba(255,255,255,0.18) !important;
+      transform: translateY(-2px);
+    }
+    .reward-chip.selected > .reward-chip-corner::before {
+      color: #fff;
+      background: linear-gradient(90deg, rgba(255,255,255,0.25), rgba(255,255,255,0.55), rgba(255,255,255,0.25));
+      border-color: rgba(255,255,255,0.95);
+      box-shadow: 0 0 16px -2px rgba(255,255,255,0.6);
+    }
+    .reward-chip.selected .reward-chip-role { color: #fff; opacity: 1; }
+    .reward-chip.selected .reward-chip-name { color: #fff; }
+    .reward-chip.selected .reward-chip-icon { color: #fff !important; }
+    /* Tick badge that appears in the top-left of the selected chip */
+    .reward-chip::after { display: none; }
+    .reward-chips-select .reward-chip {
+      position: relative;
+    }
+    .reward-chips-select .reward-chip .reward-chip-tick {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      color: #5C6BC0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px !important;
+      font-weight: 800;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 10px -2px rgba(0,0,0,0.4);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .reward-chip.selected .reward-chip-tick {
+      opacity: 1;
+      transform: scale(1);
+    }
+    /* Single centered marketing line above the chip row — animated gradient sweep */
+    .reward-pick-title {
+      margin: 12px 0 8px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.2;
+      background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #ffffff 30%,
+        #a8b3e6 45%,
+        #5C6BC0 50%,
+        #a8b3e6 55%,
+        #ffffff 70%,
+        #ffffff 100%
+      );
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: reward-pick-shine 4.5s linear infinite;
+      filter: drop-shadow(0 0 12px rgba(92,107,192,0.18));
+    }
+    @keyframes reward-pick-shine {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -100% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reward-pick-title {
+        animation: none;
+        background: none;
+        color: #fff;
+        -webkit-text-fill-color: #fff;
+      }
+    }
+    /* Selection chips sit inside the form — no top border/padding (the divider was for trailing chips) */
+    .reward-chips-select {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+      gap: 10px;
+    }
+    /* Make selectable chips more prominent than the original hover-only tooltips.
+       Extra vertical padding gives the diagonal REWARD ribbon (top-right corner)
+       comfortable separation from the chip name below. */
+    .reward-chips-select .reward-chip {
+      padding: 14px 10px 12px;
+      background: linear-gradient(180deg, rgba(92,107,192,0.08) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid rgba(92,107,192,0.32);
+      box-shadow: 0 6px 16px -10px rgba(92,107,192,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+      text-align: center;
+    }
+    /* Animated gradient sheen sweeping across each chip. Clipped to the chip's
+       rounded shape via clip-path so the tooltip can still overflow upward.
+       The !important resets undo properties leaking in from the legacy
+       `.reward-chip::before` tooltip-arrow rule defined elsewhere. */
+    .reward-chips-select .reward-chip::before {
+      content: '' !important;
+      display: block !important;
+      position: absolute !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: auto !important;
+      height: auto !important;
+      border: 0 !important;
+      transform: none !important;
+      filter: none !important;
+      border-radius: inherit;
+      background: linear-gradient(115deg,
+        transparent 20%,
+        rgba(92,107,192,0.14) 38%,
+        rgba(200,210,255,0.28) 50%,
+        rgba(92,107,192,0.14) 62%,
+        transparent 80%);
+      background-size: 240% 100%;
+      animation: reward-chip-sheen 6s linear infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0;
+      clip-path: inset(0 round 9px);
+      z-index: 1;
+    }
+    /* One chip sweeps at a time. Per-chip sheen uses a bell-curve opacity
+       profile (fade in → peak → fade out) so the highlight feels like a
+       breath rolling across the surface, not a hard flash. */
+    @keyframes reward-chip-sheen {
+      0%   { background-position: 200% 0; opacity: 0; }
+      8%   { opacity: 0.35; }
+      17%  { opacity: 0.85; }
+      25%  { opacity: 0.35; }
+      33%  { background-position: -100% 0; opacity: 0; }
+      100% { background-position: -100% 0; opacity: 0; }
+    }
+    .reward-chips-select .reward-chip:nth-child(2)::before { animation-delay: -4s; }
+    .reward-chips-select .reward-chip:nth-child(3)::before { animation-delay: -2s; }
+    @media (prefers-reduced-motion: reduce) {
+      .reward-chips-select .reward-chip::before { animation: none; opacity: 0; }
+    }
+    .reward-chips-select .reward-chip:hover {
+      border-color: rgba(92,107,192,0.85);
+      background: linear-gradient(180deg, rgba(92,107,192,0.18) 0%, rgba(92,107,192,0.06) 100%);
+      box-shadow: 0 14px 28px -12px rgba(92,107,192,0.55), inset 0 1px 0 rgba(255,255,255,0.08);
+      transform: translateY(-1px);
+    }
+    .reward-chips-select .reward-chip-role {
+      color: rgba(168,179,230,0.85);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      margin-bottom: 5px;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    /* Chip name centered, font sized to fit "Provider's Reward" inside the chip
+       without being clipped at the right edge by the diagonal ribbon corner. */
+    .reward-chips-select .reward-chip-name {
+      font-size: 11px;
+      gap: 4px;
+      position: relative;
+      z-index: 2;
+      justify-content: center;
+      padding: 0;
+      white-space: nowrap;
+    }
+    .reward-chips-select .reward-chip-icon {
+      font-size: 12px !important;
+      color: #a8b3e6;
+    }
+    /* REWARD ribbon — smaller font + tighter letter-spacing so the full
+       "REWARD" word fits within the rotated diagonal stripe's visible portion
+       (the corner is clipped to the chip's rounded box, so an oversized text
+       gets sliced off at the chip's top/right edges). */
+    .reward-chips-select .reward-chip > .reward-chip-corner::before {
+      color: #fff;
+      background: linear-gradient(90deg, rgba(92,107,192,0.12), rgba(92,107,192,0.45), rgba(92,107,192,0.12));
+      border-color: rgba(92,107,192,0.95);
+      box-shadow: 0 0 14px -3px rgba(92,107,192,0.7);
+      top: 8px;
+      right: -22px;
+      width: 80px;
+      font-size: 5.5px;
+      letter-spacing: 0.16em;
+      padding: 2px 0;
+      text-align: center;
+    }
+    /* Disable the old pseudo-element tooltip body on selectable chips
+       (replaced by the structured .reward-tip child below).
+       Note: ::before is repurposed for the animated sheen, so it stays enabled. */
+    .reward-chips-select .reward-chip::after {
+      content: none !important;
+      display: none !important;
+    }
+    /* Structured tooltip with icons + bullets */
+    .reward-tip {
+      position: absolute;
+      bottom: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      width: 270px;
+      max-width: min(86vw, 280px);
+      padding: 14px 16px;
+      background: linear-gradient(180deg, rgba(28,37,64,0.97) 0%, rgba(12,16,32,0.97) 100%);
+      border: 1px solid rgba(92,107,192,0.5);
+      border-radius: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.22s cubic-bezier(0.22,1,0.36,1);
+      box-shadow:
+        0 24px 56px -16px rgba(0,0,0,0.85),
+        0 0 0 1px rgba(92,107,192,0.15),
+        0 0 40px -10px rgba(92,107,192,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.07);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 50;
+      text-align: left;
+    }
+    /* Anchor tooltip on edge chips to keep within viewport */
+    .reward-chips-select > .reward-chip:first-child .reward-tip {
+      left: 0;
+      transform: translateX(0) translateY(8px);
+    }
+    .reward-chips-select > .reward-chip:last-child .reward-tip {
+      left: auto;
+      right: 0;
+      transform: translateX(0) translateY(8px);
+    }
+    .reward-chip:hover .reward-tip,
+    .reward-chip:focus-visible .reward-tip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .reward-chips-select > .reward-chip:first-child:hover .reward-tip,
+    .reward-chips-select > .reward-chip:first-child:focus-visible .reward-tip {
+      transform: translateX(0) translateY(0);
+    }
+    .reward-chips-select > .reward-chip:last-child:hover .reward-tip,
+    .reward-chips-select > .reward-chip:last-child:focus-visible .reward-tip {
+      transform: translateX(0) translateY(0);
+    }
+    /* Pointer arrow */
+    .reward-tip::before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 7px solid rgba(28,37,64,0.97);
+      filter: drop-shadow(0 1px 0 rgba(92,107,192,0.5));
+    }
+    .reward-chips-select > .reward-chip:first-child .reward-tip::before {
+      left: 28px;
+    }
+    .reward-chips-select > .reward-chip:last-child .reward-tip::before {
+      left: auto;
+      right: 28px;
+      transform: translateX(50%);
+    }
+    .reward-tip-head {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(92,107,192,0.22);
+    }
+    .reward-tip-icon {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(92,107,192,0.45), rgba(0,131,143,0.32));
+      border: 1px solid rgba(92,107,192,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px !important;
+      box-shadow: 0 4px 12px -4px rgba(92,107,192,0.45);
+    }
+    .reward-tip-title {
+      margin: 0;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.005em;
+    }
+    .reward-tip-sub {
+      margin: 2px 0 0;
+      color: #a8b3e6;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .reward-tip-bullets {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .reward-tip-bullets li {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: rgba(255,255,255,0.88);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.35;
+      letter-spacing: 0.005em;
+    }
+    /* On mobile, chips stack to a single column. Inline reward details
+       appear ONLY for the selected chip, with a smooth max-height + opacity
+       animation when the user picks it (or switches between chips). */
+    @media (max-width: 768px) {
+      /* Collapsed (default) state for every tip on mobile.
+         Use !important to override the desktop hover/focus rules that would
+         otherwise re-show the tooltip on touch. */
+      .reward-chips-select .reward-chip .reward-tip,
+      .reward-chips-select .reward-chip:hover .reward-tip,
+      .reward-chips-select .reward-chip:focus-visible .reward-tip {
+        position: static !important;
+        display: block !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        pointer-events: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%) !important;
+        border: 1px solid transparent !important;
+        box-shadow: none !important;
+        z-index: auto !important;
+        opacity: 0 !important;
+        max-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 14px !important;
+        overflow: hidden !important;
+        transition:
+          max-height 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.32s ease-out 0.05s,
+          padding 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+          margin 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+          background-color 0.25s ease,
+          border-color 0.25s ease !important;
+      }
+      .reward-chips-select .reward-chip .reward-tip::before { display: none !important; }
+      /* Expanded state — wins over hover/focus via the extra .selected class. */
+      .reward-chips-select .reward-chip.selected .reward-tip,
+      .reward-chips-select .reward-chip.selected:hover .reward-tip,
+      .reward-chips-select .reward-chip.selected:focus-visible .reward-tip {
+        opacity: 1 !important;
+        max-height: 320px !important;
+        margin: 14px 0 0 !important;
+        padding: 12px 14px !important;
+        background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%) !important;
+        border-color: rgba(255,255,255,0.4) !important;
+      }
+      .reward-chip.selected .reward-tip-title,
+      .reward-chip.selected .reward-tip-sub,
+      .reward-chip.selected .reward-tip-bullets li { color: #fff; }
+      /* Mobile chip layout: smooth visual transitions on the chip body. */
+      .reward-chips-select .reward-chip {
+        padding: 14px 14px 14px !important;
+        transition:
+          background 0.25s ease,
+          border-color 0.25s ease,
+          box-shadow 0.25s ease,
+          transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
+      .reward-chips-select .reward-chip-name { padding-right: 0 !important; }
+    }
+    .reward-tip-bullets li .material-symbols-outlined {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px !important;
+      color: #5C6BC0;
+      background: rgba(92,107,192,0.16);
+      border-radius: 6px;
+    }
+    /* Success state — step-by-step instructions */
+    .ea-success-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+      text-align: left;
+    }
+    .ea-success-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+    }
+    .ea-success-step-icon {
+      flex-shrink: 0;
+      color: #5C6BC0;
+      font-size: 20px !important;
+      margin-top: 1px;
+    }
+    .ea-success-step-text { min-width: 0; }
+    .ea-success-step-title {
+      margin: 0 0 2px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .ea-success-step-sub {
+      margin: 0;
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    /* No badge / no stripe / no tag — kept minimal */
+    .reward-chip > .reward-chip-stripe,
+    .reward-chip > .reward-chip-badge,
+    .reward-chip > .reward-chip-tag { display: none !important; }
+
+    /* Corner "REWARD" ribbon — strictly contained inside the chip via clip-path. */
+    .reward-chip > .reward-chip-corner {
+      position: absolute;
+      inset: 0;            /* full chip box */
+      pointer-events: none;
+      overflow: hidden;
+      border-radius: inherit;
+      clip-path: inset(0 round 9px);
+    }
+    .reward-chip > .reward-chip-corner::before {
+      content: 'REWARD';
+      position: absolute;
+      top: 5px;
+      right: -22px;
+      width: 78px;
+      text-align: center;
+      font-size: 6.5px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      color: #a8b3e6;
+      background: linear-gradient(90deg, rgba(92,107,192,0.06), rgba(92,107,192,0.22), rgba(92,107,192,0.06));
+      border-top: 1px solid rgba(92, 107, 192, 0.55);
+      border-bottom: 1px solid rgba(92, 107, 192, 0.55);
+      padding: 2px 0;
+      transform: rotate(45deg);
+      transform-origin: center;
+      box-shadow: 0 0 10px -2px rgba(92, 107, 192, 0.45);
+    }
+    .reward-chip:hover > .reward-chip-corner::before {
+      color: #fff;
+      background: linear-gradient(90deg, rgba(92,107,192,0.1), rgba(92,107,192,0.35), rgba(92,107,192,0.1));
+      border-color: rgba(92, 107, 192, 0.85);
+    }
+    /* Inner clipper so the shimmer is clipped to the chip's rounded shape
+       without clipping the tooltip (which sits ABOVE the chip). */
+    .reward-chip > .reward-chip-shimmer-clip {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    /* Subtle accent stripe on the left */
+    .reward-chip::after-stripe { display: none; }
+    .reward-chip > .reward-chip-stripe {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, #5C6BC0 0%, #00838F 100%);
+      opacity: 0.55;
+      transition: opacity 0.22s, width 0.22s;
+    }
+    /* Icon container — small filled badge top-left */
+    .reward-chip > .reward-chip-badge {
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, rgba(92,107,192,0.55), rgba(0,131,143,0.35));
+      border: 1px solid rgba(92,107,192,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 3px 8px -2px rgba(92,107,192,0.55);
+    }
+    .reward-chip > .reward-chip-badge .material-symbols-outlined {
+      font-size: 12px !important;
+      font-variation-settings: 'FILL' 1, 'wght' 600 !important;
+    }
+    .reward-chip-name {
+      white-space: normal;
+      overflow: visible;
+      word-break: keep-all;
+      hyphens: none;
+    }
+    .reward-chip:hover {
+      border-color: rgba(92,107,192,0.45);
+      background: rgba(92,107,192,0.06);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px -10px rgba(92,107,192,0.4);
+    }
+    /* Shimmer sweep across the chip on hover (sits inside the clipper div) */
+    .reward-chip-shimmer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform 0.7s ease;
+    }
+    .reward-chip:hover .reward-chip-shimmer { transform: translateX(100%); }
+
+    /* Luxury hover tooltip */
+    .reward-chip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      width: 230px;
+      max-width: min(86vw, 240px);
+      padding: 14px 16px;
+      background:
+        linear-gradient(180deg, rgba(28, 37, 64, 0.96) 0%, rgba(12, 16, 32, 0.96) 100%);
+      border: 1px solid rgba(92, 107, 192, 0.45);
+      border-radius: 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.94);
+      line-height: 1.55;
+      letter-spacing: 0.005em;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.22s cubic-bezier(0.22,1,0.36,1);
+      box-shadow:
+        0 24px 56px -16px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(92, 107, 192, 0.15),
+        0 0 40px -10px rgba(92, 107, 192, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 50;
+      white-space: normal;
+    }
+    /* Clean triangle pointer using border trick (no rotated square) */
+    .reward-chip::before {
+      content: '';
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 7px solid rgba(28, 37, 64, 0.96);
+      filter: drop-shadow(0 1px 0 rgba(92,107,192,0.45));
+      opacity: 0;
+      transition: opacity 0.22s cubic-bezier(0.22,1,0.36,1);
+      z-index: 51;
+      pointer-events: none;
+    }
+    .reward-chip:hover::after,
+    .reward-chip:focus-visible::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .reward-chip:hover::before,
+    .reward-chip:focus-visible::before { opacity: 1; }
+
+    /* Edge clamping — anchor tooltip to the chip's left edge for the first chip
+       (so it doesn't overflow viewport) and to the right edge for the last chip. */
+    .reward-chips > .reward-chip:first-child::after {
+      left: 0;
+      transform: translateX(0) translateY(8px);
+    }
+    .reward-chips > .reward-chip:first-child:hover::after,
+    .reward-chips > .reward-chip:first-child:focus-visible::after {
+      transform: translateX(0) translateY(0);
+    }
+    .reward-chips > .reward-chip:first-child::before {
+      left: 28px;
+      transform: translateX(-50%);
+    }
+    .reward-chips > .reward-chip:last-child::after {
+      left: auto;
+      right: 0;
+      transform: translateX(0) translateY(8px);
+    }
+    .reward-chips > .reward-chip:last-child:hover::after,
+    .reward-chips > .reward-chip:last-child:focus-visible::after {
+      transform: translateX(0) translateY(0);
+    }
+    .reward-chips > .reward-chip:last-child::before {
+      left: auto;
+      right: 28px;
+      transform: translateX(50%);
+    }
+    .reward-chip-role {
+      display: block;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 3px;
+      line-height: 1.1;
+    }
+    .reward-chip-name {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -0.005em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .reward-chip-icon {
+      color: #5C6BC0;
+      flex-shrink: 0;
+      vertical-align: -2px;
+      margin-right: 3px;
+    }
+
+    /* ══════════════════════════════════════════════════
+       FOUNDING REWARDS ROTATOR (hero right column)
+    ══════════════════════════════════════════════════ */
+    /* Unified info card: countdown + benefits in one luxury surface */
+    .hero-info-card {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      width: 100%;
+      max-width: 360px;
+      padding: 6px;
+      border-radius: 14px;
+      margin-top: 0;
+      background: linear-gradient(180deg, rgba(15, 21, 37, 0.92) 0%, rgba(8, 12, 24, 0.82) 100%);
+      border: 1px solid rgba(92, 107, 192, 0.28);
+      box-shadow:
+        0 0 0 1px rgba(92, 107, 192, 0.06),
+        0 18px 40px -10px rgba(0, 0, 0, 0.58),
+        0 0 32px -10px rgba(92, 107, 192, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .hero-info-divider {
+      width: 1px;
+      margin: 4px 8px;
+      background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.10) 40%, rgba(255,255,255,0.10) 60%, transparent 100%);
+      flex-shrink: 0;
+    }
+    /* Strip the inner cards of their own card chrome — they share the parent's */
+    .hero-info-card > .countdown,
+    .hero-info-card > .benefits-rotator {
+      background: none;
+      border: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      padding: 2px 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: auto;
+      flex: 1;
+      min-width: 0;
+    }
+    .hero-info-card .countdown-eyebrow,
+    .hero-info-card .benefits-eyebrow {
+      border-bottom-color: rgba(255,255,255,0.08);
+      font-size: 8px;
+      letter-spacing: 0.16em;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+      gap: 5px;
+    }
+    .hero-info-card .countdown-eyebrow .cd-dot,
+    .hero-info-card .benefits-eyebrow .br-dot { width: 6px; height: 6px; }
+    /* Compact flap cards */
+    .hero-info-card .countdown-row { gap: 2px; }
+    .hero-info-card .flap-card { min-width: 26px; height: 26px; border-radius: 4px; }
+    .hero-info-card .flap-digit { font-size: 15px; line-height: 26px; }
+    .hero-info-card .flap-label { font-size: 7px; letter-spacing: 0.12em; }
+    .hero-info-card .flap-unit { gap: 2px; }
+    .hero-info-card .flap-colon { font-size: 13px; opacity: 0.45; margin: 0 1px; }
+    /* Compact benefit slide */
+    .hero-info-card .benefits-track { height: 30px; }
+    .hero-info-card .benefit-slide { gap: 7px; }
+    .hero-info-card .benefit-icon { width: 28px; height: 28px; border-radius: 5px; }
+    .hero-info-card .benefit-icon .material-symbols-outlined { font-size: 15px !important; }
+    .hero-info-card .benefit-title { font-size: 11px; line-height: 1.1; }
+    .hero-info-card .benefit-sub { font-size: 9px; line-height: 1.15; }
+    .hero-info-card .benefits-dots { margin-top: 3px; gap: 4px; }
+    .hero-info-card .benefits-dots span { width: 3px; height: 3px; }
+    @media (max-width: 1100px) {
+      .hero-info-card > .hero-info-divider,
+      .hero-info-card > .benefits-rotator { display: none; }
+      .hero-info-card { padding: 6px 10px; max-width: 324px; }
+    }
+    /* On desktop, no negative margin — the card naturally sits at top of the right column. */
+    @media (min-width: 1024px) {
+      .hero-info-card { margin: 0; }
+    }
+    /* Mobile: ensure no negative offset and a normal stacking order */
+    @media (max-width: 1023px) {
+      .hero-info-card { margin: 16px auto 0; }
+      .reward-chips { grid-template-columns: 1fr; }
+    }
+
+    /* Benefits rotator — visually paired with the countdown, same shape */
+    .benefits-rotator {
+      width: 220px;
+      max-width: 100%;
+      padding: 10px 14px 12px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(15, 21, 37, 0.88) 0%, rgba(8, 12, 24, 0.78) 100%);
+      border: 1px solid rgba(92, 107, 192, 0.28);
+      box-shadow:
+        0 0 0 1px rgba(92, 107, 192, 0.06),
+        0 16px 32px -10px rgba(0, 0, 0, 0.55),
+        0 0 28px -10px rgba(92, 107, 192, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .benefits-eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #8a9ee8;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 8px;
+    }
+    .benefits-eyebrow .br-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #5C6BC0;
+      box-shadow: 0 0 10px rgba(92, 107, 192, 0.95), 0 0 22px rgba(92, 107, 192, 0.55);
+      animation: live-pulse 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .benefits-track {
+      position: relative;
+      height: 38px;
+    }
+    .benefit-slide {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
+    }
+    .benefit-slide[data-active="true"] {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .benefit-icon {
+      width: 38px; height: 38px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(180deg, #1f2a4a 0%, #131a2f 49%, #0a0f1e 50%, #161e36 100%);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 0 12px -3px rgba(92, 107, 192, 0.4);
+    }
+    .benefit-text { min-width: 0; flex: 1; }
+    .benefit-title {
+      color: #fff; font-size: 13px; font-weight: 800; line-height: 1.15; margin: 0 0 2px;
+    }
+    .benefit-sub {
+      color: rgba(228, 231, 240, 0.55); font-size: 10px; line-height: 1.25; margin: 0; letter-spacing: 0.02em;
+    }
+    .benefits-dots { margin-top: 8px; }
+    .benefits-dots {
+      display: flex; justify-content: center; gap: 5px;
+      margin-top: 6px;
+    }
+    .benefits-dots span {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      transition: background 0.35s ease, transform 0.35s ease;
+      cursor: pointer;
+    }
+    .benefits-dots span.active {
+      background: #5C6BC0;
+      transform: scale(1.4);
+      box-shadow: 0 0 10px rgba(92, 107, 192, 0.7);
+    }
+    .benefit-tag {
+      font-size: 9px; font-weight: 800; color: #5C6BC0;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Nav user avatar (initials fallback when Google image is blocked) */
+    .lp-avatar {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #3949AB, #00838F);
+      color: #fff;
+      font-weight: 800;
+      text-transform: uppercase;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .lp-avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .lp-av-sm { width: 28px; height: 28px; font-size: 11px; border-radius: 999px; }
   </style>
+
+  <!-- Sync auth pre-paint: read Supabase session from localStorage before first paint
+       to avoid showing "Sign in" while async createClient is still loading. -->
+  <script>
+    (function () {
+      try {
+        var KEY = 'sb-ofgzihmokzjtalrfcjbd-auth-token';
+        var raw = localStorage.getItem(KEY);
+        if (!raw) { window.__OCN_SESSION__ = null; return; }
+        var parsed = JSON.parse(raw);
+        var exp = parsed && (parsed.expires_at || (parsed.currentSession && parsed.currentSession.expires_at));
+        var now = Math.floor(Date.now() / 1000);
+        if (exp && exp < now) { window.__OCN_SESSION__ = null; return; }
+        var user = parsed && (parsed.user || (parsed.currentSession && parsed.currentSession.user));
+        window.__OCN_SESSION__ = user ? { user: user } : null;
+      } catch (e) {
+        window.__OCN_SESSION__ = null;
+      }
+    })();
+  </script>
 </head>
 
 <body class="bg-background text-on-surface">
@@ -2090,9 +3048,27 @@
         <a class="nav-link hover:text-primary transition-colors" href="#faq" data-section="faq">FAQ</a>
         <a class="nav-link hover:text-primary transition-colors" href="#about" data-section="about">About Us</a>
         <a class="nav-link hover:text-primary transition-colors" href="#early-access" data-section="contact">Contact</a>
-        <a class="btn-shimmer bg-primary text-on-primary px-4 py-2 rounded-lg text-[11px] hover:bg-primary-dim transition-colors"
-          href="https://www.indiegogo.com/projects/oceanid/oceanid-one-app-for-life-at-sea" target="_blank"
-          rel="noopener">Back us</a>
+        <!-- Signed-out: primary Sign in button (hidden by default via inline style to beat .inline-flex specificity) -->
+        <a id="nav-signin" class="btn-shimmer bg-primary text-on-primary px-4 py-2 rounded-lg text-[11px] hover:bg-primary-dim transition-colors inline-flex items-center gap-1.5"
+          style="display:none" href="/account.html">
+          <span class="material-symbols-outlined" style="font-size:13px;line-height:1">login</span>Sign in
+        </a>
+        <!-- Signed-in: user chip + dropdown (no avatar, luxury dropdown) -->
+        <div id="nav-user-chip" hidden class="relative">
+          <button id="nav-user-chip-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-surface-container transition-colors">
+            <span id="nav-user-chip-name" class="normal-case tracking-normal text-xs font-bold text-on-surface max-w-[160px] truncate"></span>
+            <span class="material-symbols-outlined text-on-surface-variant" style="font-size:15px">expand_more</span>
+          </button>
+          <div id="nav-user-chip-menu" hidden class="absolute right-0 top-full mt-2 w-52 rounded-2xl overflow-hidden"
+            style="background:linear-gradient(180deg,rgba(15,21,37,0.96) 0%,rgba(10,14,26,0.96) 100%);border:1px solid rgba(92,107,192,0.28);box-shadow:0 24px 64px rgba(0,0,0,0.55),0 6px 18px rgba(0,0,0,0.4),0 0 0 1px rgba(92,107,192,0.08) inset,0 -1px 0 rgba(255,255,255,0.04) inset;backdrop-filter:blur(12px);">
+            <a href="/account.html" class="flex items-center gap-3 px-4 py-3.5 text-on-surface hover:bg-surface-container/70 transition-colors text-[11px] uppercase tracking-[0.18em] font-bold border-b border-white/5">
+              <span class="material-symbols-outlined" style="font-size:16px;color:#5C6BC0">redeem</span>My account
+            </a>
+            <button id="nav-signout-btn" class="w-full text-left flex items-center gap-3 px-4 py-3.5 text-on-surface hover:bg-surface-container/70 transition-colors text-[11px] uppercase tracking-[0.18em] font-bold">
+              <span class="material-symbols-outlined" style="font-size:16px;color:#5C6BC0">logout</span>Sign out
+            </button>
+          </div>
+        </div>
       </div>
       <!-- Hamburger (mobile) -->
       <button id="mobile-menu-btn" class="md:hidden p-2 -mr-1 rounded-xl hover:bg-surface-container transition-colors"
@@ -2127,13 +3103,101 @@
         href="#early-access" onclick="closeMobileMenu()">
         <span class="material-symbols-outlined text-lg">mail</span>Contact
       </a>
-      <a class="flex items-center justify-center py-3 px-4 rounded-xl bg-primary text-on-primary font-bold text-sm hover:bg-primary-dim transition-colors mt-1"
-        href="https://www.indiegogo.com/projects/oceanid/oceanid-one-app-for-life-at-sea" target="_blank" rel="noopener"
-        onclick="closeMobileMenu()">
-        Back us on Indiegogo
+      <!-- Signed-out: primary Sign in (hidden by default via inline style to beat .flex specificity) -->
+      <a id="nav-signin-mobile" class="flex items-center justify-center py-3 px-4 rounded-xl bg-primary text-on-primary font-bold text-sm hover:bg-primary-dim transition-colors mt-1 gap-2"
+        style="display:none" href="/account.html" onclick="closeMobileMenu()">
+        <span class="material-symbols-outlined text-lg">login</span>Sign in
       </a>
+      <!-- Signed-in: account link + sign out -->
+      <div id="nav-user-chip-mobile" hidden>
+        <a href="/account.html" onclick="closeMobileMenu()"
+          class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors">
+          <div id="nav-user-chip-mobile-avatar" class="lp-avatar lp-av-sm" data-initials="?"></div>
+          <span id="nav-user-chip-mobile-name" class="normal-case tracking-normal">My account</span>
+        </a>
+        <button id="nav-signout-btn-mobile"
+          class="w-full flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors">
+          <span class="material-symbols-outlined text-lg">logout</span>Sign out
+        </button>
+      </div>
     </div>
   </nav>
+
+  <!-- Sync chip paint from __OCN_SESSION__ — runs as soon as the nav is in the DOM,
+       so the chip or Sign in button appears on first paint with no flash. -->
+  <script>
+    (function () {
+      var s = window.__OCN_SESSION__;
+      var signin    = document.getElementById('nav-signin');
+      var signinMob = document.getElementById('nav-signin-mobile');
+      var chip      = document.getElementById('nav-user-chip');
+      var chipMob   = document.getElementById('nav-user-chip-mobile');
+      if (!s || !s.user) {
+        if (signin)    signin.style.display    = '';
+        if (signinMob) signinMob.style.display = '';
+        return;
+      }
+      var u = s.user;
+      var meta = u.user_metadata || {};
+      var name = meta.full_name || meta.name || u.email || 'Signed in';
+      var picture = meta.avatar_url || meta.picture || '';
+      if (signin)    signin.style.display    = 'none';
+      if (signinMob) signinMob.style.display = 'none';
+      if (chip)    chip.hidden    = false;
+      if (chipMob) chipMob.hidden = false;
+      var nameEl    = document.getElementById('nav-user-chip-name');        if (nameEl)    nameEl.textContent    = name;
+      var nameElMob = document.getElementById('nav-user-chip-mobile-name'); if (nameElMob) nameElMob.textContent = name;
+      function paint(el) {
+        if (!el) return;
+        var parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+        var initials = ((parts[0] && parts[0][0]) || '') + ((parts.length > 1 && parts[parts.length-1][0]) || '');
+        initials = (initials || '?').toUpperCase().slice(0, 2);
+        el.textContent = initials;
+        el.dataset.initials = initials;
+        if (!picture) return;
+        var img = document.createElement('img');
+        img.alt = ''; img.referrerPolicy = 'no-referrer';
+        img.onerror = function () { img.remove(); };
+        img.src = picture;
+        el.appendChild(img);
+      }
+      paint(document.getElementById('nav-user-chip-avatar'));
+      paint(document.getElementById('nav-user-chip-mobile-avatar'));
+
+      // Sync dropdown toggle + sign-out fallback. These work even if the async
+      // Supabase module fails to load. The async script also re-binds on auth events.
+      function toggleMenu() {
+        var m = document.getElementById('nav-user-chip-menu');
+        if (m) m.hidden = !m.hidden;
+      }
+      var chipBtn = document.getElementById('nav-user-chip-btn');
+      if (chipBtn) chipBtn.addEventListener('click', toggleMenu);
+
+      document.addEventListener('click', function (e) {
+        var c = document.getElementById('nav-user-chip');
+        var m = document.getElementById('nav-user-chip-menu');
+        if (c && m && !m.hidden && !c.contains(e.target)) m.hidden = true;
+      });
+
+      function syncSignOut() {
+        try {
+          var SUPA_PROJECT_REF = 'ofgzihmokzjtalrfcjbd';
+          var prefix = 'sb-' + SUPA_PROJECT_REF + '-';
+          var toRemove = [];
+          for (var i = 0; i < localStorage.length; i++) {
+            var k = localStorage.key(i);
+            if (k && k.indexOf(prefix) === 0) toRemove.push(k);
+          }
+          toRemove.forEach(function (k) { localStorage.removeItem(k); });
+        } catch (e) {}
+        window.location.reload();
+      }
+      var so  = document.getElementById('nav-signout-btn');
+      var soM = document.getElementById('nav-signout-btn-mobile');
+      if (so)  so.addEventListener('click',  syncSignOut);
+      if (soM) soM.addEventListener('click', syncSignOut);
+    })();
+  </script>
 
   <main class="pt-20 overflow-x-hidden">
 
@@ -2141,9 +3205,11 @@
     <section class="relative overflow-hidden -mt-20">
       <!-- Cinematic background -->
       <div class="absolute inset-0 z-0 overflow-hidden">
-        <!-- Parallax background layer (JS drives translateY) -->
+        <!-- Parallax background layer (JS drives translateY). Sized in vh so
+             expanding the form on mobile (reward chip details) doesn't resize
+             the BG container and cause the cover image to "jump". -->
         <div class="hero-parallax-bg"
-          style="position:absolute;left:0;right:0;top:-25%;height:150%;background-image:url('https://storage.googleapis.com/oceanid-public/background.jpg');background-size:cover;background-position:center;">
+          style="position:absolute;left:0;right:0;top:-25vh;height:150vh;background-image:url('https://storage.googleapis.com/oceanid-public/background.jpg');background-size:cover;background-position:center;">
         </div>
         <!-- Nautical dot grid -->
         <div class="absolute inset-0 nautical-grid" style="opacity:0.06;"></div>
@@ -2173,8 +3239,8 @@
         </svg>
       </div>
 
-      <div class="hero-content-inner relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pb-10 sm:pb-14">
-        <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+      <div class="hero-content-inner relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pb-10 sm:pb-14 isolate">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-stretch">
 
           <!-- Left: headline, badges, form -->
           <div class="space-y-3 sm:space-y-4">
@@ -2187,15 +3253,13 @@
 
             <!-- Subtext -->
             <p class="text-sm sm:text-lg text-white/65 leading-relaxed max-w-lg fade-up fade-up-delay-2">
-              Travelers book verified sailing trips with trusted captains. Captains fill their cabins and earn from every voyage. Service providers get discovered by the right crews. One app for the sea.
+              Travelers book sailing trips with trusted captains. Captains fill their cabins and earn from every voyage. Service providers get discovered by the right crews. One app for the sea.
             </p>
 
             <!-- Early Access Form (hero) -->
             <div
               class="form-luxury bg-[#080c18]/80 backdrop-blur-xl rounded-2xl p-4 sm:p-6 shadow-2xl fade-up fade-up-delay-3 mt-6 sm:mt-8 max-w-lg">
-              <h3 class="text-base sm:text-xl font-bold text-white mb-0.5 text-center">Become an Early Explorer</h3>
-              <p class="text-white/50 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed text-center">Get early access to
-                the app and exclusive member benefits.</p>
+              <h3 class="text-base sm:text-xl font-bold text-white mb-3 sm:mb-4 text-center">Become an Early Explorer</h3>
               <form id="early-form-hero" class="space-y-2 sm:space-y-2.5" novalidate>
                 <input type="hidden" name="_source" value="hero-section" />
                 <div class="relative">
@@ -2238,28 +3302,78 @@
                       placeholder="Phone Number" class="phone-num-input" />
                   </div>
                 </div>
-                <div class="role-select-wrap open-up">
-                  <span
-                    class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none"
-                    style="font-size:16px" data-icon="badge">badge</span>
-                  <button type="button" class="role-select-btn pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3"
-                    aria-haspopup="listbox" aria-expanded="false">
-                    <span class="role-select-value flex-1">Select your role</span>
-                    <span class="material-symbols-outlined role-select-arrow">expand_more</span>
+                <input type="hidden" name="reward_code" value="" />
+                <input type="hidden" name="role" value="" />
+                <p class="reward-pick-title">Choose your free 2-month reward</p>
+                <div class="reward-chips reward-chips-select">
+                  <button type="button" class="reward-chip" data-reward-code="OPER_PRO_3M" data-role="Captain / Skipper">
+                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
+                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
+                  <span class="reward-chip-role">Captains</span>
+                    <span class="reward-chip-corner"></span>
+                    <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">workspace_premium</span>Captain's Reward</span>
+                    <div class="reward-tip" role="tooltip">
+                      <div class="reward-tip-head">
+                        <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">workspace_premium</span>
+                        <div>
+                          <p class="reward-tip-title">Oceanid PRO</p>
+                          <p class="reward-tip-sub">Free for 2 months</p>
+                        </div>
+                      </div>
+                      <ul class="reward-tip-bullets">
+                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">sailing</span>Unlimited vessels</li>
+                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">directions_boat</span>Unlimited paid trips</li>
+                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">euro</span>~&euro;60 value, on us</li>
+                      </ul>
+                    </div>
                   </button>
-                  <input type="hidden" name="role" value="" />
-                  <ul class="role-select-dropdown" role="listbox">
-                    <li role="option" data-value="Captain / Skipper">Captain / Skipper</li>
-                    <li role="option" data-value="Fleet Manager">Fleet Manager</li>
-                    <li role="option" data-value="Marina / Service Provider">Marina / Service Provider</li>
-                    <li role="option" data-value="Traveler / Guest">Traveler / Guest</li>
-                    <li role="option" data-value="Other">Other</li>
-                  </ul>
+                  <button type="button" class="reward-chip" data-reward-code="TRAV_FEE_WAIVER_3M" data-role="Traveler / Guest">
+                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
+                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
+                  <span class="reward-chip-role">Travelers</span>
+                    <span class="reward-chip-corner"></span>
+                    <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">confirmation_number</span>Traveler's Reward</span>
+                    <div class="reward-tip" role="tooltip">
+                      <div class="reward-tip-head">
+                        <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">confirmation_number</span>
+                        <div>
+                          <p class="reward-tip-title">Zero booking fees</p>
+                          <p class="reward-tip-sub">Free for 2 months</p>
+                        </div>
+                      </div>
+                      <ul class="reward-tip-bullets">
+                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">savings</span>5% saved on every trip</li>
+                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">explore</span>Any sailing, anywhere</li>
+                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">schedule</span>Auto-applied from day one</li>
+                      </ul>
+                    </div>
+                  </button>
+                  <button type="button" class="reward-chip" data-reward-code="OPER_FEE_WAIVER_3M" data-role="Marina / Service Provider">
+                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
+                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
+                  <span class="reward-chip-role">Providers</span>
+                    <span class="reward-chip-corner"></span>
+                    <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">percent</span>Provider's Reward</span>
+                    <div class="reward-tip" role="tooltip">
+                      <div class="reward-tip-head">
+                        <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">handshake</span>
+                        <div>
+                          <p class="reward-tip-title">Partner perks</p>
+                          <p class="reward-tip-sub">Tailored for your business</p>
+                        </div>
+                      </div>
+                      <ul class="reward-tip-bullets">
+                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">verified</span>Custom commercial terms</li>
+                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">star</span>Featured to relevant crews</li>
+                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">support_agent</span>Our team will reach out to you</li>
+                      </ul>
+                    </div>
+                  </button>
                 </div>
                 <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
                 <button type="submit"
                   class="btn-shimmer w-full bg-primary text-white py-2.5 sm:py-3.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
-                  Get Early Access
+                  Claim My Reward
                   <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
                 </button>
               </form>
@@ -2267,33 +3381,37 @@
                 <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary mx-auto">
                   <span class="material-symbols-outlined text-2xl" data-icon="check_circle">check_circle</span>
                 </div>
-                <h5 class="text-base font-bold text-white">You're in!</h5>
-                <p class="text-white/50 text-sm">We'll reach out with early access details soon.</p>
-              </div>
-              <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-3 sm:mt-4">
-                <span class="inline-flex items-center gap-1.5 text-white/35 text-[10px] sm:text-xs font-medium"><span
-                    class="material-symbols-outlined text-primary/80"
-                    style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Early
-                  Access</span>
-                <span class="inline-flex items-center gap-1.5 text-white/35 text-[10px] sm:text-xs font-medium"><span
-                    class="material-symbols-outlined text-primary/80"
-                    style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Exclusive
-                  Offers</span>
-                <span class="inline-flex items-center gap-1.5 text-white/35 text-[10px] sm:text-xs font-medium"><span
-                    class="material-symbols-outlined text-primary/80"
-                    style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Free
-                  to Join</span>
+                <h5 class="text-base font-bold text-white">You're on the list. Your reward is reserved.</h5>
+                <p class="text-white/65 text-sm leading-relaxed">Check your inbox. We just sent you a confirmation with your reward details and a sign-in link.</p>
+                <div class="ea-success-steps">
+                  <div class="ea-success-step">
+                    <span class="material-symbols-outlined ea-success-step-icon">login</span>
+                    <div class="ea-success-step-text">
+                      <p class="ea-success-step-title">Sign in at <a href="/account.html" class="text-primary hover:underline">oceanid.io/account</a></p>
+                      <p class="ea-success-step-sub">Use Google, Microsoft, Apple or your email.</p>
+                    </div>
+                  </div>
+                  <div class="ea-success-step">
+                    <span class="material-symbols-outlined ea-success-step-icon">redeem</span>
+                    <div class="ea-success-step-text">
+                      <p class="ea-success-step-title">Open the Rewards tab</p>
+                      <p class="ea-success-step-sub">See your reward, get the activation code, or switch to a different one anytime.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
           </div>
 
           <!-- Right: Phone mockup + store badges -->
-          <div class="flex flex-col items-center justify-center gap-3 sm:gap-4 py-2">
-            <!-- Countdown + phone scale together as one unit -->
-            <div class="phone-stage flex flex-col items-center gap-3 w-full max-w-full">
+          <div class="flex flex-col items-center justify-between gap-3 sm:gap-4 py-2">
+            <!-- Countdown + benefits rotator + phone scale together as one unit -->
+            <div class="phone-stage flex flex-col items-center gap-6 sm:gap-8 w-full max-w-full">
+              <!-- Top row: unified info card with countdown + rotating benefit -->
+              <div class="hero-info-card fade-up fade-up-delay-2">
               <!-- Launch countdown (matches phone width) -->
-              <div class="countdown fade-up fade-up-delay-2" id="launch-countdown"
+              <div class="countdown" id="launch-countdown"
                 aria-label="Time until Oceanid launches">
                 <div class="countdown-eyebrow">
                   <span class="cd-dot"></span>
@@ -2320,6 +3438,44 @@
                     <span class="flap-label">sec</span>
                   </div>
                 </div>
+              </div>
+              <!-- Vertical divider between countdown and rotator -->
+              <div class="hero-info-divider"></div>
+              <!-- Benefits rotator (right side of countdown) -->
+              <div class="benefits-rotator" id="benefits-rotator" aria-label="Founding rewards">
+                <div class="benefits-eyebrow">
+                  <span class="br-dot"></span>
+                  <span>Free 2 months</span>
+                </div>
+                <div class="benefits-track">
+                  <div class="benefit-slide" data-idx="0" data-active="true">
+                    <div class="benefit-icon"><span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1,'wght' 600">workspace_premium</span></div>
+                    <div class="benefit-text">
+                      <p class="benefit-title">Captain's Reward</p>
+                      <p class="benefit-sub">2 months PRO, free</p>
+                    </div>
+                  </div>
+                  <div class="benefit-slide" data-idx="1">
+                    <div class="benefit-icon"><span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1,'wght' 600">percent</span></div>
+                    <div class="benefit-text">
+                      <p class="benefit-title">Provider's Reward</p>
+                      <p class="benefit-sub">Tailored partner offers</p>
+                    </div>
+                  </div>
+                  <div class="benefit-slide" data-idx="2">
+                    <div class="benefit-icon"><span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1,'wght' 600">confirmation_number</span></div>
+                    <div class="benefit-text">
+                      <p class="benefit-title">Traveler's Reward</p>
+                      <p class="benefit-sub">No booking fees for 2 months</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="benefits-dots">
+                  <span data-dot="0" class="active"></span>
+                  <span data-dot="1"></span>
+                  <span data-dot="2"></span>
+                </div>
+              </div>
               </div>
               <!-- Phone mockup -->
               <div class="phone-float"
@@ -2689,8 +3845,19 @@
     </section>
 
     <!-- How It Works Section -->
-    <section class="py-16 sm:py-24 px-4 sm:px-8 bg-surface-container-low">
-      <div class="max-w-6xl mx-auto">
+    <section class="relative overflow-hidden py-16 sm:py-24 px-4 sm:px-8 bg-surface-container-low">
+      <!-- Drifting yacht silhouette (sails right to left across the section) -->
+      <svg class="yacht-drift-hiw" viewBox="0 0 130 84" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M58 12 L58 60 L22 60 Z" fill="rgba(255,255,255,0.55)" />
+        <path d="M60 14 L60 60 L92 60 Z" fill="rgba(255,255,255,0.38)" />
+        <line x1="58" y1="8" x2="58" y2="62" stroke="rgba(255,255,255,0.65)" stroke-width="1.2" />
+        <circle cx="58" cy="8" r="2" fill="rgba(255,255,255,0.7)" />
+        <path d="M14 62 L102 62 L90 73 L24 73 Z" fill="rgba(28,40,72,0.95)" stroke="rgba(255,255,255,0.18)" stroke-width="0.8" />
+        <ellipse cx="58" cy="78" rx="52" ry="2" fill="rgba(92,107,192,0.22)" />
+        <ellipse cx="40" cy="80" rx="14" ry="0.8" fill="rgba(255,255,255,0.18)" />
+        <ellipse cx="78" cy="80" rx="12" ry="0.8" fill="rgba(255,255,255,0.14)" />
+      </svg>
+      <div class="max-w-6xl mx-auto relative z-10">
         <div class="text-center mb-14 sm:mb-16 reveal">
           <h2 class="eyebrow-lux text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">How It Works</h2>
           <p class="text-3xl sm:text-4xl font-extrabold tracking-tight text-on-surface">Four steps to your next
@@ -3522,10 +4689,11 @@
     </section>
 
     <!-- Final CTA Section -->
-    <section class="relative overflow-hidden py-20 sm:py-28 scroll-mt-20" id="early-access">
-      <div class="absolute inset-0 z-0">
-        <img alt="" class="w-full h-full object-cover object-center"
-          src="https://storage.googleapis.com/oceanid-public/background.jpg" />
+    <section class="relative overflow-hidden py-20 sm:py-28 scroll-mt-20" id="contact">
+      <div class="absolute inset-0 z-0 overflow-hidden">
+        <!-- BG sized in vh so the form expanding/collapsing on mobile doesn't
+             resize the section and re-render the cover image (visible "jump"). -->
+        <div style="position:absolute;left:0;right:0;top:-25vh;height:150vh;background-image:url('https://storage.googleapis.com/oceanid-public/background.jpg');background-size:cover;background-position:center;"></div>
         <div class="absolute inset-0 bg-[#080C18]/82"></div>
         <div class="absolute inset-0 bg-gradient-to-b from-[#080C18] via-transparent to-[#080C18]"></div>
       </div>
@@ -3539,7 +4707,7 @@
             with questions. Reach out and we'll get back to you promptly.
           </p>
         </div>
-        <div class="max-w-lg mx-auto reveal rd1">
+        <div id="early-access" class="max-w-lg mx-auto reveal rd1 scroll-mt-24">
           <div class="form-luxury bg-[#080c18]/85 backdrop-blur-xl rounded-2xl p-6 sm:p-8 shadow-2xl">
             <form id="early-form-bottom" class="space-y-3" novalidate>
               <input type="hidden" name="_source" value="final-cta" />
@@ -3582,28 +4750,75 @@
                     placeholder="Phone Number" class="phone-num-input" />
                 </div>
               </div>
-              <div class="role-select-wrap open-up">
-                <span
-                  class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none"
-                  style="font-size:16px" data-icon="badge">badge</span>
-                <button type="button" class="role-select-btn pl-10 pr-3 py-3.5" aria-haspopup="listbox"
-                  aria-expanded="false">
-                  <span class="role-select-value flex-1">Select your role</span>
-                  <span class="material-symbols-outlined role-select-arrow">expand_more</span>
+              <input type="hidden" name="reward_code" value="" />
+              <input type="hidden" name="role" value="" />
+              <p class="reward-pick-title">Choose your free 2-month reward</p>
+              <div class="reward-chips reward-chips-select">
+                <button type="button" class="reward-chip" data-reward-code="OPER_PRO_3M" data-role="Captain / Skipper">
+                  <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
+                  <span class="reward-chip-role">Captains</span>
+                  <span class="reward-chip-corner"></span>
+                  <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">workspace_premium</span>Captain's Reward</span>
+                  <div class="reward-tip" role="tooltip">
+                    <div class="reward-tip-head">
+                      <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">workspace_premium</span>
+                      <div>
+                        <p class="reward-tip-title">Oceanid PRO</p>
+                        <p class="reward-tip-sub">Free for 2 months</p>
+                      </div>
+                    </div>
+                    <ul class="reward-tip-bullets">
+                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">sailing</span>Unlimited vessels</li>
+                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">directions_boat</span>Unlimited paid trips</li>
+                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">euro</span>~&euro;60 value, on us</li>
+                    </ul>
+                  </div>
                 </button>
-                <input type="hidden" name="role" value="" />
-                <ul class="role-select-dropdown" role="listbox">
-                  <li role="option" data-value="Captain / Skipper">Captain / Skipper</li>
-                  <li role="option" data-value="Fleet Manager">Fleet Manager</li>
-                  <li role="option" data-value="Marina / Service Provider">Marina / Service Provider</li>
-                  <li role="option" data-value="Traveler / Guest">Traveler / Guest</li>
-                  <li role="option" data-value="Other">Other</li>
-                </ul>
+                <button type="button" class="reward-chip" data-reward-code="TRAV_FEE_WAIVER_3M" data-role="Traveler / Guest">
+                  <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
+                  <span class="reward-chip-role">Travelers</span>
+                  <span class="reward-chip-corner"></span>
+                  <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">confirmation_number</span>Traveler's Reward</span>
+                  <div class="reward-tip" role="tooltip">
+                    <div class="reward-tip-head">
+                      <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">confirmation_number</span>
+                      <div>
+                        <p class="reward-tip-title">Zero booking fees</p>
+                        <p class="reward-tip-sub">Free for 2 months</p>
+                      </div>
+                    </div>
+                    <ul class="reward-tip-bullets">
+                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">savings</span>5% saved on every trip</li>
+                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">explore</span>Any sailing, anywhere</li>
+                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">schedule</span>Auto-applied from day one</li>
+                    </ul>
+                  </div>
+                </button>
+                <button type="button" class="reward-chip" data-reward-code="OPER_FEE_WAIVER_3M" data-role="Marina / Service Provider">
+                  <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
+                  <span class="reward-chip-role">Providers</span>
+                  <span class="reward-chip-corner"></span>
+                  <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">percent</span>Provider's Reward</span>
+                  <div class="reward-tip" role="tooltip">
+                    <div class="reward-tip-head">
+                      <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">handshake</span>
+                      <div>
+                        <p class="reward-tip-title">Partner perks</p>
+                        <p class="reward-tip-sub">Tailored for your business</p>
+                      </div>
+                    </div>
+                    <ul class="reward-tip-bullets">
+                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">verified</span>Custom commercial terms</li>
+                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">star</span>Featured to relevant crews</li>
+                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">support_agent</span>Our team will reach out to you</li>
+                    </ul>
+                  </div>
+                </button>
               </div>
               <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
               <button type="submit"
                 class="btn-shimmer w-full bg-primary text-white py-4 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
-                Get Early Access
+                Claim My Reward
                 <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
               </button>
             </form>
@@ -3611,22 +4826,24 @@
               <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary mx-auto">
                 <span class="material-symbols-outlined text-2xl" data-icon="check_circle">check_circle</span>
               </div>
-              <h5 class="text-base font-bold text-white">You're in!</h5>
-              <p class="text-white/50 text-sm">We'll reach out with early access details soon.</p>
-            </div>
-            <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-4">
-              <span class="inline-flex items-center gap-1.5 text-white/35 text-xs font-medium"><span
-                  class="material-symbols-outlined text-primary/80"
-                  style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Early
-                Access</span>
-              <span class="inline-flex items-center gap-1.5 text-white/35 text-xs font-medium"><span
-                  class="material-symbols-outlined text-primary/80"
-                  style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Exclusive
-                Offers</span>
-              <span class="inline-flex items-center gap-1.5 text-white/35 text-xs font-medium"><span
-                  class="material-symbols-outlined text-primary/80"
-                  style="font-size:12px;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>Free
-                to Join</span>
+              <h5 class="text-base font-bold text-white">You're on the list. Your reward is reserved.</h5>
+              <p class="text-white/65 text-sm leading-relaxed">Check your inbox. We just sent you a confirmation with your reward details and a sign-in link.</p>
+              <div class="ea-success-steps">
+                <div class="ea-success-step">
+                  <span class="material-symbols-outlined ea-success-step-icon">login</span>
+                  <div class="ea-success-step-text">
+                    <p class="ea-success-step-title">Sign in at <a href="/account.html" class="text-primary hover:underline">oceanid.io/account</a></p>
+                    <p class="ea-success-step-sub">Use Google, Microsoft, Apple or your email.</p>
+                  </div>
+                </div>
+                <div class="ea-success-step">
+                  <span class="material-symbols-outlined ea-success-step-icon">redeem</span>
+                  <div class="ea-success-step-text">
+                    <p class="ea-success-step-title">Open the Rewards tab</p>
+                    <p class="ea-success-step-sub">See your reward, get the activation code, or switch to a different one anytime.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -3786,13 +5003,29 @@
         <span class="material-symbols-outlined" style="font-size:20px">close</span>
       </button>
       <h4 id="bottle-title">Ahoy, explorer.</h4>
-      <p>You found our bottle drifting through the page. Curious souls like you deserve to be first. Sign up now and
-        get exclusive early access to Oceanid before anyone else.</p>
+      <p>You found our bottle drifting through the page. Curious souls like you deserve to be first. Sign up now to get early access plus your pick of a free 2‑month Reward.</p>
+      <div class="bottle-perks">
+        <div class="bottle-perk-row">
+          <span class="bottle-perk-name">Captain's Reward</span>
+          <span class="bottle-perk-arrow">→</span>
+          <span class="bottle-perk-benefit">Oceanid PRO, free</span>
+        </div>
+        <div class="bottle-perk-row">
+          <span class="bottle-perk-name">Traveler's Reward</span>
+          <span class="bottle-perk-arrow">→</span>
+          <span class="bottle-perk-benefit">No booking fees</span>
+        </div>
+        <div class="bottle-perk-row">
+          <span class="bottle-perk-name">Provider's Reward</span>
+          <span class="bottle-perk-arrow">→</span>
+          <span class="bottle-perk-benefit">Tailored partner offers</span>
+        </div>
+      </div>
       <p style="text-align:center;margin:20px 0 18px;">
-        <button id="bottle-cta" class="bottle-cta">Claim my early access &#8594;</button>
+        <button id="bottle-cta" class="bottle-cta">Claim my reward &#8594;</button>
       </p>
-      <p style="font-size:12.5px;opacity:0.65;text-align:center;margin-bottom:6px;">Exclusive early access · Be first to set sail.</p>
-      <p class="bottle-sign">— The Oceanid crew</p>
+      <p style="font-size:12.5px;opacity:0.65;text-align:center;margin-bottom:6px;">Early access. Free benefits. Be first to set sail.</p>
+      <p class="bottle-sign">The Oceanid crew</p>
     </div>
   </div>
 
@@ -3804,10 +5037,38 @@
     }
 
     // ════════════════════════════════════════════════
-    // Launch countdown — flip the digits to July 15
+    // Founding rewards rotator
     // ════════════════════════════════════════════════
     (function () {
-      var TARGET = new Date('2026-07-15T00:00:00Z').getTime();
+      var slides = document.querySelectorAll('#benefits-rotator .benefit-slide');
+      var dots = document.querySelectorAll('#benefits-rotator [data-dot]');
+      if (!slides.length) return;
+      var idx = 0;
+      var timer = null;
+      function show(next) {
+        idx = ((next % slides.length) + slides.length) % slides.length;
+        slides.forEach(function (s) { s.dataset.active = String(Number(s.dataset.idx) === idx); });
+        dots.forEach(function (d) { d.classList.toggle('active', Number(d.dataset.dot) === idx); });
+      }
+      function tick() { show(idx + 1); }
+      function start() { stop(); timer = setInterval(tick, 4200); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      dots.forEach(function (d) {
+        d.addEventListener('click', function () { show(Number(d.dataset.dot)); start(); });
+      });
+      var root = document.getElementById('benefits-rotator');
+      if (root) {
+        root.addEventListener('mouseenter', stop);
+        root.addEventListener('mouseleave', start);
+      }
+      start();
+    })();
+
+    // ════════════════════════════════════════════════
+    // Launch countdown — counts to end of June (founding-member window close)
+    // ════════════════════════════════════════════════
+    (function () {
+      var TARGET = new Date('2026-06-30T23:59:59Z').getTime();
       function tick() {
         var diff = Math.max(0, TARGET - Date.now());
         var d = Math.floor(diff / 86400000);
@@ -4321,10 +5582,25 @@
         if (nameInput) nameInput.addEventListener('input', function () { if (this.value.trim()) hideDot('name'); });
         if (emailInput) emailInput.addEventListener('input', function () { if (this.value.trim()) hideDot('email'); });
 
+        // Reward chip selection — radio-like, persisted in hidden inputs.
+        var rewardInput = form.querySelector('input[name="reward_code"]');
+        var roleInput   = form.querySelector('input[name="role"]');
+        var chips = form.querySelectorAll('.reward-chip');
+        chips.forEach(function (chip) {
+          chip.addEventListener('click', function () {
+            chips.forEach(function (c) { c.classList.remove('selected'); });
+            chip.classList.add('selected');
+            if (rewardInput) rewardInput.value = chip.dataset.rewardCode || '';
+            if (roleInput)   roleInput.value   = chip.dataset.role || '';
+            errorEl.classList.add('hidden');
+          });
+        });
+
         form.addEventListener('submit', function (e) {
           e.preventDefault();
           var name = nameInput ? nameInput.value.trim() : '';
           var email = emailInput ? emailInput.value.trim() : '';
+          var rewardCode = rewardInput ? rewardInput.value.trim() : '';
           var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           var hasError = false;
 
@@ -4337,6 +5613,8 @@
             showDot('email');
             return;
           }
+          // reward_code is OPTIONAL — users who skip the chips can still
+          // join the waitlist and pick their reward later from /account.
 
           var btn = form.querySelector('button[type="submit"]');
           btn.disabled = true;
@@ -4351,21 +5629,53 @@
             body: formData
           })
             .then(function (res) {
-              if (res.ok) return res;
               return res.json().catch(function () { return {}; }).then(function (data) {
-                throw new Error(data.error || 'Something went wrong.');
+                return { res: res, data: data };
               });
             })
-            .then(function () {
+            .then(function (out) {
+              var res = out.res, data = out.data;
+              // Duplicate-email case: render the success block with a
+              // distinct "already on the waitlist" message + sign-in CTA.
+              if (!res.ok && data && data.duplicate) {
+                form.classList.add('hidden');
+                var h    = successEl.querySelector('h5');
+                var lead = successEl.querySelector(':scope > p');
+                var step1Title = successEl.querySelector('.ea-success-step:nth-of-type(1) .ea-success-step-title');
+                var step1Sub   = successEl.querySelector('.ea-success-step:nth-of-type(1) .ea-success-step-sub');
+                var step2Title = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-title');
+                var step2Sub   = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-sub');
+                if (h)    h.textContent    = "You're already on the waitlist.";
+                if (lead) lead.textContent = "This email is already registered. Sign in to your Oceanid account to view your reward.";
+                if (step1Title) step1Title.innerHTML = 'Sign in at <a href="/account.html" class="text-primary hover:underline">oceanid.io/account</a>';
+                if (step1Sub)   step1Sub.textContent = 'Use Google or your email and a password.';
+                if (step2Title) step2Title.textContent = 'Open the Rewards tab';
+                if (step2Sub)   step2Sub.textContent  = 'View the reward you picked. Switch to a different one anytime.';
+                successEl.classList.remove('hidden');
+                return;
+              }
+              if (!res.ok) {
+                throw new Error((data && data.error) || 'Something went wrong.');
+              }
               trackMetaCompleteRegistration();
               form.classList.add('hidden');
+              var h    = successEl.querySelector('h5');
+              var lead = successEl.querySelector(':scope > p');
+              var step2Title = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-title');
+              var step2Sub   = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-sub');
+              if (!rewardCode) {
+                if (h)    h.textContent    = "You're on the list.";
+                if (lead) lead.textContent = "Check your inbox. We just sent you a sign-in link for your Oceanid account. You can pick your reward anytime.";
+                if (step2Title) step2Title.textContent = 'Pick your reward in the Rewards tab';
+                if (step2Sub)   step2Sub.textContent   = 'See all three rewards, pick the one you want, and get your activation code instantly.';
+              }
               successEl.classList.remove('hidden');
             })
             .catch(function (err) {
               errorEl.textContent = (err && err.message ? err.message : 'Something went wrong.') + ' Please email us at contact@oceanid.io.';
               errorEl.classList.remove('hidden');
               btn.disabled = false;
-              btn.innerHTML = 'Get Early Access <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>';
+              btn.innerHTML = 'Claim My Reward <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>';
             });
         });
       }
@@ -4374,6 +5684,74 @@
     })();
   </script>
 
+  <!-- Supabase Auth: swap "Sign in" for user chip when a session exists -->
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+    const SUPABASE_URL  = 'https://ofgzihmokzjtalrfcjbd.supabase.co'
+    const SUPABASE_ANON = 'sb_publishable_Z3SUSKFxEtsmBR3rN73Q7A_b4xeHKmQ'
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false },
+    })
+
+    // Debug helper — log any auth detection result
+    console.log('[nav-auth] supabase client ready')
+
+    const $ = (id) => document.getElementById(id)
+    function initialsFor(name) {
+      const parts = String(name || '').trim().split(/\s+/).filter(Boolean)
+      if (!parts.length) return '?'
+      const first = parts[0][0] || ''
+      const last  = parts.length > 1 ? parts[parts.length - 1][0] : ''
+      return (first + last).toUpperCase().slice(0, 2)
+    }
+    function paintAvatar(el, name, picture) {
+      if (!el) return
+      const initials = initialsFor(name)
+      el.textContent = initials
+      el.dataset.initials = initials
+      if (!picture) return
+      const img = document.createElement('img')
+      img.alt = ''
+      img.referrerPolicy = 'no-referrer'
+      img.onerror = () => img.remove()
+      img.src = picture
+      el.appendChild(img)
+    }
+
+    async function paintNavAuth() {
+      const { data: { session } } = await supabase.auth.getSession()
+      console.log('[nav-auth] session?', !!session, session?.user?.email)
+      const signin       = $('nav-signin')
+      const signinMob    = $('nav-signin-mobile')
+      const chip         = $('nav-user-chip')
+      const chipMob      = $('nav-user-chip-mobile')
+      if (!session) {
+        if (signin)    signin.style.display    = ''
+        if (signinMob) signinMob.style.display = ''
+        if (chip)      chip.hidden      = true
+        if (chipMob)   chipMob.hidden   = true
+        return
+      }
+      const u = session.user
+      const name = u?.user_metadata?.full_name || u?.user_metadata?.name || u?.email || 'Signed in'
+      const picture = u?.user_metadata?.avatar_url || u?.user_metadata?.picture || ''
+      if (signin)    signin.style.display    = 'none'
+      if (signinMob) signinMob.style.display = 'none'
+      if (chip)      chip.hidden      = false
+      if (chipMob)   chipMob.hidden   = false
+      const nameEl = $('nav-user-chip-name'); if (nameEl) nameEl.textContent = name
+      const nameElMob = $('nav-user-chip-mobile-name'); if (nameElMob) nameElMob.textContent = name
+      paintAvatar($('nav-user-chip-avatar'), name, picture)
+      paintAvatar($('nav-user-chip-mobile-avatar'), name, picture)
+    }
+
+    // Note: dropdown toggle, outside-click close, and sign-out are bound in the
+    // synchronous pre-paint script earlier in the page so they work even when
+    // this module fails to load. Don't re-bind here.
+
+    supabase.auth.onAuthStateChange(() => paintNavAuth())
+    paintNavAuth()
+  </script>
 
 </body>
 
