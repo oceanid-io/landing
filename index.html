@@ -1608,130 +1608,11 @@
       }
     }
 
-    /* Mobile perf: target ALL touch devices regardless of viewport width
-       (landscape phones / Android tablets / etc) using pointer queries
-       instead of a brittle max-width breakpoint. */
-    @media (hover: none) and (pointer: coarse) {
-      /* Kill drifting silhouettes / pulse orbs entirely. */
-      .yacht-drift,
-      .yacht-drift-hiw,
-      .pp1, .pp2, .pp3, .pp4 {
-        animation: none !important;
-      }
-      .yacht-drift,
-      .yacht-drift-hiw { display: none !important; }
-
-      /* backdrop-filter (CSS blur) is one of the most expensive properties on
-         Android — every scroll tick re-rasterizes the pixels behind it.
-         Replace every blur with a solid background of similar darkness. */
-      .form-luxury,
-      .reward-tip,
-      .bottle-note,
-      [class*="backdrop-blur"] {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-      }
-      .form-luxury { background: #0a0f1c !important; }
-
-      /* The reward chip sheen pseudo: kill the animation, blend-mode, and
-         the gradient itself — leaves the chips visually static. */
-      .reward-chips-select .reward-chip::before {
-        animation: none !important;
-        mix-blend-mode: normal !important;
-        background: none !important;
-        opacity: 0 !important;
-      }
-
-      /* The reward-pick-title's animated background-clip: text is heavy on
-         Android (re-paints glyphs every frame). Solid white fallback. */
-      .reward-pick-title {
-        animation: none !important;
-        background: none !important;
-        color: #fff !important;
-        -webkit-text-fill-color: #fff !important;
-      }
-
-      /* Every other always-on infinite animation that's NOT triggered by
-         user interaction. These keep the compositor busy during scroll. */
-      .live-pulse,
-      .cta-pulse,
-      .compass-spin,
-      .text-shimmer,
-      .progress-shimmer,
-      .pain-icon-bob,
-      .pain-line-pulse,
-      .phone-float,
-      .hero-orb,
-      .badge-heart,
-      .card-ping,
-      .notif-drop,
-      .spin-ring,
-      .req-ping,
-      .clock-blink {
-        animation: none !important;
-      }
-
-      /* Tailwind's `animate-pulse`/`animate-bounce`/etc — kill on touch. */
-      .animate-pulse,
-      .animate-bounce,
-      .animate-spin,
-      .animate-ping {
-        animation: none !important;
-      }
-
-      /* Reduce will-change hints so the browser doesn't keep extra
-         compositor layers around for elements we no longer animate. */
-      .hero-parallax-bg,
-      .yacht-drift,
-      .yacht-drift-hiw,
-      .reward-chips-select .reward-chip {
-        will-change: auto !important;
-      }
-
-      /* The scroll progress bar is position:fixed and infinitely animates
-         its background — fixed + animation during scroll = jank on Android. */
-      #scroll-progress {
-        animation: none !important;
-        background: linear-gradient(90deg, #5C6BC0, #00838F) !important;
-        background-size: 100% 100% !important;
-      }
-
-      /* Cursor glow is desktop-only behavior; ensure its huge 520x520
-         position:fixed element isn't even in the layout tree on touch. */
-      #cursor-glow { display: none !important; }
-
-      /* The bottle trigger's drop-shadow filter is moderately expensive
-         on every scroll repaint of a position:fixed element. Use a static
-         opacity instead. */
-      .bottle-trigger {
-        filter: none !important;
-        animation: none !important;
-        opacity: 0.85;
-      }
-
-      /* The hero parallax BG and the final CTA BG are both sized 150vh ×
-         100vw cover — huge raster layers on high-DPI Android. Shrink to
-         viewport so the GPU doesn't keep oversized composited bitmaps for
-         static images. */
-      .hero-parallax-bg,
-      .cta-section-bg {
-        top: 0 !important;
-        height: 100vh !important;
-      }
-
-      /* The countdown timer triggers a flapFlip CSS animation EVERY SECOND
-         on the seconds digit. Disable the keyframe so the digits update
-         silently (no animation cycle). */
-      .flap-digit.flap-anim,
-      .flap-digit {
-        animation: none !important;
-      }
-
-      /* Benefits rotator: instant slide swap, no fade/transition. */
-      .benefit-slide {
-        transition: none !important;
-      }
-    }
+    /* Mobile perf block lives near the end of the stylesheet (below) so
+       its !important rules win over the desktop-default rules even when
+       both have identical specificity (later-source rule wins per CSS
+       spec). The block was moved out of this position to the bottom of
+       the <style> tag. */
 
     /* ══════════════════════════════════════════════════
        PHONE STAGE — shrinks the phone on shorter viewports
@@ -3097,6 +2978,97 @@
     }
     .lp-avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .lp-av-sm { width: 28px; height: 28px; font-size: 11px; border-radius: 999px; }
+
+    /* ══════════════════════════════════════════════════
+       MOBILE PERF — placed at the END of the stylesheet so its !important
+       rules override every earlier desktop rule. Targets all touch
+       devices (Android/iOS phones, tablets) regardless of viewport size.
+    ══════════════════════════════════════════════════ */
+    @media (hover: none) and (pointer: coarse) {
+      .yacht-drift,
+      .yacht-drift-hiw,
+      .pp1, .pp2, .pp3, .pp4 { animation: none !important; }
+      .yacht-drift, .yacht-drift-hiw { display: none !important; }
+
+      .form-luxury,
+      .reward-tip,
+      .bottle-note,
+      [class*="backdrop-blur"] {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      .form-luxury { background: #0a0f1c !important; }
+
+      .reward-chips-select .reward-chip::before {
+        animation: none !important;
+        mix-blend-mode: normal !important;
+        background: none !important;
+        opacity: 0 !important;
+      }
+
+      /* Reward-pick-title — solid white. Use html.reward-pick-title for an
+         extra specificity bump in case any other rule loads later. */
+      .reward-pick-title,
+      html .reward-pick-title {
+        animation: none !important;
+        background: none !important;
+        background-image: none !important;
+        background-clip: border-box !important;
+        -webkit-background-clip: border-box !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        filter: none !important;
+      }
+
+      .live-pulse,
+      .cta-pulse,
+      .compass-spin,
+      .text-shimmer,
+      .progress-shimmer,
+      .pain-icon-bob,
+      .pain-line-pulse,
+      .phone-float,
+      .hero-orb,
+      .badge-heart,
+      .card-ping,
+      .notif-drop,
+      .spin-ring,
+      .req-ping,
+      .clock-blink { animation: none !important; }
+
+      .animate-pulse,
+      .animate-bounce,
+      .animate-spin,
+      .animate-ping { animation: none !important; }
+
+      .hero-parallax-bg,
+      .yacht-drift,
+      .yacht-drift-hiw,
+      .reward-chips-select .reward-chip { will-change: auto !important; }
+
+      #scroll-progress {
+        animation: none !important;
+        background: linear-gradient(90deg, #5C6BC0, #00838F) !important;
+        background-size: 100% 100% !important;
+      }
+      #cursor-glow { display: none !important; }
+
+      .bottle-trigger {
+        filter: none !important;
+        animation: none !important;
+        opacity: 0.85;
+      }
+
+      .hero-parallax-bg,
+      .cta-section-bg {
+        top: 0 !important;
+        height: 100vh !important;
+      }
+
+      .flap-digit.flap-anim,
+      .flap-digit { animation: none !important; }
+      .benefit-slide { transition: none !important; }
+    }
   </style>
 
   <!-- Sync auth pre-paint: read Supabase session from localStorage before first paint
