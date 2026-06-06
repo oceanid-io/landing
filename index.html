@@ -1718,6 +1718,19 @@
         top: 0 !important;
         height: 100vh !important;
       }
+
+      /* The countdown timer triggers a flapFlip CSS animation EVERY SECOND
+         on the seconds digit. Disable the keyframe so the digits update
+         silently (no animation cycle). */
+      .flap-digit.flap-anim,
+      .flap-digit {
+        animation: none !important;
+      }
+
+      /* Benefits rotator: instant slide swap, no fade/transition. */
+      .benefit-slide {
+        transition: none !important;
+      }
     }
 
     /* ══════════════════════════════════════════════════
@@ -5149,9 +5162,12 @@
     }
 
     // ════════════════════════════════════════════════
-    // Founding rewards rotator
+    // Founding rewards rotator (disabled on touch devices for perf)
     // ════════════════════════════════════════════════
     (function () {
+      // On touch devices, leave the first slide active and skip the
+      // setInterval cycle entirely.
+      var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
       var slides = document.querySelectorAll('#benefits-rotator .benefit-slide');
       var dots = document.querySelectorAll('#benefits-rotator [data-dot]');
       if (!slides.length) return;
@@ -5166,8 +5182,9 @@
       function start() { stop(); timer = setInterval(tick, 4200); }
       function stop() { if (timer) { clearInterval(timer); timer = null; } }
       dots.forEach(function (d) {
-        d.addEventListener('click', function () { show(Number(d.dataset.dot)); start(); });
+        d.addEventListener('click', function () { show(Number(d.dataset.dot)); if (!isTouch) start(); });
       });
+      if (isTouch) return;
       var root = document.getElementById('benefits-rotator');
       if (root) {
         root.addEventListener('mouseenter', stop);
@@ -5192,12 +5209,17 @@
         set('m', String(m).padStart(2, '0'));
         set('s', String(s).padStart(2, '0'));
       }
+      var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
       function set(unit, val) {
         var els = document.querySelectorAll('[data-cd="' + unit + '"]');
         for (var i = 0; i < els.length; i++) {
           var el = els[i];
           if (el.textContent !== val) {
             el.textContent = val;
+            // Skip the flapFlip animation on touch — kicking off a 420ms
+            // CSS animation every second on the seconds digit is a
+            // continuous compositor task we don't need on mobile.
+            if (isTouch) continue;
             el.classList.remove('flap-anim');
             void el.offsetWidth;
             el.classList.add('flap-anim');
