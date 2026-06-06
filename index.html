@@ -1608,6 +1608,18 @@
       }
     }
 
+    /* Mobile perf: kill always-on background animations that hammer the GPU
+       during scroll and aren't visually critical on small screens. */
+    @media (max-width: 768px) {
+      .yacht-drift,
+      .yacht-drift-hiw,
+      .pp1, .pp2, .pp3, .pp4 {
+        animation: none !important;
+      }
+      .yacht-drift,
+      .yacht-drift-hiw { display: none !important; }
+    }
+
     /* ══════════════════════════════════════════════════
        PHONE STAGE — shrinks the phone on shorter viewports
        so countdown + phone + store badges all stay in view
@@ -5149,10 +5161,19 @@
         els.forEach(function (el) { io.observe(el); });
       })();
 
-    // Prevent horizontal scroll on iOS (kill any x-offset immediately)
-    window.addEventListener('scroll', function () {
-      if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
-    }, { passive: true });
+    // Prevent horizontal scroll on iOS (rAF-throttled — fires on every scroll
+    // tick on mobile so we MUST debounce; otherwise it stutters the page).
+    (function () {
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+          ticking = false;
+        });
+      }, { passive: true });
+    })();
 
     // Pain section — animated underline + connector
     (function () {
@@ -5192,12 +5213,18 @@
       });
     })();
 
-    // Nav shadow on scroll
+    // Nav shadow on scroll (rAF-throttled)
     (function () {
       var nav = document.querySelector('nav');
       if (!nav) return;
+      var ticking = false;
       window.addEventListener('scroll', function () {
-        nav.classList.toggle('scrolled', window.scrollY > 20);
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          nav.classList.toggle('scrolled', window.scrollY > 20);
+          ticking = false;
+        });
       }, { passive: true });
     })();
 
@@ -5329,16 +5356,26 @@
       document.body.classList.add('fonts-loaded');
     });
 
-    // ── Scroll progress bar ───────────────────────────────────
+    // ── Scroll progress bar (rAF + transform — no layout thrash) ─────
     (function () {
       var bar = document.getElementById('scroll-progress');
       if (!bar) return;
+      bar.style.transformOrigin = 'left center';
+      bar.style.width = '100%';
+      bar.style.willChange = 'transform';
+      var ticking = false;
       function update() {
         var scrollTop = window.scrollY;
         var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        bar.style.width = (docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0) + '%';
+        var ratio = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+        bar.style.transform = 'scaleX(' + ratio + ')';
+        ticking = false;
       }
-      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      }, { passive: true });
       update();
     })();
 
@@ -5357,16 +5394,26 @@
       });
     })();
 
-    // ── Hero parallax ─────────────────────────────────────────
+    // ── Hero parallax (rAF-throttled; disabled on touch devices) ─────
     (function () {
       var bg = document.querySelector('.hero-parallax-bg');
       if (!bg) return;
+      // Skip parallax on touch / coarse pointer devices — mobile scroll
+      // performance is much smoother without per-frame transform updates.
+      if (window.matchMedia('(pointer: coarse)').matches) return;
       var hero = bg.closest('section');
       if (!hero) return;
+      var ticking = false;
       window.addEventListener('scroll', function () {
-        var sy = window.scrollY;
-        if (sy > hero.offsetHeight) return;
-        bg.style.transform = 'translateY(' + (sy * 0.25) + 'px)';
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          var sy = window.scrollY;
+          if (sy <= hero.offsetHeight) {
+            bg.style.transform = 'translate3d(0,' + (sy * 0.25) + 'px,0)';
+          }
+          ticking = false;
+        });
       }, { passive: true });
     })();
 
