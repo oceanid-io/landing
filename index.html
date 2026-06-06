@@ -2446,34 +2446,65 @@
       line-height: 1.35;
       letter-spacing: 0.005em;
     }
-    /* On mobile, chips stack to a single column. Show the inline reward
-       details ONLY for the selected chip — keeps the form compact while
-       still surfacing what the chosen reward unlocks. */
+    /* On mobile, chips stack to a single column. Inline reward details
+       appear ONLY for the selected chip, with a smooth max-height + opacity
+       animation when the user picks it (or switches between chips). */
     @media (max-width: 768px) {
-      .reward-tip { display: none !important; }
-      .reward-chip.selected .reward-tip {
+      /* Collapsed (default) state for every tip on mobile.
+         Use !important to override the desktop hover/focus rules that would
+         otherwise re-show the tooltip on touch. */
+      .reward-chips-select .reward-chip .reward-tip,
+      .reward-chips-select .reward-chip:hover .reward-tip,
+      .reward-chips-select .reward-chip:focus-visible .reward-tip {
         position: static !important;
         display: block !important;
-        opacity: 1 !important;
         transform: none !important;
         width: 100% !important;
         max-width: 100% !important;
-        margin: 14px 0 0 !important;
-        padding: 12px 14px !important;
-        pointer-events: none;
+        pointer-events: none !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
+        background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%) !important;
+        border: 1px solid transparent !important;
+        box-shadow: none !important;
+        z-index: auto !important;
+        opacity: 0 !important;
+        max-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 14px !important;
+        overflow: hidden !important;
+        transition:
+          max-height 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.32s ease-out 0.05s,
+          padding 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+          margin 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+          background-color 0.25s ease,
+          border-color 0.25s ease !important;
+      }
+      .reward-chips-select .reward-chip .reward-tip::before { display: none !important; }
+      /* Expanded state — wins over hover/focus via the extra .selected class. */
+      .reward-chips-select .reward-chip.selected .reward-tip,
+      .reward-chips-select .reward-chip.selected:hover .reward-tip,
+      .reward-chips-select .reward-chip.selected:focus-visible .reward-tip {
+        opacity: 1 !important;
+        max-height: 320px !important;
+        margin: 14px 0 0 !important;
+        padding: 12px 14px !important;
         background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%) !important;
         border-color: rgba(255,255,255,0.4) !important;
-        box-shadow: none;
-        z-index: auto;
       }
-      .reward-chip.selected .reward-tip::before { display: none !important; }
       .reward-chip.selected .reward-tip-title,
       .reward-chip.selected .reward-tip-sub,
       .reward-chip.selected .reward-tip-bullets li { color: #fff; }
-      /* Mobile chip layout: a touch more breathing room around the chip */
-      .reward-chips-select .reward-chip { padding: 14px 14px 14px !important; }
+      /* Mobile chip layout: smooth visual transitions on the chip body. */
+      .reward-chips-select .reward-chip {
+        padding: 14px 14px 14px !important;
+        transition:
+          background 0.25s ease,
+          border-color 0.25s ease,
+          box-shadow 0.25s ease,
+          transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
       .reward-chips-select .reward-chip-name { padding-right: 0 !important; }
     }
     .reward-tip-bullets li .material-symbols-outlined {
@@ -3174,9 +3205,11 @@
     <section class="relative overflow-hidden -mt-20">
       <!-- Cinematic background -->
       <div class="absolute inset-0 z-0 overflow-hidden">
-        <!-- Parallax background layer (JS drives translateY) -->
+        <!-- Parallax background layer (JS drives translateY). Sized in vh so
+             expanding the form on mobile (reward chip details) doesn't resize
+             the BG container and cause the cover image to "jump". -->
         <div class="hero-parallax-bg"
-          style="position:absolute;left:0;right:0;top:-25%;height:150%;background-image:url('https://storage.googleapis.com/oceanid-public/background.jpg');background-size:cover;background-position:center;">
+          style="position:absolute;left:0;right:0;top:-25vh;height:150vh;background-image:url('https://storage.googleapis.com/oceanid-public/background.jpg');background-size:cover;background-position:center;">
         </div>
         <!-- Nautical dot grid -->
         <div class="absolute inset-0 nautical-grid" style="opacity:0.06;"></div>
@@ -3426,7 +3459,7 @@
                     <div class="benefit-icon"><span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1,'wght' 600">percent</span></div>
                     <div class="benefit-text">
                       <p class="benefit-title">Provider's Reward</p>
-                      <p class="benefit-sub">No commission for 2 months</p>
+                      <p class="benefit-sub">Tailored partner offers</p>
                     </div>
                   </div>
                   <div class="benefit-slide" data-idx="2">
@@ -4657,9 +4690,10 @@
 
     <!-- Final CTA Section -->
     <section class="relative overflow-hidden py-20 sm:py-28 scroll-mt-20" id="contact">
-      <div class="absolute inset-0 z-0">
-        <img alt="" class="w-full h-full object-cover object-center"
-          src="https://storage.googleapis.com/oceanid-public/background.jpg" />
+      <div class="absolute inset-0 z-0 overflow-hidden">
+        <!-- BG sized in vh so the form expanding/collapsing on mobile doesn't
+             resize the section and re-render the cover image (visible "jump"). -->
+        <div style="position:absolute;left:0;right:0;top:-25vh;height:150vh;background-image:url('https://storage.googleapis.com/oceanid-public/background.jpg');background-size:cover;background-position:center;"></div>
         <div class="absolute inset-0 bg-[#080C18]/82"></div>
         <div class="absolute inset-0 bg-gradient-to-b from-[#080C18] via-transparent to-[#080C18]"></div>
       </div>
@@ -4977,14 +5011,14 @@
           <span class="bottle-perk-benefit">Oceanid PRO, free</span>
         </div>
         <div class="bottle-perk-row">
-          <span class="bottle-perk-name">Provider's Reward</span>
-          <span class="bottle-perk-arrow">→</span>
-          <span class="bottle-perk-benefit">No commission</span>
-        </div>
-        <div class="bottle-perk-row">
           <span class="bottle-perk-name">Traveler's Reward</span>
           <span class="bottle-perk-arrow">→</span>
           <span class="bottle-perk-benefit">No booking fees</span>
+        </div>
+        <div class="bottle-perk-row">
+          <span class="bottle-perk-name">Provider's Reward</span>
+          <span class="bottle-perk-arrow">→</span>
+          <span class="bottle-perk-benefit">Tailored partner offers</span>
         </div>
       </div>
       <p style="text-align:center;margin:20px 0 18px;">
@@ -5595,16 +5629,37 @@
             body: formData
           })
             .then(function (res) {
-              if (res.ok) return res;
               return res.json().catch(function () { return {}; }).then(function (data) {
-                throw new Error(data.error || 'Something went wrong.');
+                return { res: res, data: data };
               });
             })
-            .then(function () {
+            .then(function (out) {
+              var res = out.res, data = out.data;
+              // Duplicate-email case: render the success block with a
+              // distinct "already on the waitlist" message + sign-in CTA.
+              if (!res.ok && data && data.duplicate) {
+                form.classList.add('hidden');
+                var h    = successEl.querySelector('h5');
+                var lead = successEl.querySelector(':scope > p');
+                var step1Title = successEl.querySelector('.ea-success-step:nth-of-type(1) .ea-success-step-title');
+                var step1Sub   = successEl.querySelector('.ea-success-step:nth-of-type(1) .ea-success-step-sub');
+                var step2Title = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-title');
+                var step2Sub   = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-sub');
+                if (h)    h.textContent    = "You're already on the waitlist.";
+                if (lead) lead.textContent = "This email is already registered. Sign in to your Oceanid account to view your reward.";
+                if (step1Title) step1Title.innerHTML = 'Sign in at <a href="/account.html" class="text-primary hover:underline">oceanid.io/account</a>';
+                if (step1Sub)   step1Sub.textContent = 'Use Google or your email and a password.';
+                if (step2Title) step2Title.textContent = 'Open the Rewards tab';
+                if (step2Sub)   step2Sub.textContent  = 'View the reward you picked. Switch to a different one anytime.';
+                successEl.classList.remove('hidden');
+                return;
+              }
+              if (!res.ok) {
+                throw new Error((data && data.error) || 'Something went wrong.');
+              }
               trackMetaCompleteRegistration();
               form.classList.add('hidden');
-              // Adapt copy based on whether a reward was picked at form time.
-              var h = successEl.querySelector('h5');
+              var h    = successEl.querySelector('h5');
               var lead = successEl.querySelector(':scope > p');
               var step2Title = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-title');
               var step2Sub   = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-sub');

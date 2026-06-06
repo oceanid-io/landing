@@ -69,6 +69,7 @@ Deno.serve(async (req) => {
     }
 
     let waitlistRow: { id: string; email: string; role: string | null } | null = null
+    let preselectedRewardCode: string | null = null
     if (linkedWaitlistId) {
       const { data, error } = await supabase
         .from('waitlist')
@@ -77,6 +78,16 @@ Deno.serve(async (req) => {
         .maybeSingle()
       if (error) throw new Error(`waitlist row fetch: ${error.message}`)
       waitlistRow = data
+
+      // Pull the user's pre-selected reward (chosen on the landing form) so
+      // the account page can highlight the matching card up-front.
+      const { data: linkRow, error: linkRowErr } = await supabase
+        .from('waitlist_links')
+        .select('preselected_reward_code')
+        .eq('waitlist_id', linkedWaitlistId)
+        .maybeSingle()
+      if (linkRowErr) throw new Error(`waitlist_links preselected fetch: ${linkRowErr.message}`)
+      preselectedRewardCode = (linkRow?.preselected_reward_code as string | null) ?? null
     }
 
     const { data: claim, error: claimErr } = await supabase
@@ -91,6 +102,7 @@ Deno.serve(async (req) => {
       user: { id: user.id, email: user.email, name: user.name, picture: user.picture },
       waitlist_linked: Boolean(waitlistRow),
       waitlist: waitlistRow,
+      preselected_reward_code: preselectedRewardCode,
       reward_claim: claim ?? null,
     })
   } catch (err) {

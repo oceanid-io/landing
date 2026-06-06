@@ -218,7 +218,7 @@ function buildWelcomeHtml(name: string, rewardCode: RewardCode, claimToken: stri
         <td style="padding:22px 32px 4px;background:#ffffff;">
           <p style="margin:0 0 10px;color:#162033;font-size:16px;font-weight:800;">View your reward in the app</p>
           <p style="margin:0 0 6px;color:#39445a;font-size:14px;line-height:1.7;">1. Tap the button below to open your Oceanid account.</p>
-          <p style="margin:0 0 6px;color:#39445a;font-size:14px;line-height:1.7;">2. Continue with Google, Microsoft, Apple, or your email and a password.</p>
+          <p style="margin:0 0 6px;color:#39445a;font-size:14px;line-height:1.7;">2. Continue with Google, or your email and a password.</p>
           <p style="margin:0;color:#39445a;font-size:14px;line-height:1.7;">3. Open the <strong>Rewards</strong> tab to view your reward or switch to a different one anytime.</p>
         </td>
       </tr>
@@ -281,7 +281,7 @@ function buildLegacyWelcomeHtml(name: string, role: string, claimToken: string):
         <td style="padding:18px 32px 4px;background:#ffffff;">
           <p style="margin:0 0 8px;color:#162033;font-size:16px;font-weight:800;">How to pick your reward</p>
           <p style="margin:0 0 6px;color:#39445a;font-size:14px;line-height:1.7;">1. Tap the button below to open your Oceanid account.</p>
-          <p style="margin:0 0 6px;color:#39445a;font-size:14px;line-height:1.7;">2. Continue with Google, Microsoft, Apple, or your email and a password.</p>
+          <p style="margin:0 0 6px;color:#39445a;font-size:14px;line-height:1.7;">2. Continue with Google, or your email and a password.</p>
           <p style="margin:0;color:#39445a;font-size:14px;line-height:1.7;">3. Open the <strong>Rewards</strong> tab to pick your reward or switch later.</p>
         </td>
       </tr>
@@ -322,6 +322,26 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
     )
+
+    // Duplicate-email guard: if this email is already on the waitlist, stop
+    // and point the user at their account instead of creating another row.
+    const { data: existingWl, error: existingErr } = await supabase
+      .from('waitlist')
+      .select('id')
+      .ilike('email', email)
+      .limit(1)
+      .maybeSingle()
+    if (existingErr) throw new Error(`waitlist duplicate check: ${existingErr.message}`)
+    if (existingWl) {
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          duplicate: true,
+          error: "You're already on the waitlist. Sign in to oceanid.io/account to view your reward.",
+        }),
+        { status: 409, headers: { ...cors, 'Content-Type': 'application/json' } },
+      )
+    }
 
     const { data: wlRow, error: wlErr } = await supabase
       .from('waitlist')
