@@ -1618,6 +1618,43 @@
       }
       .yacht-drift,
       .yacht-drift-hiw { display: none !important; }
+
+      /* backdrop-filter (CSS blur) is extremely expensive on Android — it
+         re-rasterizes the underlying pixels on every scroll tick. Replace
+         every blur with a solid background of similar perceived darkness. */
+      .form-luxury,
+      .reward-tip,
+      .bottle-note,
+      [class*="backdrop-blur"] {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      .form-luxury { background: #0a0f1c !important; }
+
+      /* mix-blend-mode forces extra compositor layers; disable on the chip
+         sheen, and dim it slightly so the absence of blend mode isn't loud. */
+      .reward-chips-select .reward-chip::before {
+        mix-blend-mode: normal !important;
+        opacity: 0.5;
+      }
+
+      /* Animated background-clip: text on the reward-pick-title is heavy on
+         Android (re-paints glyphs every frame). Solid white fallback. */
+      .reward-pick-title {
+        animation: none !important;
+        background: none !important;
+        color: #fff !important;
+        -webkit-text-fill-color: #fff !important;
+      }
+
+      /* Trim the few remaining always-on infinite animations that aren't
+         on the user's primary view of the form. */
+      .live-pulse,
+      .cta-pulse,
+      .compass-spin,
+      .text-shimmer {
+        animation: none !important;
+      }
     }
 
     /* ══════════════════════════════════════════════════
