@@ -1687,6 +1687,37 @@
       .reward-chips-select .reward-chip {
         will-change: auto !important;
       }
+
+      /* The scroll progress bar is position:fixed and infinitely animates
+         its background — fixed + animation during scroll = jank on Android. */
+      #scroll-progress {
+        animation: none !important;
+        background: linear-gradient(90deg, #5C6BC0, #00838F) !important;
+        background-size: 100% 100% !important;
+      }
+
+      /* Cursor glow is desktop-only behavior; ensure its huge 520x520
+         position:fixed element isn't even in the layout tree on touch. */
+      #cursor-glow { display: none !important; }
+
+      /* The bottle trigger's drop-shadow filter is moderately expensive
+         on every scroll repaint of a position:fixed element. Use a static
+         opacity instead. */
+      .bottle-trigger {
+        filter: none !important;
+        animation: none !important;
+        opacity: 0.85;
+      }
+
+      /* The hero parallax BG and the final CTA BG are both sized 150vh ×
+         100vw cover — huge raster layers on high-DPI Android. Shrink to
+         viewport so the GPU doesn't keep oversized composited bitmaps for
+         static images. */
+      .hero-parallax-bg,
+      .cta-section-bg {
+        top: 0 !important;
+        height: 100vh !important;
+      }
     }
 
     /* ══════════════════════════════════════════════════
@@ -4774,7 +4805,7 @@
       <div class="absolute inset-0 z-0 overflow-hidden">
         <!-- BG sized in vh so the form expanding/collapsing on mobile doesn't
              resize the section and re-render the cover image (visible "jump"). -->
-        <div style="position:absolute;left:0;right:0;top:-25vh;height:150vh;background-image:url('https://storage.googleapis.com/oceanid-public/background.jpg');background-size:cover;background-position:center;"></div>
+        <div class="cta-section-bg" style="position:absolute;left:0;right:0;top:-25vh;height:150vh;background-image:url('https://storage.googleapis.com/oceanid-public/background.jpg');background-size:cover;background-position:center;"></div>
         <div class="absolute inset-0 bg-[#080C18]/82"></div>
         <div class="absolute inset-0 bg-gradient-to-b from-[#080C18] via-transparent to-[#080C18]"></div>
       </div>
