@@ -82,7 +82,9 @@ function titleCase(value: string) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function emailHeader(): string {
-  return `<tr><td style="padding:22px 26px;background:#ffffff;border-bottom:1px solid #e5edf6;"><a href="${links.site}" style="display:inline-flex;align-items:center;text-decoration:none;"><img src="${links.logo}" width="34" height="34" alt="Oceanid" style="display:inline-block;vertical-align:middle;border:0;margin-right:10px;"><img src="${links.logoText}" height="22" alt="Oceanid" style="display:inline-block;vertical-align:middle;border:0;max-width:150px;"></a></td></tr>`
+  // Wordmark rendered as styled text instead of an image — guarantees nothing
+  // breaks if the wordmark PNG is unreachable from a mail client.
+  return `<tr><td style="padding:22px 26px;background:#ffffff;border-bottom:1px solid #e5edf6;"><a href="${links.site}" style="display:inline-flex;align-items:center;text-decoration:none;"><img src="${links.logo}" width="34" height="34" alt="Oceanid" style="display:inline-block;vertical-align:middle;border:0;margin-right:12px;"><span style="display:inline-block;vertical-align:middle;font-family:Manrope,Inter,Segoe UI,Arial,sans-serif;font-size:22px;font-weight:800;color:#162033;letter-spacing:-0.01em;line-height:1;">Oceanid</span></a></td></tr>`
 }
 
 function ctaButton(href: string, label: string): string {
