@@ -41,7 +41,8 @@ function buildActivationHtml(name: string, rewardCode: RewardCode, promoCode: st
   const r = REWARDS[rewardCode]
   const safeName = escapeHtml(name)
   const safePromo = escapeHtml(promoCode)
-  const accountUrl = 'https://oceanid.io/account'
+  // .html extension required — GitHub Pages does not resolve /account → /account.html
+  const accountUrl = 'https://oceanid.io/account.html'
   const logo = 'https://storage.googleapis.com/oceanid-public/logo.png'
   const logoText = 'https://storage.googleapis.com/oceanid-public/logo-text.png'
 

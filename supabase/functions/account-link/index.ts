@@ -1,8 +1,14 @@
 // POST /functions/v1/account-link
-// Body: { token: string }                 (the waitlist claim_token from the welcome email)
+// Body: { token?: string }                (optional claim_token; legacy URLs)
 // Auth: Authorization: Bearer <supabase_access_token>
 //
-// Effect: links the matching waitlist_links row to the caller's Supabase user id.
+// Effect: links the caller's waitlist row to their Supabase user id.
+//
+// Resolution order:
+//   1. If a `token` is supplied, look up waitlist_links by claim_token (legacy path).
+//   2. Otherwise, look up the waitlist row by the signed-in user's email and
+//      link to the corresponding waitlist_links row.
+//
 // Idempotent.
 
 import { verifyUser, serviceClient, HttpError, cors, jsonResponse } from '../_shared/auth.ts'
@@ -13,24 +19,48 @@ Deno.serve(async (req) => {
 
   try {
     const user = await verifyUser(req)
+    const userEmail = (user.email || '').trim().toLowerCase()
 
     const body = await req.json().catch(() => ({}))
     const token = String(body?.token || '').trim()
-    if (!token) return jsonResponse(400, { ok: false, error: 'Missing token' })
 
     const supabase = serviceClient()
 
-    const { data: link, error: selErr } = await supabase
-      .from('waitlist_links')
-      .select('waitlist_id, linked_user_id')
-      .eq('claim_token', token)
-      .maybeSingle()
-    if (selErr) throw new Error(`waitlist_links lookup: ${selErr.message}`)
+    // Resolve the waitlist_links row to link.
+    let link: { waitlist_id: string; linked_user_id: string | null } | null = null
+    if (token) {
+      const { data, error } = await supabase
+        .from('waitlist_links')
+        .select('waitlist_id, linked_user_id')
+        .eq('claim_token', token)
+        .maybeSingle()
+      if (error) throw new Error(`waitlist_links lookup by token: ${error.message}`)
+      link = data ?? null
+    } else if (userEmail) {
+      // Match by signed-in user's email — newest signup wins if duplicates exist.
+      const { data: wlRow, error: wlErr } = await supabase
+        .from('waitlist')
+        .select('id')
+        .ilike('email', userEmail)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+      if (wlErr) throw new Error(`waitlist email lookup: ${wlErr.message}`)
+      if (wlRow) {
+        const { data, error } = await supabase
+          .from('waitlist_links')
+          .select('waitlist_id, linked_user_id')
+          .eq('waitlist_id', wlRow.id)
+          .maybeSingle()
+        if (error) throw new Error(`waitlist_links lookup by email: ${error.message}`)
+        link = data ?? null
+      }
+    }
 
     if (!link) return jsonResponse(200, { ok: true, linked: false })
 
     if (link.linked_user_id && link.linked_user_id !== user.id) {
-      return jsonResponse(409, { ok: false, error: 'Token already linked to a different account' })
+      return jsonResponse(409, { ok: false, error: 'This waitlist entry is already linked to a different account' })
     }
     if (link.linked_user_id === user.id) {
       return jsonResponse(200, { ok: true, linked: true, already: true })
