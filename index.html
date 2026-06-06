@@ -3100,11 +3100,13 @@
 
     /* ══════════════════════════════════════════════════
        MOBILE PERF — lives at the END of the stylesheet so its !important
-       rules win the cascade against every earlier desktop rule (CSS
-       later-rule-wins on equal specificity). Targets every touch device
-       (Android/iOS phones, tablets) via pointer media queries.
+       rules win the cascade against every earlier desktop rule.
+       Combines THREE matching conditions so no touch device slips through:
+       - (hover: none) and (pointer: coarse) — proper touch detection
+       - (max-width: 1024px) — fallback for any narrow viewport
+       - (prefers-reduced-motion: reduce) — respects user setting
     ══════════════════════════════════════════════════ */
-    @media (hover: none) and (pointer: coarse) {
+    @media (hover: none) and (pointer: coarse), (max-width: 1024px), (prefers-reduced-motion: reduce) {
       /* Nuclear: every animation runs for 0s, single iteration. One-off
          entrance animations (fade-up etc) still leave elements at their
          final state, so the page renders correctly — they just don't
@@ -3151,12 +3153,45 @@
         -webkit-text-fill-color: #8a9ee8 !important;
       }
 
-      /* Reward chip sheen pseudo: fully static. */
-      .reward-chips-select .reward-chip::before {
+      /* Reward chip sheen pseudo: fully static (invisible). */
+      .reward-chips-select .reward-chip::before,
+      html .reward-chips-select .reward-chip::before {
         animation: none !important;
         mix-blend-mode: normal !important;
         background: none !important;
+        background-image: none !important;
         opacity: 0 !important;
+        display: none !important;
+      }
+
+      /* Reward chip itself: solid dark background, no static gradient, no
+         shadow, no will-change. Eliminates the indigo "shimmer" appearance
+         the gradient overlay creates during scroll/lifting on Android. */
+      .reward-chips-select .reward-chip,
+      html .reward-chips-select .reward-chip {
+        background: #0d1326 !important;
+        background-image: none !important;
+        border: 1px solid rgba(92,107,192,0.28) !important;
+        box-shadow: none !important;
+        filter: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        will-change: auto !important;
+      }
+      /* Selected state: solid primary fill, no gradient, no shadow. */
+      .reward-chips-select .reward-chip.selected,
+      html .reward-chips-select .reward-chip.selected {
+        background: #5C6BC0 !important;
+        background-image: none !important;
+        border-color: #a8b3e6 !important;
+        box-shadow: none !important;
+        transform: none !important;
+      }
+      /* Hide the REWARD ribbon gradient — make it a simple solid badge. */
+      .reward-chips-select .reward-chip > .reward-chip-corner::before {
+        background: rgba(92,107,192,0.4) !important;
+        background-image: none !important;
+        box-shadow: none !important;
       }
 
       /* Yacht silhouettes removed entirely. */
