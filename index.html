@@ -2324,24 +2324,23 @@
         -webkit-text-fill-color: #fff;
       }
     }
+    /* Always-reserved single line below the chips — only opacity toggles, so the
+       submit button never moves. Empty space reads as natural form rhythm. */
     .reward-pick-cta {
-      margin: 6px 0 0;
+      display: block;
+      margin: 4px 0 0;
+      min-height: 16px;
       text-align: center;
-      font-size: 12px;
+      font-size: 11.5px;
       font-style: italic;
       font-weight: 500;
-      color: rgba(255, 255, 255, 0.55);
       letter-spacing: 0.01em;
+      color: rgba(248, 113, 113, 0.85);
+      pointer-events: none;
       opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity 240ms ease, max-height 240ms ease, margin 240ms ease;
+      transition: opacity 240ms ease;
     }
-    .reward-pick-cta.show {
-      opacity: 1;
-      max-height: 32px;
-      margin: 6px 0 2px;
-    }
+    .reward-pick-cta.show { opacity: 1; }
     @keyframes reward-chips-shake {
       0%, 100% { transform: translateX(0); }
       20%      { transform: translateX(-4px); }
@@ -3640,7 +3639,7 @@
                     </div>
                   </button>
                 </div>
-                <p class="reward-pick-cta">Pick one — you can change your mind later.</p>
+                <p class="reward-pick-cta" role="status" aria-live="polite">Pick one — you can change your mind later.</p>
                 <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
                 <button type="submit"
                   class="btn-shimmer w-full bg-primary text-white py-2.5 sm:py-3.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
@@ -5065,7 +5064,7 @@
                   </div>
                 </button>
               </div>
-              <p class="reward-pick-cta">Pick one — you can change your mind later.</p>
+              <p class="reward-pick-cta" role="status" aria-live="polite">Pick one — you can change your mind later.</p>
               <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
               <button type="submit"
                 class="btn-shimmer w-full bg-primary text-white py-4 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
