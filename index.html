@@ -2324,6 +2324,31 @@
         -webkit-text-fill-color: #fff;
       }
     }
+    .reward-req-dot {
+      display: inline-block;
+      position: relative;
+      margin-left: 4px;
+      color: #f87171;
+      font-weight: 700;
+      font-size: 11px;
+      vertical-align: top;
+      -webkit-text-fill-color: #f87171;
+    }
+    .reward-req-dot::before { display: none; }
+    .reward-pick-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin: -4px 0 6px;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+    .reward-pick-hint-icon {
+      color: rgba(255, 255, 255, 0.35);
+    }
     /* Selection chips sit inside the form — no top border/padding (the divider was for trailing chips) */
     .reward-chips-select {
       margin-top: 0;
@@ -3540,29 +3565,10 @@
                     class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold"
                     data-req="email" style="font-size:11px;display:none">*</span>
                 </div>
-                <div class="phone-wrap-sm">
-                  <div class="phone-field open-up" id="phone-field-hero">
-                    <button type="button" class="phone-code-btn" id="pcb-hero" aria-haspopup="listbox"
-                      aria-expanded="false">
-                      <span class="pc-flag" id="pcf-hero"><span class="material-symbols-outlined"
-                          style="font-size:16px;color:rgba(255,255,255,0.25)">phone</span></span>
-                      <span class="pc-dial" id="pcd-hero"></span>
-                      <span class="material-symbols-outlined pc-arrow" data-icon="expand_more">expand_more</span>
-                    </button>
-                    <div class="phone-divider"></div>
-                    <div class="phone-dropdown" id="pdd-hero" role="listbox">
-                      <input type="text" class="phone-search" placeholder="Search country or code…"
-                        autocomplete="off" />
-                      <ul class="phone-clist" id="pcl-hero"></ul>
-                    </div>
-                    <input type="hidden" name="phone_country_code" id="pcc-hero" value="" />
-                    <input type="tel" name="phone_local" inputmode="numeric" pattern="[0-9\s\-\(\)]+"
-                      placeholder="Phone Number" class="phone-num-input" />
-                  </div>
-                </div>
                 <input type="hidden" name="reward_code" value="" />
                 <input type="hidden" name="role" value="" />
-                <p class="reward-pick-title">Choose your free 2-month reward</p>
+                <p class="reward-pick-title">Choose your free 2-month reward<span class="req-dot reward-req-dot" data-req="reward" style="display:none">*</span></p>
+                <p class="reward-pick-hint"><span class="material-symbols-outlined reward-pick-hint-icon" style="font-size:13px">info</span>You can switch to a different reward anytime later in your account.</p>
                 <div class="reward-chips reward-chips-select">
                   <button type="button" class="reward-chip" data-reward-code="OPER_PRO_3M" data-role="Captain / Skipper">
                     <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
@@ -4987,28 +4993,10 @@
                   class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold"
                   data-req="email" style="font-size:11px;display:none">*</span>
               </div>
-              <div class="phone-wrap-md">
-                <div class="phone-field open-up" id="phone-field-bottom">
-                  <button type="button" class="phone-code-btn" id="pcb-bottom" aria-haspopup="listbox"
-                    aria-expanded="false">
-                    <span class="pc-flag" id="pcf-bottom"><span class="material-symbols-outlined"
-                        style="font-size:16px;color:rgba(255,255,255,0.25)">phone</span></span>
-                    <span class="pc-dial" id="pcd-bottom"></span>
-                    <span class="material-symbols-outlined pc-arrow" data-icon="expand_more">expand_more</span>
-                  </button>
-                  <div class="phone-divider"></div>
-                  <div class="phone-dropdown" id="pdd-bottom" role="listbox">
-                    <input type="text" class="phone-search" placeholder="Search country or code…" autocomplete="off" />
-                    <ul class="phone-clist" id="pcl-bottom"></ul>
-                  </div>
-                  <input type="hidden" name="phone_country_code" id="pcc-bottom" value="" />
-                  <input type="tel" name="phone_local" inputmode="numeric" pattern="[0-9\s\-\(\)]+"
-                    placeholder="Phone Number" class="phone-num-input" />
-                </div>
-              </div>
               <input type="hidden" name="reward_code" value="" />
               <input type="hidden" name="role" value="" />
-              <p class="reward-pick-title">Choose your free 2-month reward</p>
+              <p class="reward-pick-title">Choose your free 2-month reward<span class="req-dot reward-req-dot" data-req="reward" style="display:none">*</span></p>
+              <p class="reward-pick-hint"><span class="material-symbols-outlined reward-pick-hint-icon" style="font-size:13px">info</span>You can switch to a different reward anytime later in your account.</p>
               <div class="reward-chips reward-chips-select">
                 <button type="button" class="reward-chip" data-reward-code="OPER_PRO_3M" data-role="Captain / Skipper">
                   <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
@@ -5897,6 +5885,7 @@
             chip.classList.add('selected');
             if (rewardInput) rewardInput.value = chip.dataset.rewardCode || '';
             if (roleInput)   roleInput.value   = chip.dataset.role || '';
+            hideDot('reward');
             errorEl.classList.add('hidden');
           });
         });
@@ -5911,6 +5900,12 @@
 
           if (!name) { showDot('name'); hasError = true; }
           if (!email) { showDot('email'); hasError = true; }
+          if (!rewardCode) {
+            showDot('reward');
+            errorEl.textContent = 'Please pick a reward — you can switch to a different one anytime later.';
+            errorEl.classList.remove('hidden');
+            hasError = true;
+          }
 
           if (hasError) {
             return;
@@ -5918,16 +5913,11 @@
             showDot('email');
             return;
           }
-          // reward_code is OPTIONAL — users who skip the chips can still
-          // join the waitlist and pick their reward later from /account.
 
           var btn = form.querySelector('button[type="submit"]');
           btn.disabled = true;
           btn.innerHTML = 'Sending… <span class="material-symbols-outlined text-base hourglass-spin">hourglass_empty</span>';
           var formData = new FormData(form);
-          formData.delete('phone_country_code');
-          formData.delete('phone_local');
-          formData.set('phone', normalizePhone(form));
           fetch('https://ofgzihmokzjtalrfcjbd.supabase.co/functions/v1/waitlist', {
             method: 'POST',
             headers: { 'Accept': 'application/json' },
