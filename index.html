@@ -2324,30 +2324,37 @@
         -webkit-text-fill-color: #fff;
       }
     }
-    .reward-req-dot {
-      display: inline-block;
-      position: relative;
-      margin-left: 4px;
-      color: #f87171;
-      font-weight: 700;
-      font-size: 11px;
-      vertical-align: top;
-      -webkit-text-fill-color: #f87171;
-    }
-    .reward-req-dot::before { display: none; }
-    .reward-pick-hint {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      margin: -4px 0 6px;
-      color: rgba(255, 255, 255, 0.45);
-      font-size: 11px;
+    .reward-pick-cta {
+      margin: 6px 0 0;
+      text-align: center;
+      font-size: 12px;
+      font-style: italic;
       font-weight: 500;
+      color: rgba(255, 255, 255, 0.55);
       letter-spacing: 0.01em;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 240ms ease, max-height 240ms ease, margin 240ms ease;
     }
-    .reward-pick-hint-icon {
-      color: rgba(255, 255, 255, 0.35);
+    .reward-pick-cta.show {
+      opacity: 1;
+      max-height: 32px;
+      margin: 6px 0 2px;
+    }
+    @keyframes reward-chips-shake {
+      0%, 100% { transform: translateX(0); }
+      20%      { transform: translateX(-4px); }
+      40%      { transform: translateX(4px); }
+      60%      { transform: translateX(-3px); }
+      80%      { transform: translateX(2px); }
+    }
+    .reward-chips-shake {
+      animation: reward-chips-shake 420ms ease;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reward-chips-shake { animation: none; }
+      .reward-pick-cta { transition: opacity 120ms ease; }
     }
     /* Selection chips sit inside the form — no top border/padding (the divider was for trailing chips) */
     .reward-chips-select {
@@ -3567,8 +3574,7 @@
                 </div>
                 <input type="hidden" name="reward_code" value="" />
                 <input type="hidden" name="role" value="" />
-                <p class="reward-pick-title">Choose your free 2-month reward<span class="req-dot reward-req-dot" data-req="reward" style="display:none">*</span></p>
-                <p class="reward-pick-hint"><span class="material-symbols-outlined reward-pick-hint-icon" style="font-size:13px">info</span>You can switch to a different reward anytime later in your account.</p>
+                <p class="reward-pick-title">Choose your free 2-month reward</p>
                 <div class="reward-chips reward-chips-select">
                   <button type="button" class="reward-chip" data-reward-code="OPER_PRO_3M" data-role="Captain / Skipper">
                     <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
@@ -3634,6 +3640,7 @@
                     </div>
                   </button>
                 </div>
+                <p class="reward-pick-cta">Pick one — you can change your mind later.</p>
                 <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
                 <button type="submit"
                   class="btn-shimmer w-full bg-primary text-white py-2.5 sm:py-3.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
@@ -4995,8 +5002,7 @@
               </div>
               <input type="hidden" name="reward_code" value="" />
               <input type="hidden" name="role" value="" />
-              <p class="reward-pick-title">Choose your free 2-month reward<span class="req-dot reward-req-dot" data-req="reward" style="display:none">*</span></p>
-              <p class="reward-pick-hint"><span class="material-symbols-outlined reward-pick-hint-icon" style="font-size:13px">info</span>You can switch to a different reward anytime later in your account.</p>
+              <p class="reward-pick-title">Choose your free 2-month reward</p>
               <div class="reward-chips reward-chips-select">
                 <button type="button" class="reward-chip" data-reward-code="OPER_PRO_3M" data-role="Captain / Skipper">
                   <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
@@ -5059,6 +5065,7 @@
                   </div>
                 </button>
               </div>
+              <p class="reward-pick-cta">Pick one — you can change your mind later.</p>
               <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
               <button type="submit"
                 class="btn-shimmer w-full bg-primary text-white py-4 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
@@ -5878,14 +5885,16 @@
         // Reward chip selection — radio-like, persisted in hidden inputs.
         var rewardInput = form.querySelector('input[name="reward_code"]');
         var roleInput   = form.querySelector('input[name="role"]');
-        var chips = form.querySelectorAll('.reward-chip');
+        var chips       = form.querySelectorAll('.reward-chip');
+        var chipsEl     = form.querySelector('.reward-chips-select');
+        var rewardCtaEl = form.querySelector('.reward-pick-cta');
         chips.forEach(function (chip) {
           chip.addEventListener('click', function () {
             chips.forEach(function (c) { c.classList.remove('selected'); });
             chip.classList.add('selected');
             if (rewardInput) rewardInput.value = chip.dataset.rewardCode || '';
             if (roleInput)   roleInput.value   = chip.dataset.role || '';
-            hideDot('reward');
+            if (rewardCtaEl) rewardCtaEl.classList.remove('show');
             errorEl.classList.add('hidden');
           });
         });
@@ -5901,9 +5910,12 @@
           if (!name) { showDot('name'); hasError = true; }
           if (!email) { showDot('email'); hasError = true; }
           if (!rewardCode) {
-            showDot('reward');
-            errorEl.textContent = 'Please pick a reward — you can switch to a different one anytime later.';
-            errorEl.classList.remove('hidden');
+            if (rewardCtaEl) rewardCtaEl.classList.add('show');
+            if (chipsEl) {
+              chipsEl.classList.remove('reward-chips-shake');
+              void chipsEl.offsetWidth;
+              chipsEl.classList.add('reward-chips-shake');
+            }
             hasError = true;
           }
 
