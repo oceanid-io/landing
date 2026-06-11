@@ -3304,7 +3304,7 @@
         </div>
 
         <a class="nav-link hover:text-primary transition-colors" href="#faq" data-section="faq">FAQ</a>
-        <!-- <a class="nav-link hover:text-primary transition-colors" href="#about" data-section="about">About Us</a> -->
+        <a class="nav-link hover:text-primary transition-colors" href="#about" data-section="about">About Us</a>
         <a class="nav-link hover:text-primary transition-colors" href="#early-access" data-section="contact">Contact</a>
         <!-- Signed-out: primary Sign in button (hidden by default via inline style to beat .inline-flex specificity) -->
         <a id="nav-signin" class="btn-shimmer bg-primary text-on-primary px-4 py-2 rounded-lg text-[11px] hover:bg-primary-dim transition-colors inline-flex items-center gap-1.5"
@@ -3353,10 +3353,10 @@
         href="#faq" onclick="closeMobileMenu()">
         <span class="material-symbols-outlined text-lg">help_outline</span>FAQ
       </a>
-      <!-- <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
+      <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
         href="#about" onclick="closeMobileMenu()">
         <span class="material-symbols-outlined text-lg">group</span>About
-      </a> -->
+      </a>
       <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
         href="#early-access" onclick="closeMobileMenu()">
         <span class="material-symbols-outlined text-lg">mail</span>Contact
@@ -4876,7 +4876,7 @@
     </section>
 
 
-    <!-- About Section hidden
+    <!-- About Section -->
     <section class="py-8 sm:py-12 px-4 sm:px-8 scroll-mt-20" id="about">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-12 sm:mb-16 reveal">
@@ -4943,7 +4943,6 @@
         </div>
       </div>
     </section>
-    -->
 
     <!-- Final CTA Section -->
     <section class="relative overflow-hidden py-20 sm:py-28 scroll-mt-20" id="contact">
@@ -5449,7 +5448,7 @@
 
     // Nav scroll-spy
     (function () {
-      var sections = ['captains', 'travelers', 'marinas', 'contact'];
+      var sections = ['captains', 'travelers', 'marinas', 'about', 'contact'];
       var links = document.querySelectorAll('nav .nav-link[data-section]');
       if (!links.length) return;
       var io = new IntersectionObserver(function (entries) {
