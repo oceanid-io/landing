@@ -5292,6 +5292,11 @@
       }
     }
 
+    function trackGASignup(params) {
+      if (typeof window.gtag !== 'function') return;
+      window.gtag('event', 'sign_up', Object.assign({ method: 'waitlist' }, params || {}));
+    }
+
     // ════════════════════════════════════════════════
     // Founding rewards rotator (disabled on touch devices for perf)
     // ════════════════════════════════════════════════
@@ -5958,6 +5963,12 @@
                 throw new Error((data && data.error) || 'Something went wrong.');
               }
               trackMetaCompleteRegistration();
+              trackGASignup({
+                form_location: (formData.get('_source') || 'unknown'),
+                has_reward_code: !!rewardCode,
+                reward_code: rewardCode || undefined,
+                role: (formData.get('role') || undefined)
+              });
               form.classList.add('hidden');
               var h    = successEl.querySelector('h5');
               var lead = successEl.querySelector(':scope > p');
