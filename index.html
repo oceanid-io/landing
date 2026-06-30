@@ -4765,15 +4765,19 @@
           </p>
         </div>
         <div id="early-access" class="max-w-lg mx-auto reveal rd1 scroll-mt-24">
-          <div class="form-luxury bg-[#080c18]/85 backdrop-blur-xl rounded-2xl p-6 sm:p-8 shadow-2xl">
-            <form id="early-form-bottom" class="space-y-3" novalidate>
+          <div class="form-luxury bg-[#080c18]/85 backdrop-blur-xl rounded-2xl p-5 sm:p-7 shadow-2xl">
+            <form id="early-form-bottom" class="space-y-2.5" novalidate>
               <input type="hidden" name="_source" value="final-cta" />
+              <div class="text-center pb-1">
+                <h4 class="text-lg sm:text-xl font-bold text-white">Contact us</h4>
+                <p class="text-white/55 text-sm mt-1">Leave your details and we'll get back to you shortly.</p>
+              </div>
               <div class="relative">
                 <span
                   class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none"
                   style="font-size:16px" data-icon="person">person</span>
                 <input type="text" name="name" required placeholder="Full Name"
-                  class="w-full pl-10 pr-7 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium" />
+                  class="w-full pl-10 pr-7 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-white placeholder:text-white/35 focus:outline-none focus:ring-1 focus:ring-primary/45 focus:border-primary/45 transition text-sm" />
                 <span
                   class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold"
                   data-req="name" style="font-size:11px;display:none">*</span>
@@ -4783,40 +4787,24 @@
                   class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none"
                   style="font-size:16px" data-icon="mail">mail</span>
                 <input type="email" name="email" required placeholder="Email Address"
-                  class="w-full pl-10 pr-7 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium" />
+                  class="w-full pl-10 pr-7 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-white placeholder:text-white/35 focus:outline-none focus:ring-1 focus:ring-primary/45 focus:border-primary/45 transition text-sm" />
                 <span
                   class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold"
                   data-req="email" style="font-size:11px;display:none">*</span>
               </div>
               <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
               <button type="submit"
-                class="btn-shimmer w-full bg-primary text-white py-4 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
-                Join the Waitlist
-                <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
+                class="btn-shimmer w-full bg-primary text-white py-2.5 mt-1 rounded-lg font-semibold text-sm hover:bg-primary-dim transition-all shadow-md shadow-primary/20 flex items-center justify-center gap-2">
+                Contact Us
+                <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
               </button>
             </form>
             <div class="ea-form-success hidden text-center py-6 space-y-3">
               <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary mx-auto">
                 <span class="material-symbols-outlined text-2xl" data-icon="check_circle">check_circle</span>
               </div>
-              <h5 class="text-base font-bold text-white">You're on the list.</h5>
-              <p class="text-white/65 text-sm leading-relaxed">Check your inbox. We just sent you a confirmation and a sign-in link for your Oceanid account.</p>
-              <div class="ea-success-steps">
-                <div class="ea-success-step">
-                  <span class="material-symbols-outlined ea-success-step-icon">login</span>
-                  <div class="ea-success-step-text">
-                    <p class="ea-success-step-title">Sign in at <a href="/account.html" class="text-primary hover:underline">oceanid.io/account</a></p>
-                    <p class="ea-success-step-sub">Use Google, Microsoft, Apple or your email.</p>
-                  </div>
-                </div>
-                <div class="ea-success-step">
-                  <span class="material-symbols-outlined ea-success-step-icon">sailing</span>
-                  <div class="ea-success-step-text">
-                    <p class="ea-success-step-title">Be first to set sail</p>
-                    <p class="ea-success-step-sub">We'll let you know the moment Oceanid is ready for you.</p>
-                  </div>
-                </div>
-              </div>
+              <h5 class="text-base font-bold text-white">Thanks for reaching out.</h5>
+              <p class="text-white/65 text-sm leading-relaxed">We've got your details and will get back to you shortly.</p>
             </div>
           </div>
         </div>
@@ -5536,22 +5524,9 @@
             })
             .then(function (out) {
               var res = out.res, data = out.data;
-              // Duplicate-email case: render the success block with a
-              // distinct "already on the waitlist" message + sign-in CTA.
+              // Repeat email: treat as a normal contact confirmation.
               if (!res.ok && data && data.duplicate) {
                 form.classList.add('hidden');
-                var h    = successEl.querySelector('h5');
-                var lead = successEl.querySelector(':scope > p');
-                var step1Title = successEl.querySelector('.ea-success-step:nth-of-type(1) .ea-success-step-title');
-                var step1Sub   = successEl.querySelector('.ea-success-step:nth-of-type(1) .ea-success-step-sub');
-                var step2Title = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-title');
-                var step2Sub   = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-sub');
-                if (h)    h.textContent    = "You're already on the waitlist.";
-                if (lead) lead.textContent = "This email is already registered. Sign in to your Oceanid account anytime.";
-                if (step1Title) step1Title.innerHTML = 'Sign in at <a href="/account.html" class="text-primary hover:underline">oceanid.io/account</a>';
-                if (step1Sub)   step1Sub.textContent = 'Use Google or your email and a password.';
-                if (step2Title) step2Title.textContent = 'Be first to set sail';
-                if (step2Sub)   step2Sub.textContent  = "We'll let you know the moment Oceanid is ready for you.";
                 successEl.classList.remove('hidden');
                 return;
               }
@@ -5572,7 +5547,7 @@
               errorEl.textContent = (err && err.message ? err.message : 'Something went wrong.') + ' Please email us at contact@oceanid.io.';
               errorEl.classList.remove('hidden');
               btn.disabled = false;
-              btn.innerHTML = 'Join the Waitlist <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>';
+              btn.innerHTML = 'Contact Us <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>';
             });
         });
       }
