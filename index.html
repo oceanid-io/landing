@@ -10,7 +10,7 @@
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Oceanid | Yacht Cabin Booking, Sailing Trips & Maritime Marketplace</title>
   <meta name="description"
-    content="Book yacht cabins and sailing trips on Oceanid, the maritime marketplace for travelers, captains, and service providers. One app for life at sea." />
+    content="Book yacht cabins and sailing trips on Oceanid, the maritime marketplace for travelers, captains, and service providers. Everything for life at sea." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://oceanid.io/" />
 
@@ -19,7 +19,7 @@
   <meta property="og:url" content="https://oceanid.io/" />
   <meta property="og:title" content="Oceanid | Yacht Cabin Booking, Sailing Trips & Maritime Marketplace" />
   <meta property="og:description"
-    content="Book yacht cabins and sailing trips on Oceanid, the maritime marketplace for travelers, captains, and service providers. One app for life at sea." />
+    content="Book yacht cabins and sailing trips on Oceanid, the maritime marketplace for travelers, captains, and service providers. Everything for life at sea." />
   <meta property="og:image" content="https://storage.googleapis.com/oceanid-public/oceanid_x_header_1500x500.png" />
   <meta property="og:image:width" content="1500" />
   <meta property="og:image:height" content="500" />
@@ -29,7 +29,7 @@
   <meta property="twitter:url" content="https://oceanid.io/" />
   <meta property="twitter:title" content="Oceanid | Yacht Cabin Booking, Sailing Trips & Maritime Marketplace" />
   <meta property="twitter:description"
-    content="Book yacht cabins and sailing trips on Oceanid, the maritime marketplace for travelers, captains, and service providers. One app for life at sea." />
+    content="Book yacht cabins and sailing trips on Oceanid, the maritime marketplace for travelers, captains, and service providers. Everything for life at sea." />
   <meta property="twitter:image"
     content="https://storage.googleapis.com/oceanid-public/oceanid_x_header_1500x500.png" />
 
@@ -67,7 +67,7 @@
       "legalName": "DOVENTA HOLDINGS LIMITED",
       "url": "https://oceanid.io/",
       "logo": "https://storage.googleapis.com/oceanid-public/logo.png",
-      "description": "Oceanid is a maritime marketplace for yacht cabin booking, sailing trip booking, and connecting travelers, captains, and service providers. One app for life at sea.",
+      "description": "Oceanid is a maritime marketplace for yacht cabin booking, sailing trip booking, and connecting travelers, captains, and service providers. Everything for life at sea.",
       "email": "contact@oceanid.io",
       "telephone": "+35795086066",
       "address": {
@@ -88,7 +88,7 @@
       "@id": "https://oceanid.io/#website",
       "url": "https://oceanid.io/",
       "name": "Oceanid",
-      "description": "One app for life at sea.",
+      "description": "Everything for life at sea.",
       "publisher": {
         "@id": "https://oceanid.io/#organization"
       },
@@ -101,7 +101,7 @@
       "url": "https://oceanid.io/",
       "operatingSystem": "iOS, Android",
       "applicationCategory": "TravelApplication",
-      "description": "Oceanid helps captains, travelers, and service providers book yacht cabins, plan sailing trips, and access maritime services from one app.",
+      "description": "Oceanid helps captains, travelers, and service providers book yacht cabins, plan sailing trips, and access maritime services in one platform.",
       "publisher": {
         "@id": "https://oceanid.io/#organization"
       },
@@ -808,13 +808,16 @@
     /* Cursor glow */
     #cursor-glow {
       position: fixed;
+      left: 0;
+      top: 0;
       pointer-events: none;
       z-index: 0;
       width: 520px;
       height: 520px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(92, 107, 192, 0.07) 0%, transparent 68%);
-      transform: translate(-50%, -50%);
+      transform: translate3d(-50%, -50%, 0);
+      will-change: transform;
       opacity: 0;
       transition: opacity 0.6s ease;
     }
@@ -938,16 +941,14 @@
       }
     }
 
-    .orb-1 {
-      animation: orbDrift1 14s ease-in-out infinite;
-    }
-
-    .orb-2 {
-      animation: orbDrift2 19s ease-in-out infinite 3s;
-    }
-
+    /* Orbs are large (320–700px) with heavy filter:blur(55–70px). Animating
+       their transform re-rasterizes that blur every frame — a continuous,
+       idle-time compositor cost that made the page feel slow and janky.
+       Keep them as static ambient glows instead. */
+    .orb-1,
+    .orb-2,
     .orb-3 {
-      animation: orbDrift1 22s ease-in-out infinite 8s reverse;
+      animation: none;
     }
 
     /* CTA pulse ring */
@@ -978,6 +979,42 @@
 
     .hiw-line.is-drawn {
       transform: scaleX(1);
+    }
+
+    /* Hero route + boat. A straight dashed route threads the three icons and
+       the boat sails along it (positioned by JS). */
+    .sail-route,
+    .sail-boat-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .sail-route { z-index: 0; }       /* behind the icons */
+    .sail-boat-layer { z-index: 20; } /* boat sails in front of them */
+
+    .sail-route-path {
+      fill: none;
+      stroke: url(#hero-route-grad);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0;
+      transition: opacity 0.9s ease 0.25s;
+    }
+
+    .sail-route.is-drawn .sail-route-path { opacity: 1; }
+
+    .sail-boat {
+      opacity: 0;
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sail-boat { transition: none; }
     }
 
     /* Parallax hero bg */
@@ -3328,7 +3365,7 @@
                 class="flex items-center gap-3 px-4 py-2.5 text-on-surface-variant hover:text-primary transition-colors rounded-xl mx-1 hover:bg-surface-container">
                 <span class="material-symbols-outlined text-primary/60 shrink-0"
                   style="font-size:15px;font-variation-settings:'FILL' 1">anchor</span>
-                Marinas &amp; Services
+                Service Providers
               </a>
             </div>
           </div>
@@ -3378,7 +3415,7 @@
       </a>
       <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
         href="#marinas" onclick="closeMobileMenu()">
-        <span class="material-symbols-outlined text-lg">anchor</span>For Marinas &amp; Service Providers
+        <span class="material-symbols-outlined text-lg">anchor</span>For Service Providers
       </a>
       <a class="flex items-center gap-3 py-3 px-4 rounded-xl font-bold text-sm uppercase tracking-widest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
         href="#faq" onclick="closeMobileMenu()">
@@ -3515,160 +3552,74 @@
         <div class="hero-orb orb-3"
           style="width:320px;height:320px;background:radial-gradient(circle,rgba(92,107,192,0.10) 0%,transparent 70%);bottom:80px;left:4%;filter:blur(55px);">
         </div>
-        <!-- Drifting yacht silhouette -->
-        <svg class="yacht-drift" viewBox="0 0 130 84" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M58 12 L58 60 L22 60 Z" fill="rgba(255,255,255,0.55)" />
-          <path d="M60 14 L60 60 L92 60 Z" fill="rgba(255,255,255,0.38)" />
-          <line x1="58" y1="8" x2="58" y2="62" stroke="rgba(255,255,255,0.65)" stroke-width="1.2" />
-          <circle cx="58" cy="8" r="2" fill="rgba(255,255,255,0.7)" />
-          <path d="M14 62 L102 62 L90 73 L24 73 Z" fill="rgba(28,40,72,0.95)" stroke="rgba(255,255,255,0.18)" stroke-width="0.8" />
-          <ellipse cx="58" cy="78" rx="52" ry="2" fill="rgba(92,107,192,0.22)" />
-          <ellipse cx="40" cy="80" rx="14" ry="0.8" fill="rgba(255,255,255,0.18)" />
-          <ellipse cx="78" cy="80" rx="12" ry="0.8" fill="rgba(255,255,255,0.14)" />
-        </svg>
       </div>
 
       <div class="hero-content-inner relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 pb-10 sm:pb-14 isolate">
         <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-stretch">
 
-          <!-- Left: headline, badges, form -->
-          <div class="space-y-3 sm:space-y-4">
+          <!-- Left: eyebrow, headline, subtext, capability pillars -->
+          <div class="flex flex-col h-full">
 
-            <!-- Headline -->
-            <h1
-              class="text-[2.5rem] sm:text-5xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight fade-up fade-up-delay-1">
-              All your life <span class="text-sea">at sea</span> in one app
-            </h1>
+            <div class="space-y-4 sm:space-y-5">
+              <!-- Headline -->
+              <h1
+                class="text-[2.5rem] sm:text-5xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight fade-up fade-up-delay-1">
+                All your life <span class="text-sea">at sea</span> in one app
+              </h1>
 
-            <!-- Subtext -->
-            <p class="text-sm sm:text-lg text-white/65 leading-relaxed max-w-lg fade-up fade-up-delay-2">
-              Travelers book sailing trips with trusted captains. Captains fill their cabins and earn from every voyage. Service providers get discovered by the right crews. One app for the sea.
-            </p>
+              <!-- Subtext -->
+              <p class="text-sm sm:text-lg text-white/65 leading-relaxed max-w-lg fade-up fade-up-delay-2">
+                Oceanid brings the entire sailing world into one place. Travelers book trips with trusted captains, captains fill their cabins and earn from every voyage, and service providers reach the crews who need them. Whoever you are on the water, it all starts here.
+              </p>
+            </div>
 
-            <!-- Early Access Form (hero) -->
-            <div
-              class="form-luxury bg-[#080c18]/80 backdrop-blur-xl rounded-2xl p-4 sm:p-6 shadow-2xl fade-up fade-up-delay-3 mt-6 sm:mt-8 max-w-lg">
-              <h3 class="text-base sm:text-xl font-bold text-white mb-3 sm:mb-4 text-center">Become an Early Explorer</h3>
-              <form id="early-form-hero" class="space-y-2 sm:space-y-2.5" novalidate>
-                <input type="hidden" name="_source" value="hero-section" />
-                <div class="relative">
-                  <span
-                    class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none"
-                    style="font-size:16px" data-icon="person">person</span>
-                  <input type="text" name="name" required placeholder="Full Name"
-                    class="w-full pl-9 sm:pl-10 pr-7 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium" />
-                  <span
-                    class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold"
-                    data-req="name" style="font-size:11px;display:none">*</span>
-                </div>
-                <div class="relative">
-                  <span
-                    class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-white/25 pointer-events-none"
-                    style="font-size:16px" data-icon="mail">mail</span>
-                  <input type="email" name="email" required placeholder="Email Address"
-                    class="w-full pl-9 sm:pl-10 pr-7 py-2.5 sm:py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition text-sm font-medium" />
-                  <span
-                    class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold"
-                    data-req="email" style="font-size:11px;display:none">*</span>
-                </div>
-                <input type="hidden" name="reward_code" value="" />
-                <input type="hidden" name="role" value="" />
-                <p class="reward-pick-title">Choose your free 2-month reward</p>
-                <div class="reward-chips reward-chips-select">
-                  <button type="button" class="reward-chip" data-reward-code="OPER_PRO_3M" data-role="Captain / Skipper">
-                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
-                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
-                  <span class="reward-chip-role">Captains</span>
-                    <span class="reward-chip-corner"></span>
-                    <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">workspace_premium</span>Captain's Reward</span>
-                    <div class="reward-tip" role="tooltip">
-                      <div class="reward-tip-head">
-                        <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">workspace_premium</span>
-                        <div>
-                          <p class="reward-tip-title">Oceanid PRO</p>
-                          <p class="reward-tip-sub">Free for 2 months</p>
-                        </div>
-                      </div>
-                      <ul class="reward-tip-bullets">
-                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">sailing</span>Unlimited vessels</li>
-                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">directions_boat</span>Unlimited paid trips</li>
-                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">euro</span>~&euro;60 value, on us</li>
-                      </ul>
-                    </div>
-                  </button>
-                  <button type="button" class="reward-chip" data-reward-code="TRAV_FEE_WAIVER_3M" data-role="Traveler / Guest">
-                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
-                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
-                  <span class="reward-chip-role">Travelers</span>
-                    <span class="reward-chip-corner"></span>
-                    <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">confirmation_number</span>Traveler's Reward</span>
-                    <div class="reward-tip" role="tooltip">
-                      <div class="reward-tip-head">
-                        <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">confirmation_number</span>
-                        <div>
-                          <p class="reward-tip-title">Zero booking fees</p>
-                          <p class="reward-tip-sub">Free for 2 months</p>
-                        </div>
-                      </div>
-                      <ul class="reward-tip-bullets">
-                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">savings</span>5% saved on every trip</li>
-                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">explore</span>Any sailing, anywhere</li>
-                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">schedule</span>Auto-applied from day one</li>
-                      </ul>
-                    </div>
-                  </button>
-                  <button type="button" class="reward-chip" data-reward-code="OPER_FEE_WAIVER_3M" data-role="Marina / Service Provider">
-                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
-                    <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
-                  <span class="reward-chip-role">Providers</span>
-                    <span class="reward-chip-corner"></span>
-                    <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">percent</span>Provider's Reward</span>
-                    <div class="reward-tip" role="tooltip">
-                      <div class="reward-tip-head">
-                        <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">handshake</span>
-                        <div>
-                          <p class="reward-tip-title">Partner perks</p>
-                          <p class="reward-tip-sub">Tailored for your business</p>
-                        </div>
-                      </div>
-                      <ul class="reward-tip-bullets">
-                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">verified</span>Custom commercial terms</li>
-                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">star</span>Featured to relevant crews</li>
-                        <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">support_agent</span>Our team will reach out to you</li>
-                      </ul>
-                    </div>
-                  </button>
-                </div>
-                <p class="reward-pick-cta" role="status" aria-live="polite">Pick a reward to continue. You can switch it anytime later.</p>
-                <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
-                <button type="submit"
-                  class="btn-shimmer w-full bg-primary text-white py-2.5 sm:py-3.5 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
-                  Claim My Reward
-                  <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
-                </button>
-              </form>
-              <div class="ea-form-success hidden text-center py-4 sm:py-6 space-y-3">
-                <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary mx-auto">
-                  <span class="material-symbols-outlined text-2xl" data-icon="check_circle">check_circle</span>
-                </div>
-                <h5 class="text-base font-bold text-white">You're on the list. Your reward is reserved.</h5>
-                <p class="text-white/65 text-sm leading-relaxed">Check your inbox. We just sent you a confirmation with your reward details and a sign-in link.</p>
-                <div class="ea-success-steps">
-                  <div class="ea-success-step">
-                    <span class="material-symbols-outlined ea-success-step-icon">login</span>
-                    <div class="ea-success-step-text">
-                      <p class="ea-success-step-title">Sign in at <a href="/account.html" class="text-primary hover:underline">oceanid.io/account</a></p>
-                      <p class="ea-success-step-sub">Use Google, Microsoft, Apple or your email.</p>
-                    </div>
-                  </div>
-                  <div class="ea-success-step">
-                    <span class="material-symbols-outlined ea-success-step-icon">redeem</span>
-                    <div class="ea-success-step-text">
-                      <p class="ea-success-step-title">Open the Rewards tab</p>
-                      <p class="ea-success-step-sub">See your reward, get the activation code, or switch to a different one anytime.</p>
-                    </div>
-                  </div>
-                </div>
+            <!-- Three audiences as a row; a boat sails a straight dashed route
+                 through their icons. -->
+            <div id="hero-pillars"
+              class="fade-up fade-up-delay-3 mt-8 lg:mt-auto pt-9 grid grid-cols-3 gap-4 sm:gap-6 max-w-lg relative">
+              <!-- Straight sea route behind the icons; fades softly at both ends. -->
+              <svg id="hero-route" class="sail-route hidden sm:block" aria-hidden="true"
+                preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="hero-route-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="100" y2="0">
+                    <stop offset="0" stop-color="rgba(92,107,192,0)" />
+                    <stop offset="0.14" stop-color="rgba(92,107,192,0.5)" />
+                    <stop offset="0.86" stop-color="rgba(92,107,192,0.5)" />
+                    <stop offset="1" stop-color="rgba(92,107,192,0)" />
+                  </linearGradient>
+                </defs>
+                <path id="hero-route-path" class="sail-route-path" />
+              </svg>
+              <!-- Boat sails along the route; flat periwinkle to match the icons. -->
+              <svg id="hero-boat-layer" class="sail-boat-layer hidden sm:block" aria-hidden="true"
+                preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="hero-boat" class="sail-boat">
+                  <rect x="-0.5" y="-9" width="1" height="13" rx="0.5" fill="#aab2e6" />
+                  <path d="M1.4 -8.5 L1.4 3.5 L9.5 3.5 Z" fill="#8f99d6" />
+                  <path d="M-1.4 -5.5 L-1.4 3.5 L-7 3.5 Z" fill="#717cc2" />
+                  <path d="M-10 4.5 L10 4.5 L7.5 8 L-7.5 8 Z" fill="#8f99d6" />
+                </g>
+              </svg>
+              <div>
+                <span class="hero-pillar-icon inline-flex w-9 h-9 rounded-lg bg-primary/12 text-primary items-center justify-center mb-2.5">
+                  <span class="material-symbols-outlined" style="font-size:19px;font-variation-settings:'FILL' 1">travel_explore</span>
+                </span>
+                <p class="text-white font-semibold text-sm leading-tight">Travelers</p>
+                <p class="text-white/50 text-[13px] leading-snug mt-1">Book sailing trips with trusted captains</p>
+              </div>
+              <div>
+                <span class="hero-pillar-icon inline-flex w-9 h-9 rounded-lg bg-primary/12 text-primary items-center justify-center mb-2.5">
+                  <span class="material-symbols-outlined" style="font-size:19px;font-variation-settings:'FILL' 1">sailing</span>
+                </span>
+                <p class="text-white font-semibold text-sm leading-tight">Captains</p>
+                <p class="text-white/50 text-[13px] leading-snug mt-1">Fill your cabins and earn every voyage</p>
+              </div>
+              <div>
+                <span class="hero-pillar-icon inline-flex w-9 h-9 rounded-lg bg-primary/12 text-primary items-center justify-center mb-2.5">
+                  <span class="material-symbols-outlined" style="font-size:19px;font-variation-settings:'FILL' 1">anchor</span>
+                </span>
+                <p class="text-white font-semibold text-sm leading-tight">Service Providers</p>
+                <p class="text-white/50 text-[13px] leading-snug mt-1">Reach the right crews and grow</p>
               </div>
             </div>
 
@@ -3678,75 +3629,6 @@
           <div class="flex flex-col items-center justify-between gap-3 sm:gap-4 py-2">
             <!-- Countdown + benefits rotator + phone scale together as one unit -->
             <div class="phone-stage flex flex-col items-center gap-6 sm:gap-8 w-full max-w-full">
-              <!-- Top row: unified info card with countdown + rotating benefit -->
-              <div class="hero-info-card fade-up fade-up-delay-2">
-              <!-- Launch countdown (matches phone width) -->
-              <div class="countdown" id="launch-countdown"
-                aria-label="Time until Oceanid launches">
-                <div class="countdown-eyebrow">
-                  <span class="cd-dot"></span>
-                  <span>Setting sail in</span>
-                </div>
-                <div class="countdown-row">
-                  <div class="flap-unit">
-                    <div class="flap-card"><span class="flap-digit" data-cd="d">00</span></div>
-                    <span class="flap-label">days</span>
-                  </div>
-                  <span class="flap-colon">:</span>
-                  <div class="flap-unit">
-                    <div class="flap-card"><span class="flap-digit" data-cd="h">00</span></div>
-                    <span class="flap-label">hrs</span>
-                  </div>
-                  <span class="flap-colon">:</span>
-                  <div class="flap-unit">
-                    <div class="flap-card"><span class="flap-digit" data-cd="m">00</span></div>
-                    <span class="flap-label">min</span>
-                  </div>
-                  <span class="flap-colon">:</span>
-                  <div class="flap-unit">
-                    <div class="flap-card"><span class="flap-digit" data-cd="s">00</span></div>
-                    <span class="flap-label">sec</span>
-                  </div>
-                </div>
-              </div>
-              <!-- Vertical divider between countdown and rotator -->
-              <div class="hero-info-divider"></div>
-              <!-- Benefits rotator (right side of countdown) -->
-              <div class="benefits-rotator" id="benefits-rotator" aria-label="Founding rewards">
-                <div class="benefits-eyebrow">
-                  <span class="br-dot"></span>
-                  <span>Free 2 months</span>
-                </div>
-                <div class="benefits-track">
-                  <div class="benefit-slide" data-idx="0" data-active="true">
-                    <div class="benefit-icon"><span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1,'wght' 600">workspace_premium</span></div>
-                    <div class="benefit-text">
-                      <p class="benefit-title">Captain's Reward</p>
-                      <p class="benefit-sub">2 months PRO, free</p>
-                    </div>
-                  </div>
-                  <div class="benefit-slide" data-idx="1">
-                    <div class="benefit-icon"><span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1,'wght' 600">percent</span></div>
-                    <div class="benefit-text">
-                      <p class="benefit-title">Provider's Reward</p>
-                      <p class="benefit-sub">Tailored partner offers</p>
-                    </div>
-                  </div>
-                  <div class="benefit-slide" data-idx="2">
-                    <div class="benefit-icon"><span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1,'wght' 600">confirmation_number</span></div>
-                    <div class="benefit-text">
-                      <p class="benefit-title">Traveler's Reward</p>
-                      <p class="benefit-sub">No booking fees for 2 months</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="benefits-dots">
-                  <span data-dot="0" class="active"></span>
-                  <span data-dot="1"></span>
-                  <span data-dot="2"></span>
-                </div>
-              </div>
-              </div>
               <!-- Phone mockup -->
               <div class="phone-float"
                 style="filter:drop-shadow(0 40px 80px rgba(0,0,0,0.75)) drop-shadow(0 0 50px rgba(92,107,192,0.28));transform:perspective(1200px) rotateY(-5deg) rotateX(1.5deg)">
@@ -4089,7 +3971,7 @@
             </div>
           </a>
 
-          <!-- Marinas & Service Providers -->
+          <!-- Service Providers -->
           <a href="#marinas"
             class="audience-card reveal rd3 group relative rounded-3xl overflow-hidden flex flex-col min-h-[380px] sm:min-h-[420px]"
             style="border:1px solid rgba(255,255,255,0.07)">
@@ -4100,7 +3982,7 @@
               <div class="absolute inset-0 bg-gradient-to-t from-[#040810]/95 via-[#040810]/25 to-transparent"></div>
             </div>
             <div class="relative mt-auto p-7 sm:p-8">
-              <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">Marinas &amp; Service Providers</h3>
+              <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">Service Providers</h3>
               <p class="text-white/65 text-sm sm:text-base leading-relaxed mb-5">Attract more customers and automate
                 operations.</p>
               <span
@@ -4151,7 +4033,7 @@
               <div class="space-y-1.5">
                 <p class="text-[10px] font-black text-primary/70 tracking-[0.25em]">01</p>
                 <h3 class="text-base sm:text-lg font-bold text-on-surface">Discover</h3>
-                <p class="text-sm text-on-surface-variant leading-relaxed">Yachts, marinas, crew, and services
+                <p class="text-sm text-on-surface-variant leading-relaxed">Yachts, crew, and trusted service providers
                   worldwide.</p>
               </div>
             </div>
@@ -4570,13 +4452,13 @@
       </div>
     </section>
 
-    <!-- For Marinas & Service Providers -->
+    <!-- For Service Providers -->
     <section class="py-16 sm:py-20 px-4 sm:px-8 scroll-mt-20 bg-surface-container-low" id="marinas">
       <div class="max-w-7xl mx-auto">
         <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-end mb-14 sm:mb-20">
           <div class="reveal-left">
-            <h2 class="eyebrow-lux text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Marinas &amp;
-              Service Providers</h2>
+            <h2 class="eyebrow-lux text-sm font-black text-primary uppercase tracking-[0.3em] mb-4">For Service
+              Providers</h2>
             <h3 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-on-surface">Get found by sailors
               who are already on the way.</h3>
           </div>
@@ -4657,7 +4539,7 @@
               </div>
               <div>
                 <h4 class="font-bold text-base mb-1.5">Basic listing free</h4>
-                <p class="text-white/70 text-sm leading-relaxed">A basic profile in the Oceanid marina catalog is free.
+                <p class="text-white/70 text-sm leading-relaxed">A basic profile in the Oceanid catalog is free.
                 </p>
               </div>
             </div>
@@ -4878,7 +4760,7 @@
           <h3 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight mb-5">We'd love to hear
             from you.</h3>
           <p class="text-lg sm:text-xl text-white/60 leading-relaxed max-w-lg mx-auto">
-            Whether you're a captain looking to list your passages, a marina wanting to connect services, or a traveler
+            Whether you're a captain looking to list your passages, a service provider wanting to reach more crews, or a traveler
             with questions. Reach out and we'll get back to you promptly.
           </p>
         </div>
@@ -4906,76 +4788,10 @@
                   class="req-dot absolute right-2.5 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none select-none font-bold"
                   data-req="email" style="font-size:11px;display:none">*</span>
               </div>
-              <input type="hidden" name="reward_code" value="" />
-              <input type="hidden" name="role" value="" />
-              <p class="reward-pick-title">Choose your free 2-month reward</p>
-              <div class="reward-chips reward-chips-select">
-                <button type="button" class="reward-chip" data-reward-code="OPER_PRO_3M" data-role="Captain / Skipper">
-                  <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
-                  <span class="reward-chip-role">Captains</span>
-                  <span class="reward-chip-corner"></span>
-                  <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">workspace_premium</span>Captain's Reward</span>
-                  <div class="reward-tip" role="tooltip">
-                    <div class="reward-tip-head">
-                      <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">workspace_premium</span>
-                      <div>
-                        <p class="reward-tip-title">Oceanid PRO</p>
-                        <p class="reward-tip-sub">Free for 2 months</p>
-                      </div>
-                    </div>
-                    <ul class="reward-tip-bullets">
-                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">sailing</span>Unlimited vessels</li>
-                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">directions_boat</span>Unlimited paid trips</li>
-                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">euro</span>~&euro;60 value, on us</li>
-                    </ul>
-                  </div>
-                </button>
-                <button type="button" class="reward-chip" data-reward-code="TRAV_FEE_WAIVER_3M" data-role="Traveler / Guest">
-                  <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
-                  <span class="reward-chip-role">Travelers</span>
-                  <span class="reward-chip-corner"></span>
-                  <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">confirmation_number</span>Traveler's Reward</span>
-                  <div class="reward-tip" role="tooltip">
-                    <div class="reward-tip-head">
-                      <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">confirmation_number</span>
-                      <div>
-                        <p class="reward-tip-title">Zero booking fees</p>
-                        <p class="reward-tip-sub">Free for 2 months</p>
-                      </div>
-                    </div>
-                    <ul class="reward-tip-bullets">
-                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">savings</span>5% saved on every trip</li>
-                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">explore</span>Any sailing, anywhere</li>
-                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">schedule</span>Auto-applied from day one</li>
-                    </ul>
-                  </div>
-                </button>
-                <button type="button" class="reward-chip" data-reward-code="OPER_FEE_WAIVER_3M" data-role="Marina / Service Provider">
-                  <span class="material-symbols-outlined reward-chip-tick" aria-hidden="true">check</span>
-                  <span class="reward-chip-role">Providers</span>
-                  <span class="reward-chip-corner"></span>
-                  <span class="reward-chip-name"><span class="material-symbols-outlined reward-chip-icon" style="font-size:12px;font-variation-settings:'FILL' 1">percent</span>Provider's Reward</span>
-                  <div class="reward-tip" role="tooltip">
-                    <div class="reward-tip-head">
-                      <span class="reward-tip-icon material-symbols-outlined" style="font-variation-settings:'FILL' 1">handshake</span>
-                      <div>
-                        <p class="reward-tip-title">Partner perks</p>
-                        <p class="reward-tip-sub">Tailored for your business</p>
-                      </div>
-                    </div>
-                    <ul class="reward-tip-bullets">
-                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">verified</span>Custom commercial terms</li>
-                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">star</span>Featured to relevant crews</li>
-                      <li><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">support_agent</span>Our team will reach out to you</li>
-                    </ul>
-                  </div>
-                </button>
-              </div>
-              <p class="reward-pick-cta" role="status" aria-live="polite">Pick a reward to continue. You can switch it anytime later.</p>
               <div class="ea-form-error hidden text-sm text-red-400 font-medium pt-0.5"></div>
               <button type="submit"
                 class="btn-shimmer w-full bg-primary text-white py-4 rounded-xl font-bold text-sm hover:bg-primary-dim transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
-                Claim My Reward
+                Join the Waitlist
                 <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
               </button>
             </form>
@@ -4983,8 +4799,8 @@
               <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary mx-auto">
                 <span class="material-symbols-outlined text-2xl" data-icon="check_circle">check_circle</span>
               </div>
-              <h5 class="text-base font-bold text-white">You're on the list. Your reward is reserved.</h5>
-              <p class="text-white/65 text-sm leading-relaxed">Check your inbox. We just sent you a confirmation with your reward details and a sign-in link.</p>
+              <h5 class="text-base font-bold text-white">You're on the list.</h5>
+              <p class="text-white/65 text-sm leading-relaxed">Check your inbox. We just sent you a confirmation and a sign-in link for your Oceanid account.</p>
               <div class="ea-success-steps">
                 <div class="ea-success-step">
                   <span class="material-symbols-outlined ea-success-step-icon">login</span>
@@ -4994,10 +4810,10 @@
                   </div>
                 </div>
                 <div class="ea-success-step">
-                  <span class="material-symbols-outlined ea-success-step-icon">redeem</span>
+                  <span class="material-symbols-outlined ea-success-step-icon">sailing</span>
                   <div class="ea-success-step-text">
-                    <p class="ea-success-step-title">Open the Rewards tab</p>
-                    <p class="ea-success-step-sub">See your reward, get the activation code, or switch to a different one anytime.</p>
+                    <p class="ea-success-step-title">Be first to set sail</p>
+                    <p class="ea-success-step-sub">We'll let you know the moment Oceanid is ready for you.</p>
                   </div>
                 </div>
               </div>
@@ -5076,116 +4892,6 @@
 
 
 
-  <!-- Message in a bottle (easter egg) -->
-  <button id="bottle-trigger" class="bottle-trigger" aria-label="A message in a bottle — click to open">
-    <svg viewBox="0 0 80 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <linearGradient id="glass-grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#7ec8d1" stop-opacity="0.95" />
-          <stop offset="55%" stop-color="#3d8d96" stop-opacity="0.92" />
-          <stop offset="100%" stop-color="#1e5a63" stop-opacity="0.96" />
-        </linearGradient>
-        <linearGradient id="cork-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#a66f3d" />
-          <stop offset="50%" stop-color="#7a4a22" />
-          <stop offset="100%" stop-color="#5c3517" />
-        </linearGradient>
-        <linearGradient id="paper-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#fbf2d8" />
-          <stop offset="100%" stop-color="#e6d3a2" />
-        </linearGradient>
-        <radialGradient id="shine-grad" cx="0.3" cy="0.3" r="0.4">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55" />
-          <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
-        </radialGradient>
-      </defs>
-
-      <!-- Cork top edge -->
-      <ellipse cx="40" cy="6" rx="9" ry="2.2" fill="#b97f4d" />
-      <!-- Cork body -->
-      <path d="M31 6 L31 18 Q31 20 33 20 L47 20 Q49 20 49 18 L49 6 Z" fill="url(#cork-grad)" />
-      <!-- Cork bottom rim shadow -->
-      <ellipse cx="40" cy="20" rx="9" ry="1.4" fill="rgba(0,0,0,0.3)" />
-      <!-- Cork grain lines -->
-      <line x1="34" y1="10" x2="34" y2="17" stroke="rgba(0,0,0,0.25)" stroke-width="0.6" stroke-linecap="round" />
-      <line x1="46" y1="9" x2="46" y2="16" stroke="rgba(0,0,0,0.25)" stroke-width="0.6" stroke-linecap="round" />
-      <line x1="40" y1="11" x2="40" y2="18" stroke="rgba(0,0,0,0.18)" stroke-width="0.5" stroke-linecap="round" />
-
-      <!-- Bottle neck -->
-      <path d="M33 20 L33 30 Q33 33 32 35 L28 42 L52 42 L48 35 Q47 33 47 30 L47 20 Z" fill="url(#glass-grad)" stroke="rgba(255,255,255,0.28)" stroke-width="0.6" />
-
-      <!-- Bottle shoulders + body -->
-      <path d="M28 42 Q22 46 22 54 L22 80 Q22 90 32 90 L48 90 Q58 90 58 80 L58 54 Q58 46 52 42 Z"
-        fill="url(#glass-grad)" stroke="rgba(255,255,255,0.32)" stroke-width="0.8" />
-
-      <!-- Inside ambient -->
-      <path d="M25 50 Q25 48 27 47 L53 47 Q55 48 55 50 L55 80 Q55 87 49 87 L31 87 Q25 87 25 80 Z"
-        fill="rgba(20, 50, 60, 0.35)" />
-
-      <!-- Glass shine main highlight -->
-      <path d="M27 48 Q27 50 27 56 L27 78" stroke="rgba(255,255,255,0.55)" stroke-width="2.4" stroke-linecap="round" fill="none" />
-      <!-- Smaller right highlight -->
-      <path d="M53 56 L53 70" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" stroke-linecap="round" fill="none" />
-
-      <!-- Rolled note (parchment) -->
-      <g transform="rotate(-8 40 66)">
-        <rect x="32" y="50" width="16" height="28" rx="2" fill="url(#paper-grad)" stroke="rgba(122,86,32,0.35)" stroke-width="0.4" />
-        <!-- ends of scroll (rolled edges) -->
-        <ellipse cx="40" cy="50" rx="8" ry="1.4" fill="#e6d3a2" stroke="rgba(122,86,32,0.5)" stroke-width="0.4" />
-        <ellipse cx="40" cy="78" rx="8" ry="1.4" fill="#cdb780" stroke="rgba(122,86,32,0.4)" stroke-width="0.4" />
-        <!-- text lines on scroll -->
-        <line x1="35" y1="56" x2="45" y2="56" stroke="rgba(122,86,32,0.55)" stroke-width="0.55" />
-        <line x1="35" y1="60" x2="44" y2="60" stroke="rgba(122,86,32,0.55)" stroke-width="0.55" />
-        <line x1="35" y1="64" x2="45" y2="64" stroke="rgba(122,86,32,0.55)" stroke-width="0.55" />
-        <line x1="35" y1="68" x2="43" y2="68" stroke="rgba(122,86,32,0.55)" stroke-width="0.55" />
-        <line x1="35" y1="72" x2="44" y2="72" stroke="rgba(122,86,32,0.55)" stroke-width="0.55" />
-      </g>
-
-      <!-- Glass shine overlay (subtle) -->
-      <path d="M28 42 Q22 46 22 54 L22 80 Q22 90 32 90 L48 90 Q58 90 58 80 L58 54 Q58 46 52 42 Z"
-        fill="url(#shine-grad)" />
-
-      <!-- Bottom water/reflection -->
-      <ellipse cx="40" cy="93" rx="18" ry="2" fill="rgba(0,131,143,0.45)" />
-      <ellipse cx="40" cy="94" rx="12" ry="0.8" fill="rgba(255,255,255,0.18)" />
-    </svg>
-  </button>
-  <span class="bottle-tip" id="bottle-tip">A message washed ashore…</span>
-
-  <!-- Bottle modal -->
-  <div id="bottle-modal" class="bottle-modal" role="dialog" aria-modal="true" aria-labelledby="bottle-title"
-    aria-hidden="true">
-    <div class="bottle-note">
-      <button id="bottle-close" class="bottle-close" aria-label="Close message">
-        <span class="material-symbols-outlined" style="font-size:20px">close</span>
-      </button>
-      <h4 id="bottle-title">Ahoy, explorer.</h4>
-      <p>You found our bottle drifting through the page. Curious souls like you deserve to be first. Sign up now to get early access plus your pick of a free 2‑month Reward.</p>
-      <div class="bottle-perks">
-        <div class="bottle-perk-row">
-          <span class="bottle-perk-name">Captain's Reward</span>
-          <span class="bottle-perk-arrow">→</span>
-          <span class="bottle-perk-benefit">Oceanid PRO, free</span>
-        </div>
-        <div class="bottle-perk-row">
-          <span class="bottle-perk-name">Traveler's Reward</span>
-          <span class="bottle-perk-arrow">→</span>
-          <span class="bottle-perk-benefit">No booking fees</span>
-        </div>
-        <div class="bottle-perk-row">
-          <span class="bottle-perk-name">Provider's Reward</span>
-          <span class="bottle-perk-arrow">→</span>
-          <span class="bottle-perk-benefit">Tailored partner offers</span>
-        </div>
-      </div>
-      <p style="text-align:center;margin:20px 0 18px;">
-        <button id="bottle-cta" class="bottle-cta">Claim my reward &#8594;</button>
-      </p>
-      <p style="font-size:12.5px;opacity:0.65;text-align:center;margin-bottom:6px;">Early access. Free benefits. Be first to set sail.</p>
-      <p class="bottle-sign">The Oceanid crew</p>
-    </div>
-  </div>
-
   <script>
     function trackMetaCompleteRegistration() {
       if (typeof fbq === 'function') {
@@ -5197,113 +4903,6 @@
       if (typeof window.gtag !== 'function') return;
       window.gtag('event', 'sign_up', Object.assign({ method: 'waitlist' }, params || {}));
     }
-
-    // ════════════════════════════════════════════════
-    // Founding rewards rotator (disabled on touch devices for perf)
-    // ════════════════════════════════════════════════
-    (function () {
-      // On touch devices, leave the first slide active and skip the
-      // setInterval cycle entirely.
-      var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-      var slides = document.querySelectorAll('#benefits-rotator .benefit-slide');
-      var dots = document.querySelectorAll('#benefits-rotator [data-dot]');
-      if (!slides.length) return;
-      var idx = 0;
-      var timer = null;
-      function show(next) {
-        idx = ((next % slides.length) + slides.length) % slides.length;
-        slides.forEach(function (s) { s.dataset.active = String(Number(s.dataset.idx) === idx); });
-        dots.forEach(function (d) { d.classList.toggle('active', Number(d.dataset.dot) === idx); });
-      }
-      function tick() { show(idx + 1); }
-      function start() { stop(); timer = setInterval(tick, 4200); }
-      function stop() { if (timer) { clearInterval(timer); timer = null; } }
-      dots.forEach(function (d) {
-        d.addEventListener('click', function () { show(Number(d.dataset.dot)); if (!isTouch) start(); });
-      });
-      if (isTouch) return;
-      var root = document.getElementById('benefits-rotator');
-      if (root) {
-        root.addEventListener('mouseenter', stop);
-        root.addEventListener('mouseleave', start);
-      }
-      start();
-    })();
-
-    // ════════════════════════════════════════════════
-    // Launch countdown — counts to end of June (founding-member window close)
-    // ════════════════════════════════════════════════
-    (function () {
-      var TARGET = new Date('2026-06-30T23:59:59Z').getTime();
-      function tick() {
-        var diff = Math.max(0, TARGET - Date.now());
-        var d = Math.floor(diff / 86400000);
-        var h = Math.floor((diff % 86400000) / 3600000);
-        var m = Math.floor((diff % 3600000) / 60000);
-        var s = Math.floor((diff % 60000) / 1000);
-        set('d', String(d).padStart(2, '0'));
-        set('h', String(h).padStart(2, '0'));
-        set('m', String(m).padStart(2, '0'));
-        set('s', String(s).padStart(2, '0'));
-      }
-      var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-      function set(unit, val) {
-        var els = document.querySelectorAll('[data-cd="' + unit + '"]');
-        for (var i = 0; i < els.length; i++) {
-          var el = els[i];
-          if (el.textContent !== val) {
-            el.textContent = val;
-            // Skip the flapFlip animation on touch — kicking off a 420ms
-            // CSS animation every second on the seconds digit is a
-            // continuous compositor task we don't need on mobile.
-            if (isTouch) continue;
-            el.classList.remove('flap-anim');
-            void el.offsetWidth;
-            el.classList.add('flap-anim');
-          }
-        }
-      }
-      tick();
-      setInterval(tick, 1000);
-    })();
-
-    // ════════════════════════════════════════════════
-    // Message-in-a-bottle modal
-    // ════════════════════════════════════════════════
-    (function () {
-      var trigger = document.getElementById('bottle-trigger');
-      var modal = document.getElementById('bottle-modal');
-      var close = document.getElementById('bottle-close');
-      var cta = document.getElementById('bottle-cta');
-      if (!trigger || !modal) return;
-      function open() {
-        modal.classList.add('is-open');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-      function shut() {
-        modal.classList.remove('is-open');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
-      trigger.addEventListener('click', open);
-      close && close.addEventListener('click', shut);
-      modal.addEventListener('click', function (e) {
-        if (e.target === modal) shut();
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.classList.contains('is-open')) shut();
-      });
-      cta && cta.addEventListener('click', function () {
-        shut();
-        var bottomForm = document.getElementById('early-form-bottom');
-        if (bottomForm) {
-          bottomForm.closest('section, .form-luxury, [class*="rounded"]').scrollIntoView({ behavior: 'instant', block: 'center' });
-          var nameInput = bottomForm.querySelector('input[name="name"]');
-          if (nameInput) nameInput.focus();
-        }
-      });
-    })();
 
       // Scroll-reveal — handles all reveal variants
       (function () {
@@ -5543,10 +5142,18 @@
       var glow = document.getElementById('cursor-glow');
       if (!glow || window.matchMedia('(pointer: coarse)').matches) return;
       var active = false;
+      var ticking = false;
+      var mx = 0, my = 0;
       document.addEventListener('mousemove', function (e) {
-        glow.style.left = e.clientX + 'px';
-        glow.style.top = e.clientY + 'px';
+        mx = e.clientX; my = e.clientY;
         if (!active) { glow.style.opacity = '1'; active = true; }
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          // translate the centered glow (its base transform centers it on the point)
+          glow.style.transform = 'translate3d(' + (mx - 260) + 'px,' + (my - 260) + 'px,0)';
+          ticking = false;
+        });
       }, { passive: true });
       document.addEventListener('mouseleave', function () {
         glow.style.opacity = '0'; active = false;
@@ -5589,6 +5196,113 @@
         });
       }, { threshold: 0.5 });
       io.observe(line);
+    })();
+
+    // ── Hero route + boat ─────────────────────────────────────
+    // A straight (linear) dashed route threads the three icon centres and a
+    // boat sails along it. amp:0 keeps the route flat. Gated to when visible.
+    (function () {
+      var svg = document.getElementById('hero-route');
+      if (!svg) return;
+      var boatSvg = document.getElementById('hero-boat-layer');
+      var pathEl = svg.querySelector('.sail-route-path');
+      var boat = document.getElementById('hero-boat');
+      var host = document.getElementById('hero-pillars');
+      var grad = document.getElementById('hero-route-grad');
+      if (!boatSvg || !pathEl || !boat || !host) return;
+      var AMP = 8;                 // wave height of the route
+      var SCALE = 1, SPEED = 0.0009, PAD = 26;  // PAD keeps the boat inside the viewBox
+      var xs = [], MID = 44;
+
+      function curveY(x) {
+        if (xs.length < 2 || AMP === 0) return MID;
+        if (x <= xs[0]) return MID;
+        for (var k = 0; k < xs.length - 1; k++) {
+          if (x <= xs[k + 1] || k === xs.length - 2) {
+            var seg = xs[k + 1] - xs[k] || 1;
+            var dir = (k % 2 === 0) ? 1 : -1;
+            return MID - dir * AMP * Math.sin(Math.PI * (x - xs[k]) / seg);
+          }
+        }
+        return MID;
+      }
+
+      function layout() {
+        var W = host.clientWidth;
+        var icons = host.querySelectorAll('.hero-pillar-icon');
+        if (!W || icons.length < 2) return;
+        xs = []; var sumY = 0;
+        icons.forEach(function (ic) {
+          var x = 0, y = 0, node = ic;
+          while (node && node !== host) { x += node.offsetLeft; y += node.offsetTop; node = node.offsetParent; }
+          xs.push(x + ic.offsetWidth / 2);
+          sumY += y + ic.offsetHeight / 2;
+        });
+        MID = sumY / icons.length;
+        // Tall enough that the boat (centred on the line) is never clipped.
+        var Hh = MID + PAD;
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + Hh);
+        boatSvg.setAttribute('viewBox', '0 0 ' + W + ' ' + Hh);
+        svg.style.height = boatSvg.style.height = Hh + 'px';
+        var x0 = xs[0], xN = xs[xs.length - 1];
+        // Fade the route in/out at its own ends.
+        if (grad) {
+          grad.setAttribute('x1', x0); grad.setAttribute('x2', xN);
+          grad.setAttribute('y1', MID); grad.setAttribute('y2', MID);
+        }
+        var d = 'M ' + x0.toFixed(1) + ' ' + curveY(x0).toFixed(1);
+        for (var i = 1; i <= 100; i++) {
+          var x = x0 + (xN - x0) * (i / 100);
+          d += ' L ' + x.toFixed(1) + ' ' + curveY(x).toFixed(1);
+        }
+        pathEl.setAttribute('d', d);
+      }
+      layout();
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var visible = false, raf = null, t = 0;
+
+      function placeBoat(tt) {
+        var x0 = xs[0], xN = xs[xs.length - 1];
+        var x = x0 + (xN - x0) * tt;
+        var y = curveY(x);                      // ride the wave
+        var dx = (xN - x0) * 0.004;
+        var rock = Math.atan2(curveY(x + dx) - y, dx) * 180 / Math.PI;
+        boat.setAttribute('transform',
+          'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ') rotate(' + rock.toFixed(1) + ') scale(' + SCALE + ')');
+      }
+
+      function setOpacity(o) {
+        boat.style.opacity = o;
+      }
+
+      function frame() {
+        if (!visible || xs.length < 2) { raf = null; return; }
+        t += SPEED; if (t >= 1) t -= 1;
+        placeBoat(t);
+        setOpacity(Math.min(1, Math.min(t, 1 - t) / 0.05));
+        raf = requestAnimationFrame(frame);
+      }
+
+      if (reduce) { placeBoat(0.5); setOpacity(1); }
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            layout();
+            svg.classList.add('is-drawn');
+            visible = true;
+            if (!reduce && !raf) raf = requestAnimationFrame(frame);
+          } else { visible = false; }
+        });
+      }, { threshold: 0.2 });
+      io.observe(svg);
+
+      var rt;
+      window.addEventListener('resize', function () {
+        clearTimeout(rt);
+        rt = setTimeout(layout, 150);
+      }, { passive: true });
     })();
 
     // ── Custom phone country selector ────────────────────────
@@ -5788,42 +5502,16 @@
         if (nameInput) nameInput.addEventListener('input', function () { if (this.value.trim()) hideDot('name'); });
         if (emailInput) emailInput.addEventListener('input', function () { if (this.value.trim()) hideDot('email'); });
 
-        // Reward chip selection — radio-like, persisted in hidden inputs.
-        var rewardInput = form.querySelector('input[name="reward_code"]');
-        var roleInput   = form.querySelector('input[name="role"]');
-        var chips       = form.querySelectorAll('.reward-chip');
-        var chipsEl     = form.querySelector('.reward-chips-select');
-        var rewardCtaEl = form.querySelector('.reward-pick-cta');
-        chips.forEach(function (chip) {
-          chip.addEventListener('click', function () {
-            chips.forEach(function (c) { c.classList.remove('selected'); });
-            chip.classList.add('selected');
-            if (rewardInput) rewardInput.value = chip.dataset.rewardCode || '';
-            if (roleInput)   roleInput.value   = chip.dataset.role || '';
-            if (rewardCtaEl) rewardCtaEl.classList.remove('show');
-            errorEl.classList.add('hidden');
-          });
-        });
-
         form.addEventListener('submit', function (e) {
           e.preventDefault();
           var name = nameInput ? nameInput.value.trim() : '';
           var email = emailInput ? emailInput.value.trim() : '';
-          var rewardCode = rewardInput ? rewardInput.value.trim() : '';
+          var rewardCode = '';
           var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           var hasError = false;
 
           if (!name) { showDot('name'); hasError = true; }
           if (!email) { showDot('email'); hasError = true; }
-          if (!rewardCode) {
-            if (rewardCtaEl) rewardCtaEl.classList.add('show');
-            if (chipsEl) {
-              chipsEl.classList.remove('reward-chips-shake');
-              void chipsEl.offsetWidth;
-              chipsEl.classList.add('reward-chips-shake');
-            }
-            hasError = true;
-          }
 
           if (hasError) {
             return;
@@ -5859,11 +5547,11 @@
                 var step2Title = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-title');
                 var step2Sub   = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-sub');
                 if (h)    h.textContent    = "You're already on the waitlist.";
-                if (lead) lead.textContent = "This email is already registered. Sign in to your Oceanid account to view your reward.";
+                if (lead) lead.textContent = "This email is already registered. Sign in to your Oceanid account anytime.";
                 if (step1Title) step1Title.innerHTML = 'Sign in at <a href="/account.html" class="text-primary hover:underline">oceanid.io/account</a>';
                 if (step1Sub)   step1Sub.textContent = 'Use Google or your email and a password.';
-                if (step2Title) step2Title.textContent = 'Open the Rewards tab';
-                if (step2Sub)   step2Sub.textContent  = 'View the reward you picked. Switch to a different one anytime.';
+                if (step2Title) step2Title.textContent = 'Be first to set sail';
+                if (step2Sub)   step2Sub.textContent  = "We'll let you know the moment Oceanid is ready for you.";
                 successEl.classList.remove('hidden');
                 return;
               }
@@ -5878,27 +5566,16 @@
                 role: (formData.get('role') || undefined)
               });
               form.classList.add('hidden');
-              var h    = successEl.querySelector('h5');
-              var lead = successEl.querySelector(':scope > p');
-              var step2Title = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-title');
-              var step2Sub   = successEl.querySelector('.ea-success-step:nth-of-type(2) .ea-success-step-sub');
-              if (!rewardCode) {
-                if (h)    h.textContent    = "You're on the list.";
-                if (lead) lead.textContent = "Check your inbox. We just sent you a sign-in link for your Oceanid account. You can pick your reward anytime.";
-                if (step2Title) step2Title.textContent = 'Pick your reward in the Rewards tab';
-                if (step2Sub)   step2Sub.textContent   = 'See all three rewards, pick the one you want, and get your activation code instantly.';
-              }
               successEl.classList.remove('hidden');
             })
             .catch(function (err) {
               errorEl.textContent = (err && err.message ? err.message : 'Something went wrong.') + ' Please email us at contact@oceanid.io.';
               errorEl.classList.remove('hidden');
               btn.disabled = false;
-              btn.innerHTML = 'Claim My Reward <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>';
+              btn.innerHTML = 'Join the Waitlist <span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>';
             });
         });
       }
-      setupEarlyForm('early-form-hero');
       setupEarlyForm('early-form-bottom');
     })();
   </script>

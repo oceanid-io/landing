@@ -1,6 +1,6 @@
 # Oceanid
 
-Oceanid is one app for life at sea.
+Oceanid brings the entire sailing world together for life at sea.
 
 Oceanid helps captains, travelers, marinas, and marine service providers plan trips, open cabins to verified travelers, connect with services, and book marina support before arrival.
 
